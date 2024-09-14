@@ -1,0 +1,58 @@
+/* Home container styling */
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa; /* Light grey background for a neutral look */
+}
+
+/* Center box styling */
+.center-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff; /* White background for content area */
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for a clean effect */
+}
+
+/* Sidebar styling */
+.sidebar {
+  margin-right: 20px;
+}
+
+/* Main content styling */
+.main-content {
+  text-align: center;
+}
+
+/* Heading styling */
+h1 {
+  color: #333; /* Dark grey for contrast */
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+/* Welcome message */
+p {
+  color: #555; /* Slightly lighter grey */
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+/* Logout button styling */
+.logout-btn {
+  background-color: #007bff; /* Bootstrap blue color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}

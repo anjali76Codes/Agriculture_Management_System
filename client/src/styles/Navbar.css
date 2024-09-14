@@ -1,0 +1,16 @@
+.centered-navbar {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px 0;
+  }
+  
+  .centered-navbar .nav-link {
+    margin: 0 15px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .centered-navbar .nav-link:hover {
+    color: #007bff;
+  }
+  

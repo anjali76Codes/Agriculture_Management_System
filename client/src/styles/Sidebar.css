@@ -1,0 +1,51 @@
+/* Sidebar.css */
+.sidebar {
+  height: 100vh;
+  width: 250px;
+  background-color: #343a40;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: width 0.3s;
+  overflow-x: hidden;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar .sidebar-toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.sidebar .nav-link {
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  transition: background 0.3s;
+}
+
+.sidebar .nav-link:hover {
+  background: #495057;
+}
+
+.sidebar .nav-link svg {
+  margin-right: 10px;
+}
+
+.sidebar.expanded .nav-link {
+  padding: 10px 20px;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: relative;
+  }
+}

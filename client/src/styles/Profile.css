@@ -1,0 +1,27 @@
+/* Profile.css */
+.profile-container {
+    margin-top: 20px;
+  }
+  
+  .profile-card {
+    margin-bottom: 20px;
+  }
+  
+  .profile-img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .profile-info {
+    margin-bottom: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .profile-img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+  
