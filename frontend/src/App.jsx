@@ -2,12 +2,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
-import Home from './components/Home'; // Make sure these components are correctly created
-import About from './components/About';
-import Profile from './components/Profile';
-import SignUp from './components/SignUp';
-import SignIn from './components/SignIn';
-import LandingPage from './components/LandingPage';
+import Home from './pages/Home';
+import LandingPage from './pages/LandingPage';
+import About from './pages/About';
+import Profile from './pages/Auth/Profile';
+import SignUp from './pages/Auth/SignUp';
+import SignIn from './pages/Auth/SignIn';
+
 
 const App = () => {
   return (
@@ -16,14 +17,14 @@ const App = () => {
         <Sidebar />
         <div className="content">
           <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/landing" element={<LandingPage />} />
-           
+            <Route path="/" element={<Home />} />
+            <Route path="/landing" element={<LandingPage />} />
+
             <Route path="/about" element={<About />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-           
+
           </Routes>
         </div>
       </div>

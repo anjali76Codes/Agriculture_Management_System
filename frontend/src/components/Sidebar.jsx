@@ -1,9 +1,8 @@
-// Sidebar.js
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaHome, FaInfoCircle, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 import { Button, Nav } from 'react-bootstrap';
-import '../styles/Sidebar.css'
+import '../styles/Sidebar.css';
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(true);
@@ -18,7 +17,7 @@ const Sidebar = () => {
         {collapsed ? <FaBars /> : <FaTimes />}
       </Button>
       <Nav className="flex-column">
-        <Nav.Link as={NavLink} to="/" exact>
+        <Nav.Link as={NavLink} to="/">
           <FaHome />
           {!collapsed && ' Home'}
         </Nav.Link>
