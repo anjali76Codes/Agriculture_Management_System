@@ -19,7 +19,7 @@ app.use(cors({
 app.use(express.json());
 app.use('/api', userRouter); // Correctly mount the user router
 
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("Mongoose is connected"))
     .catch((err) => console.log("Error in connecting Mongoose:", err));
 
