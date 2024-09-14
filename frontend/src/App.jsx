@@ -9,6 +9,8 @@ import Profile from './pages/Auth/Profile';
 import SignUp from './pages/Auth/SignUp';
 import SignIn from './pages/Auth/SignIn';
 import ProductForm from './pages/Sell/ProductForm';
+import ProductBrowse from './pages/Sell/ProductBrowse';
+import MyProducts from './pages/Sell/MyProducts';
 
 
 const App = () => {
@@ -25,7 +27,10 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-            <Route path="/productsell" element={<ProductForm />} />
+            <Route path="/products/add" element={<ProductForm />} />
+            <Route path="/products/browse" element={<ProductBrowse />} />
+            <Route path="/products/my-products" element={<MyProducts />} />
+
 
           </Routes>
         </div>

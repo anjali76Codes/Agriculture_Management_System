@@ -11,7 +11,6 @@ const ProductForm = () => {
     const [productPrice, setProductPrice] = useState('');
     const [productType, setProductType] = useState('selling');
     const [productImages, setProductImages] = useState([]);
-    const [userId, setUserId] = useState(''); // Assume you have user ID from auth
     const [location, setLocation] = useState('');
     const [imageError, setImageError] = useState('');
     const [submitMessage, setSubmitMessage] = useState('');
@@ -45,14 +44,24 @@ const ProductForm = () => {
         return uploadedImageURLs;
     };
 
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const userPath = `users/${userId}`; // Adjust the path based on user ID
-            const imagePath = `${userPath}/${productName}/images`; // Include user ID in the path
+            const token = localStorage.getItem('token');
+            const username = localStorage.getItem('username');
+
+            if (!token || !username) {
+                throw new Error('Authorization token or username not found.');
+            }
+
+            const userPath = `users/${username}`;
+            const imagePath = `${userPath}/${productName}/images`;
             const imageURLs = await uploadImagesToFirebase(productImages, imagePath);
 
             const formData = {
+                username, // Include username in the form data
                 name: productName,
                 description: productDescription,
                 price: productPrice,
@@ -63,6 +72,7 @@ const ProductForm = () => {
 
             await axios.post('http://localhost:3000/api/products', formData, {
                 headers: {
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             });
@@ -73,6 +83,8 @@ const ProductForm = () => {
             console.error('Error submitting form:', error);
         }
     };
+
+
 
     return (
         <div className="container mt-4">

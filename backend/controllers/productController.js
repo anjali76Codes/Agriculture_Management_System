@@ -3,10 +3,10 @@ const Product = require('../models/Product');
 // Add a product
 exports.createProduct = async (req, res) => {
     try {
-        const { userId, name, description, price, type, location, images } = req.body;
+        const { username, name, description, price, type, location, images } = req.body;
 
         const newProduct = new Product({
-            userId, // Set the user ID
+            username, // Save the username
             name,
             description,
             price,
@@ -22,19 +22,17 @@ exports.createProduct = async (req, res) => {
     }
 };
 
-
-// Retrieve products
+// Retrieve products based on username or all products
 exports.getProducts = async (req, res) => {
     try {
-        const { userId } = req.query; // Get userId from query parameters
-        if (!userId) {
-            return res.status(400).json({ error: 'User ID is required' });
-        }
+        const { username } = req.query; // Extract username from query params
 
-        const products = await Product.find({ userId });
+        // If username is provided, filter products by username
+        const query = username ? { username } : {};
+        const products = await Product.find(query);
+
         res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
-
