@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/SignUp.css';
+import '../../styles/Auth/SignIn.css';
+
 
 function SignUp() {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });

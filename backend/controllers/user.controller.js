@@ -58,12 +58,14 @@ const signin = async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        res.status(200).json({ message: 'Signin successful', token });
+        // Respond with token and username
+        res.status(200).json({ message: 'Signin successful', token, username: user.username });
 
     } catch (error) {
         console.error('Error during signin:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
+
 
 module.exports = { signup, signin };
