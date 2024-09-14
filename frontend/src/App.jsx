@@ -1,14 +1,14 @@
 // App.js
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
-import Home from './pages/Home';
-import LandingPage from './pages/LandingPage';
-import About from './pages/About';
-import Profile from './pages/Auth/Profile';
-import SignUp from './pages/Auth/SignUp';
-import SignIn from './pages/Auth/SignIn';
-
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import Home from "./pages/Home";
+import LandingPage from "./pages/LandingPage";
+import About from "./pages/About";
+import Profile from "./pages/Auth/Profile";
+import SignUp from "./pages/Auth/SignUp";
+import SignIn from "./pages/Auth/SignIn";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   return (
@@ -21,10 +21,10 @@ const App = () => {
             <Route path="/landing" element={<LandingPage />} />
 
             <Route path="/about" element={<About />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-
           </Routes>
         </div>
       </div>

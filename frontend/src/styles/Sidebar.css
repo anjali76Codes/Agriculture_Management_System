@@ -9,10 +9,13 @@
   left: 0;
   transition: width 0.3s;
   overflow-x: hidden;
+  z-index: 1000; 
 }
 
 .sidebar.collapsed {
   width: 80px;
+  
+ 
 }
 
 .sidebar .sidebar-toggle {
@@ -46,6 +49,13 @@
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
-    position: relative;
+    position: fixed; /* Sidebar will stay fixed */
+    z-index: 1000; /* Keep it above the dashboard in mobile view */
+    transform: translateX(-100%); /* Initially hidden off-screen in mobile */
+  }
+
+  .sidebar.expanded {
+    transform: translateX(0); /* Slide in from left on mobile when expanded */
   }
 }
+

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaHome, FaInfoCircle, FaUser, FaBars, FaTimes } from 'react-icons/fa';
+import { FaHome, FaInfoCircle, FaUser, FaBars, FaTimes, FaTachometerAlt } from 'react-icons/fa'; // FaTachometerAlt for Dashboard
 import { Button, Nav } from 'react-bootstrap';
 import '../styles/Sidebar.css';
 
@@ -20,6 +20,10 @@ const Sidebar = () => {
         <Nav.Link as={NavLink} to="/">
           <FaHome />
           {!collapsed && ' Home'}
+        </Nav.Link>
+        <Nav.Link as={NavLink} to="/dashboard"> {/* Dashboard link */}
+          <FaTachometerAlt />
+          {!collapsed && ' Dashboard'}
         </Nav.Link>
         <Nav.Link as={NavLink} to="/about">
           <FaInfoCircle />
