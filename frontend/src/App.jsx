@@ -8,6 +8,7 @@ import About from './pages/About';
 import Profile from './pages/Auth/Profile';
 import SignUp from './pages/Auth/SignUp';
 import SignIn from './pages/Auth/SignIn';
+import ProductForm from './pages/Sell/ProductForm';
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/productsell" element={<ProductForm />} />
 
           </Routes>
         </div>

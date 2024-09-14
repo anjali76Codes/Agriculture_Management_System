@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors'); // Import cors
 const userRouter = require('./routes/user.route'); // Ensure this path is correct
+const productRouter = require('./routes/product.route'); // Include the product routes
 
 dotenv.config(); // Load environment variables from the default .env file
 
@@ -18,6 +19,7 @@ app.use(cors({
 
 app.use(express.json());
 app.use('/api', userRouter); // Correctly mount the user router
+app.use('/api', productRouter); // Mount product router here
 
 mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("Mongoose is connected"))
