@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Button, Carousel, Modal, ListGroup, Badge, Form, Spinner, Alert } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/Sell/ProductDetail.css';
 import StarRating from '../../components/StarRating';
@@ -19,8 +19,9 @@ const ProductDetail = () => {
     const [userReviewsCount, setUserReviewsCount] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [showMore, setShowMore] = useState(false);
-    const reviewsToShow = 2; // Number of reviews to show initially
+    const reviewsToShow = 2;
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const fetchProduct = useCallback(async () => {
         setIsLoading(true);
@@ -202,7 +203,7 @@ const ProductDetail = () => {
                                     <strong>Condition: {product.condition}</strong>
                                 </Card.Text>
                             )}
-                            <Button variant="primary" className="w-100">Rent Now</Button>
+                            <Button variant="primary" className="w-100" disabled={!product.available}>Rent Now</Button>
                         </Card.Body>
                     </Card>
                 </Col>
