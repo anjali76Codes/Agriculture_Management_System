@@ -24,3 +24,8 @@ npm install bcrypt
 npm install bcryptjs
 
 
+
+chat.js : 
+npm install chart.js react-chartjs-2
+
+

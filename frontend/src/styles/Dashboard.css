@@ -1,0 +1,360 @@
+.dashboard-container {
+  width: 97%; /* No need to subtract sidebar width on right side */
+  margin: 0 auto;
+  padding-left: 60px; /* Sidebar offset on left */
+  padding-right: 0; /* No padding on the right */
+}
+
+
+/* .dashboard {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); 
+  grid-gap: 30px;
+  font-family: Arial, sans-serif;
+  width: 100%;
+}
+
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  background-color: #f7f7f7;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.header-title h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.header-title p {
+  margin: 0;
+  font-size: 14px;
+  color: #999;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+}
+
+.filter-item {
+  margin-right: 20px;
+}
+
+.filter-item label {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.filter-item select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.stats-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.stats-button:hover {
+  background-color: #45a049;
+}
+
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  grid-gap: 30px;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard-container {
+  width: 97%;
+  margin: 0 auto;
+  padding-left: 60px;
+  padding-right: 0;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 30px;
+  font-family: Arial, sans-serif;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 20x;
+}
+
+.card-header {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  margin: 0 auto;
+}
+
+.weather-card {
+  margin-top: 20px;
+  text-align: center;
+}
+
+
+.weather-header {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 15px;
+} */
+
+
+
+.dashboard-container {
+  width: 97%; /* No need to subtract sidebar width on right side */
+  margin: 0 auto;
+  padding-left: 60px; /* Sidebar offset on left */
+  padding-right: 0; /* No padding on the right */
+}
+
+/* Dashboard Layout */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* Responsive columns */
+  grid-gap: 30px;
+  font-family: Arial, sans-serif;
+  width: 100%;
+}
+
+/* Header styling */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  background-color: #f7f7f7;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.header-title h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.header-title p {
+  margin: 0;
+  font-size: 14px;
+  color: #999;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+}
+
+.filter-item {
+  margin-right: 20px;
+}
+
+.filter-item label {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.filter-item select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.stats-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.stats-button:hover {
+  background-color: #45a049;
+}
+
+/* Dashboard Layout */
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two-column layout */
+  grid-gap: 30px;
+  font-family: Arial, sans-serif;
+}
+
+/* Card Styling */
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Common Header Styling */
+.card-header {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* Chart Styling */
+.chart-container {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  margin: 0 auto;
+}
+
+/* Forecast Production Styling */
+.weather-card {
+  margin-top: 20px;
+  text-align: center;
+}
+
+
+
+
+.growth-stages {
+  width: 100%;
+  display: flex; /* Flex to separate the progress bars and legend */
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.progress-bars {
+  width: 70%; /* Take most of the space for progress bars */
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  border-radius: 6px;
+  background-color: #e0e0e0;
+  margin-bottom: 15px;
+}
+
+.progress {
+  height: 100%;
+  border-radius: 6px;
+}
+
+.progress.maturity {
+  background-color: #4caf50;
+}
+
+.progress.flowering {
+  background-color: #ffc107;
+}
+
+.progress.closing {
+  background-color: #ff5722;
+}
+
+.legend {
+  width: 25%; /* Make the legend narrower */
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.legend-item div {
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  border-radius: 2px;
+}
+
+.maturity {
+  background-color: #4caf50;
+}
+
+.flowering {
+  background-color: #ffc107;
+}
+
+.closing {
+  background-color: #ff5722;
+}
+
+.market-prices{
+    margin-top: 20px;
+}
+
+
+
+
