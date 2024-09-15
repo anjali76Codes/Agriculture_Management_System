@@ -8,7 +8,7 @@ import About from "./pages/About";
 import Profile from "./pages/Auth/Profile";
 import SignUp from "./pages/Auth/SignUp";
 import SignIn from "./pages/Auth/SignIn";
-import Dashboard from "./pages/Dashboard";import ProductForm from './pages/Sell/ProductForm';
+import Dashboard from "./pages/Dashboard"; import ProductForm from './pages/Sell/ProductForm';
 import ProductBrowse from './pages/Sell/ProductBrowse';
 import MyProducts from './pages/Sell/MyProducts';
 import ProductDetail from './pages/Sell/ProductDetail';
@@ -21,7 +21,7 @@ const App = () => {
         <Sidebar />
         <div className="content">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<ProductBrowse />} />
             <Route path="/landing" element={<LandingPage />} />
 
             <Route path="/about" element={<About />} />
@@ -30,7 +30,7 @@ const App = () => {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/products/add" element={<ProductForm />} />
-            <Route path="/products/browse" element={<ProductBrowse />} />
+            {/* <Route path="/products/browse" element={<ProductBrowse />} /> */}
             <Route path="/products/my-products" element={<MyProducts />} />
             <Route path="/products/:id" element={<ProductDetail />} />
 
