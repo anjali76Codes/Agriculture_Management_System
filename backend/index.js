@@ -2,33 +2,39 @@ const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
+// Load routers
 const userRouter = require('./routes/user.route'); // Ensure this path is correct
-// const weatherRouter = require('../backend/routes/weatherRoutes')
 
 
+// Load environment variables from .env file
+dotenv.config();
 
-
-dotenv.config(); // Load environment variables from the default .env file
-
+// Initialize express app
 const app = express();
-const PORT = process.env.PORT || 3000; // Use default port 3000 if not specified
+const PORT = process.env.PORT || 3000; // Use port 3000 if specified in .env
 
-// Use cors middleware
+// Enable CORS for requests from frontend (React app)
 app.use(cors({
-    origin: 'http://localhost:5173', // or the port where your frontend is running
+    origin: 'http://localhost:5173', // Ensure this matches your frontend port
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
 
-
+// Middleware to parse incoming JSON requests
 app.use(express.json());
-app.use('/api', userRouter); // Correctly mount the user router
-// app.use('/api', weatherRouter); // Mount the weather router
 
-mongoose.connect(process.env.MONGO_URL )
+// Use user router
+app.use('/api/users', userRouter); // Update this if the path is different
+
+
+
+// MongoDB connection using mongoose
+mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("Mongoose is connected"))
     .catch((err) => console.log("Error in connecting Mongoose:", err));
 
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
