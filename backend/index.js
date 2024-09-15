@@ -10,6 +10,7 @@ const userRouter = require('./routes/user.route'); // Ensure this path is correc
 // Load environment variables from .env file
 dotenv.config();
 
+const productRouter = require('./routes/product.route'); // Include the product routes
 // Initialize express app
 const app = express();
 const PORT = process.env.PORT || 3000; // Use port 3000 if specified in .env
@@ -23,13 +24,10 @@ app.use(cors({
 
 // Middleware to parse incoming JSON requests
 app.use(express.json());
+app.use('/api', userRouter); // Correctly mount the user router
+// app.use('/api', weatherRouter); // Mount the weather router
+app.use('/api', productRouter); // Mount product router here
 
-// Use user router
-app.use('/api/users', userRouter); // Update this if the path is different
-
-
-
-// MongoDB connection using mongoose
 mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("Mongoose is connected"))
     .catch((err) => console.log("Error in connecting Mongoose:", err));

@@ -1,0 +1,35 @@
+.product-card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-details-card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.product-image:hover {
+    transform: scale(1.05);
+}
+
+.price-text {
+    color: #007bff;
+    font-size: 1.25rem;
+}
+
+.my-review {
+    background-color: #f8f9fa;
+}
+
+img.img-fluid {
+    width: 100%;
+    height: auto;
+}
