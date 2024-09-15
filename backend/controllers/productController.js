@@ -103,4 +103,39 @@ exports.addReview = async (req, res) => {
     }
 };
 
+// Calculate sales metrics for a specific username
+exports.getSalesMetrics = async (req, res) => {
+    try {
+        const { username } = req.query; // Extract username from query params
 
+        if (!username) {
+            return res.status(400).json({ error: 'Username is required' });
+        }
+
+        // Calculate total sales for the specified username
+        const totalSales = await Product.aggregate([
+            { $match: { username: username, available: true } },
+            { $group: { _id: null, totalSales: { $sum: '$price' } } }
+        ]);
+
+        // Count total products for rent
+        const totalProductsForRent = await Product.countDocuments({ username: username, available: true });
+
+        // Calculate average reviews and number of reviews per product
+        const products = await Product.find({ username: username });
+        let totalReviews = 0;
+        products.forEach(product => {
+            totalReviews += product.reviews.length;
+        });
+
+        const averageReviews = totalProductsForRent > 0 ? totalReviews / totalProductsForRent : 0;
+
+        res.status(200).json({
+            totalSales: totalSales[0]?.totalSales || 0,
+            totalProductsForRent,
+            averageReviews: averageReviews.toFixed(1) // Fixed to one decimal place
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
