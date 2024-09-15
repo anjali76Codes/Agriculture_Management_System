@@ -1,0 +1,56 @@
+/* ProductBrowse.css */
+.product-card {
+    transition: transform 0.3s ease-in-out;
+}
+
+.product-card:hover {
+    transform: scale(1.02);
+}
+
+.transition-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* ProductBrowse.css */
+
+/* Ensures that images and card content are side by side */
+.card-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    /* Optional: border for the card */
+    border-radius: 0.25rem;
+    /* Optional: border radius for the card */
+    overflow: hidden;
+}
+
+.card-img {
+    width: 200px;
+    /* Set a fixed width for the image */
+    height: 100%;
+    /* Ensure the image height adjusts to the card height */
+    object-fit: cover;
+    /* Ensures the image covers the area without distortion */
+}
+
+.card-body {
+    padding: 15px;
+    /* Padding inside the card body */
+}
+
+.card-title {
+    font-size: 1.25rem;
+    /* Adjust as needed */
+    font-weight: bold;
+}
+
+.card-text {
+    margin-bottom: 0.5rem;
+}
+
+.card-body-content {
+    flex: 1;
+    /* Ensures the card body takes up the remaining space */
+}

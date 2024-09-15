@@ -187,7 +187,6 @@ const ProductForm = () => {
                         required
                     >
                         <option value="">{t('form.selectCategory')}</option>
-                        <option value="selling">{t('form.categorySelling')}</option>
                         <option value="renting">{t('form.categoryRenting')}</option>
                     </Form.Control>
                 </Form.Group>
