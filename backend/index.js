@@ -12,6 +12,8 @@ dotenv.config();
 
 const productRouter = require('./routes/product.route'); // Include the product routes
 // Initialize express app
+
+const paymentRoutes = require('./routes/paymentRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000; // Use port 3000 if specified in .env
 
@@ -27,6 +29,8 @@ app.use(express.json());
 app.use('/api', userRouter); // Correctly mount the user router
 // app.use('/api', weatherRouter); // Mount the weather router
 app.use('/api', productRouter); // Mount product router here
+
+app.use('/api/payment', paymentRoutes);
 
 mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("Mongoose is connected"))
