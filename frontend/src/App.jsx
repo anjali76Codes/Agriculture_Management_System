@@ -11,6 +11,7 @@ import SignIn from './pages/Auth/SignIn';
 import ProductForm from './pages/Sell/ProductForm';
 import ProductBrowse from './pages/Sell/ProductBrowse';
 import MyProducts from './pages/Sell/MyProducts';
+import ProductDetail from './pages/Sell/ProductDetail';
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/products/add" element={<ProductForm />} />
             <Route path="/products/browse" element={<ProductBrowse />} />
             <Route path="/products/my-products" element={<MyProducts />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
 
 
           </Routes>
