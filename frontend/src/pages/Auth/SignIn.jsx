@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import '../../styles/Auth/SignIn.css';
 
 function Signin() {
     const [formData, setFormData] = useState({ email: '', password: '' });
