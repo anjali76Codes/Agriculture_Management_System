@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Button, Carousel, Modal, ListGroup, Badge, Form, Spinner, Alert } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
+import { Container, Row, Col, Card, Button, Carousel, ListGroup, Badge, Form, Spinner, Alert } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/Sell/ProductDetail.css';
 import StarRating from '../../components/StarRating';
+import Payment from './Payment';
 
 const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const [error, setError] = useState('');
-    const [showModal, setShowModal] = useState(false);
-    const [modalImage, setModalImage] = useState('');
     const [reviewText, setReviewText] = useState('');
     const [rating, setRating] = useState(1);
     const [reviews, setReviews] = useState([]);
@@ -19,9 +18,10 @@ const ProductDetail = () => {
     const [userReviewsCount, setUserReviewsCount] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [showMore, setShowMore] = useState(false);
+    const [showPayment, setShowPayment] = useState(false);
+    const [paymentAmount, setPaymentAmount] = useState(0);
     const reviewsToShow = 2;
     const { id } = useParams();
-    const navigate = useNavigate();
 
     const fetchProduct = useCallback(async () => {
         setIsLoading(true);
@@ -42,6 +42,7 @@ const ProductDetail = () => {
             const productData = response.data;
             setProduct(productData);
             setReviews(productData.reviews || []);
+            setPaymentAmount(productData.price);
 
             if (productData.reviews && productData.reviews.length > 0) {
                 const totalRating = productData.reviews.reduce((acc, review) => acc + review.rating, 0);
@@ -65,13 +66,6 @@ const ProductDetail = () => {
     useEffect(() => {
         fetchProduct();
     }, [fetchProduct]);
-
-    const handleShowModal = (image) => {
-        setModalImage(image);
-        setShowModal(true);
-    };
-
-    const handleCloseModal = () => setShowModal(false);
 
     const handleReviewSubmit = async (e) => {
         e.preventDefault();
@@ -112,6 +106,33 @@ const ProductDetail = () => {
 
     const toggleShowMore = () => {
         setShowMore(prevShowMore => !prevShowMore);
+    };
+
+    const handleRentNow = () => {
+        if (product.available) {
+            setShowPayment(true);
+        } else {
+            alert('Product is not available for rent.');
+        }
+    };
+
+    const handlePaymentSuccess = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            await axios.patch(`http://localhost:3000/api/products/${id}`, {
+                available: false
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            });
+
+            setProduct(prevProduct => ({ ...prevProduct, available: false }));
+            setShowPayment(false);
+        } catch (err) {
+            setError('Error updating product availability');
+            console.error('Error updating product availability:', err);
+        }
     };
 
     if (error) {
@@ -203,40 +224,53 @@ const ProductDetail = () => {
                                     <strong>Condition: {product.condition}</strong>
                                 </Card.Text>
                             )}
-                            <Button variant="primary" className="w-100" disabled={!product.available}>Rent Now</Button>
+                            <Button variant="primary" className="w-100" onClick={handleRentNow} disabled={!product.available}>
+                                Rent Now
+                            </Button>
                         </Card.Body>
                     </Card>
                 </Col>
             </Row>
 
+            {showPayment && (
+                <Row className="mb-4">
+                    <Col>
+                        <Card className="shadow-sm">
+                            <Card.Body>
+                                <Payment
+                                    amount={paymentAmount}
+                                    onSuccess={handlePaymentSuccess}
+                                    onError={(err) => setError('Payment failed. Please try again.')}
+                                />
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+            )}
+
             <Row className="mb-4">
                 <Col>
                     <Card className="shadow-sm">
                         <Card.Body>
-                            <Card.Title>Reviews</Card.Title>
-                            <div className="d-flex align-items-center mb-3">
-                                <StarRating rating={averageRating} size={24} />
-                                <span className="ml-2">{averageRating.toFixed(1)} / 5</span>
-                            </div>
+                            <Card.Title>Average Rating</Card.Title>
+                            <StarRating rating={averageRating} size={24} readonly />
+                            <p>{averageRating.toFixed(1)} Stars</p>
+                            <Card.Title>Reviews ({reviews.length})</Card.Title>
                             <ListGroup>
                                 {displayedReviews.length > 0 ? (
                                     displayedReviews.map((review, index) => (
-                                        <ListGroup.Item key={index} className={review.username === localStorage.getItem('username') ? 'my-review' : ''}>
-                                            <h6>{review.username}</h6>
-                                            <div className="d-flex align-items-center">
-                                                <StarRating rating={review.rating} size={20} />
-                                                <div className="ml-2">{review.comment}</div>
-                                            </div>
-                                            <small className="text-muted">{new Date(review.date).toLocaleDateString()}</small>
+                                        <ListGroup.Item key={index}>
+                                            <strong>{review.username}</strong> - <StarRating rating={review.rating} size={24} readonly />
+                                            <p>{review.comment}</p>
                                         </ListGroup.Item>
                                     ))
                                 ) : (
-                                    <ListGroup.Item>No Reviews</ListGroup.Item>
+                                    <ListGroup.Item>No reviews yet</ListGroup.Item>
                                 )}
                             </ListGroup>
                             {reviews.length > reviewsToShow && (
-                                <Button variant="link" className="mt-3" onClick={toggleShowMore}>
-                                    {showMore ? 'View Less' : 'View More'}
+                                <Button variant="link" onClick={toggleShowMore}>
+                                    {showMore ? 'Show Less' : 'Show More'}
                                 </Button>
                             )}
                         </Card.Body>
@@ -244,51 +278,34 @@ const ProductDetail = () => {
                 </Col>
             </Row>
 
-            {!isOwner && (
-                <Row className="mb-4">
-                    <Col>
-                        <Card className="shadow-sm">
-                            <Card.Body>
-                                <Card.Title>Write a Review</Card.Title>
-                                <Form onSubmit={handleReviewSubmit}>
-                                    <Form.Group controlId="reviewRating">
-                                        <Form.Label>Rating</Form.Label>
-                                        <StarRating rating={rating} onChange={setRating} size={30} />
-                                    </Form.Group>
-                                    <Form.Group controlId="reviewText">
-                                        <Form.Label>Review</Form.Label>
-                                        <Form.Control
-                                            as="textarea"
-                                            rows={3}
-                                            value={reviewText}
-                                            onChange={(e) => setReviewText(e.target.value)}
-                                        />
-                                    </Form.Group>
-                                    <Button variant="primary" type="submit" className="w-100">Submit Review</Button>
-                                </Form>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
-            )}
-
-            <Modal show={showModal} onHide={handleCloseModal} size="lg">
-                <Modal.Header closeButton>
-                    <Modal.Title>Image Preview</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <img
-                        src={modalImage}
-                        alt="Enlarged"
-                        className="img-fluid"
-                    />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            <Row>
+                <Col>
+                    <Card className="shadow-sm">
+                        <Card.Body>
+                            <Card.Title>Write a Review</Card.Title>
+                            <Form onSubmit={handleReviewSubmit}>
+                                <Form.Group controlId="rating">
+                                    <Form.Label>Rating</Form.Label>
+                                    <StarRating rating={rating} onChange={setRating} size={24} />
+                                </Form.Group>
+                                <Form.Group controlId="reviewText">
+                                    <Form.Label>Review</Form.Label>
+                                    <Form.Control
+                                        as="textarea"
+                                        rows={3}
+                                        value={reviewText}
+                                        onChange={(e) => setReviewText(e.target.value)}
+                                        required
+                                    />
+                                </Form.Group>
+                                <Button type="submit" variant="primary" className="mt-2">
+                                    Submit Review
+                                </Button>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
         </Container>
     );
 };

@@ -1,0 +1,40 @@
+/* Payment.css */
+.payment-container {
+    max-width: 800px;
+    /* Adjust the width for a larger screen */
+    margin: 20px auto;
+    /* Center the container horizontally */
+    padding: 20px;
+}
+
+.modal-content {
+    text-align: center;
+    padding: 20px;
+}
+
+.modal-content.success {
+    color: green;
+}
+
+.modal-content.error {
+    color: red;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.pay-now-button {
+    width: 100%;
+    /* Ensure button width is appropriate */
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Full viewport height */
+}
