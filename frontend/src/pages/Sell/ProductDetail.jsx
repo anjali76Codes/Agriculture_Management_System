@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Button, Carousel, Modal, ListGroup, Badge, Form, Spinner, Alert } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
+import { Container, Row, Col, Card, Button, Carousel, ListGroup, Badge, Form, Spinner, Alert } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/Sell/ProductDetail.css';
 import StarRating from '../../components/StarRating';
@@ -10,8 +10,6 @@ import Payment from './Payment';
 const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const [error, setError] = useState('');
-    const [showModal, setShowModal] = useState(false);
-    const [modalImage, setModalImage] = useState('');
     const [reviewText, setReviewText] = useState('');
     const [rating, setRating] = useState(1);
     const [reviews, setReviews] = useState([]);
@@ -20,12 +18,10 @@ const ProductDetail = () => {
     const [userReviewsCount, setUserReviewsCount] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [showMore, setShowMore] = useState(false);
-    const [showPayment, setShowPayment] = useState(false);  // Add state for showing payment
-    const [paymentAmount, setPaymentAmount] = useState(0); // Add state for payment amount
-    const [availabilityMessage, setAvailabilityMessage] = useState(''); // Add state for availability message
+    const [showPayment, setShowPayment] = useState(false);
+    const [paymentAmount, setPaymentAmount] = useState(0);
     const reviewsToShow = 2;
     const { id } = useParams();
-    const navigate = useNavigate();
 
     const fetchProduct = useCallback(async () => {
         setIsLoading(true);
@@ -46,7 +42,7 @@ const ProductDetail = () => {
             const productData = response.data;
             setProduct(productData);
             setReviews(productData.reviews || []);
-            setPaymentAmount(productData.price); // Set payment amount from product data
+            setPaymentAmount(productData.price);
 
             if (productData.reviews && productData.reviews.length > 0) {
                 const totalRating = productData.reviews.reduce((acc, review) => acc + review.rating, 0);
@@ -70,13 +66,6 @@ const ProductDetail = () => {
     useEffect(() => {
         fetchProduct();
     }, [fetchProduct]);
-
-    const handleShowModal = (image) => {
-        setModalImage(image);
-        setShowModal(true);
-    };
-
-    const handleCloseModal = () => setShowModal(false);
 
     const handleReviewSubmit = async (e) => {
         e.preventDefault();
@@ -121,7 +110,7 @@ const ProductDetail = () => {
 
     const handleRentNow = () => {
         if (product.available) {
-            setShowPayment(true);  // Show the payment modal
+            setShowPayment(true);
         } else {
             alert('Product is not available for rent.');
         }
@@ -138,10 +127,8 @@ const ProductDetail = () => {
                 }
             });
 
-            // Update the product state to reflect the change
             setProduct(prevProduct => ({ ...prevProduct, available: false }));
-            setAvailabilityMessage('Payment successful! The product is now marked as Not Available.'); // Set success message
-            setShowPayment(false);  // Hide the payment modal
+            setShowPayment(false);
         } catch (err) {
             setError('Error updating product availability');
             console.error('Error updating product availability:', err);
@@ -245,22 +232,35 @@ const ProductDetail = () => {
                 </Col>
             </Row>
 
-            {availabilityMessage && (
-                <Alert variant="success">
-                    {availabilityMessage}
-                </Alert>
+            {showPayment && (
+                <Row className="mb-4">
+                    <Col>
+                        <Card className="shadow-sm">
+                            <Card.Body>
+                                <Payment
+                                    amount={paymentAmount}
+                                    onSuccess={handlePaymentSuccess}
+                                    onError={(err) => setError('Payment failed. Please try again.')}
+                                />
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
             )}
 
             <Row className="mb-4">
                 <Col>
                     <Card className="shadow-sm">
                         <Card.Body>
+                            <Card.Title>Average Rating</Card.Title>
+                            <StarRating rating={averageRating} size={24} readonly />
+                            <p>{averageRating.toFixed(1)} Stars</p>
                             <Card.Title>Reviews ({reviews.length})</Card.Title>
                             <ListGroup>
                                 {displayedReviews.length > 0 ? (
                                     displayedReviews.map((review, index) => (
                                         <ListGroup.Item key={index}>
-                                            <strong>{review.username}</strong> - {review.rating} Stars
+                                            <strong>{review.username}</strong> - <StarRating rating={review.rating} size={24} readonly />
                                             <p>{review.comment}</p>
                                         </ListGroup.Item>
                                     ))
@@ -306,35 +306,6 @@ const ProductDetail = () => {
                     </Card>
                 </Col>
             </Row>
-
-            <Modal show={showModal} onHide={handleCloseModal} size="lg">
-                <Modal.Body>
-                    <img src={modalImage} alt="Product" className="img-fluid" />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={showPayment} onHide={() => setShowPayment(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Complete Payment</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Payment
-                        amount={paymentAmount}
-                        onSuccess={handlePaymentSuccess}
-                        onError={(err) => setError('Payment failed. Please try again.')}
-                    />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowPayment(false)}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
         </Container>
     );
 };

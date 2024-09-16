@@ -17,7 +17,7 @@ const Sidebar = () => {
         {collapsed ? <FaBars /> : <FaTimes />}
       </Button>
       <Nav className="flex-column">
-        <Nav.Link as={NavLink} to="/products/browse">
+        <Nav.Link as={NavLink} to="/">
           <FaShoppingCart />
           {!collapsed && ' Browse Products'}
         </Nav.Link>
