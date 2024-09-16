@@ -1,6 +1,7 @@
-// App.js
+// src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext"; // Import AuthProvider
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
 import LandingPage from "./pages/LandingPage";
@@ -8,36 +9,49 @@ import About from "./pages/About";
 import Profile from "./pages/Auth/Profile";
 import SignUp from "./pages/Auth/SignUp";
 import SignIn from "./pages/Auth/SignIn";
-import Dashboard from "./pages/Dashboard"; import ProductForm from './pages/Sell/ProductForm';
+import Dashboard from "./pages/Dashboard";
+import ProductForm from './pages/Sell/ProductForm';
 import ProductBrowse from './pages/Sell/ProductBrowse';
 import MyProducts from './pages/Sell/MyProducts';
 import ProductDetail from './pages/Sell/ProductDetail';
-
+import PrivateRoute from "./components/PrivateRoute";
+import { useAuth } from "./contexts/AuthContext";
 
 const App = () => {
   return (
-    <Router>
-      <div className="app-container">
-        <Sidebar />
-        <div className="content">
-          <Routes>
-            <Route path="/" element={<ProductBrowse />} />
-            <Route path="/landing" element={<LandingPage />} />
+    <AuthProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </AuthProvider>
+  );
+};
 
-            <Route path="/about" element={<About />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/products/add" element={<ProductForm />} />
-            {/* <Route path="/products/browse" element={<ProductBrowse />} /> */}
-            <Route path="/products/my-products" element={<MyProducts />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
+const AppContent = () => {
+  const { isAuthenticated } = useAuth();
 
-          </Routes>
-        </div>
+  return (
+    <div className="app-container">
+      {isAuthenticated && <Sidebar />}
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/browse" element={<ProductBrowse />} />
+          <Route path="/about" element={<About />} />
+
+          {/* Use PrivateRoute for protected routes */}
+          <Route path="/dashboard" element={<PrivateRoute element={Dashboard} />} />
+          <Route path="/profile" element={<PrivateRoute element={Profile} />} />
+          <Route path="/products/add" element={<PrivateRoute element={ProductForm} />} />
+          <Route path="/products/my-products" element={<PrivateRoute element={MyProducts} />} />
+          <Route path="/products/:id" element={<PrivateRoute element={ProductDetail} />} />
+
+          {/* Public routes */}
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
+        </Routes>
       </div>
-    </Router>
+    </div>
   );
 };
 

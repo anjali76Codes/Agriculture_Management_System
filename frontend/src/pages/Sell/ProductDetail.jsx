@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Button, Carousel, ListGroup, Badge, Form, Spinner, Alert } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/Sell/ProductDetail.css';
 import StarRating from '../../components/StarRating';
@@ -22,6 +22,7 @@ const ProductDetail = () => {
     const [paymentAmount, setPaymentAmount] = useState(0);
     const reviewsToShow = 2;
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const fetchProduct = useCallback(async () => {
         setIsLoading(true);

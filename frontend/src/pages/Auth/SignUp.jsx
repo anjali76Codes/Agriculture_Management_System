@@ -1,16 +1,19 @@
+// src/pages/Auth/SignUp.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../../contexts/AuthContext';
 
-function Signup() {
+function SignUp() {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { login } = useAuth(); // Use login function from context
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            navigate('/');
+            navigate('/'); // Redirect to home if already signed in
         }
     }, [navigate]);
 
@@ -31,9 +34,11 @@ function Signup() {
             const response = await axios.post('http://localhost:3000/api/signup', formData);
 
             if (response.status === 201) {
-                localStorage.setItem('token', response.data.token);
-                localStorage.setItem('username', formData.username); // Store username
-                navigate('/');
+                const { token, username } = response.data; // Expect username in response
+                localStorage.setItem('token', token);
+                localStorage.setItem('username', username); // Store username
+                login(token); // Set authentication state
+                navigate('/'); // Redirect to home
             }
         } catch (error) {
             if (error.response) {
@@ -100,4 +105,4 @@ function Signup() {
     );
 }
 
-export default Signup;
+export default SignUp;
