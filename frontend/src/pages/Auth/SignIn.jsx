@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
+import '../../styles/Auth/SignIn.css';
 
 function SignIn() {
     const [formData, setFormData] = useState({ email: '', password: '' });

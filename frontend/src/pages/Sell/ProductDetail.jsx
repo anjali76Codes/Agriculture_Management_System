@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Button, Carousel, ListGroup, Badge, Form, Spinner, Alert } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/Sell/ProductDetail.css';
 import StarRating from '../../components/StarRating';
@@ -22,7 +22,6 @@ const ProductDetail = () => {
     const [paymentAmount, setPaymentAmount] = useState(0);
     const reviewsToShow = 2;
     const { id } = useParams();
-    const navigate = useNavigate();
 
     const fetchProduct = useCallback(async () => {
         setIsLoading(true);
@@ -32,6 +31,7 @@ const ProductDetail = () => {
 
             if (!token || !username) {
                 setError('User not authenticated.');
+                setIsLoading(false);
                 return;
             }
 
@@ -40,6 +40,7 @@ const ProductDetail = () => {
                     'Authorization': `Bearer ${token}`,
                 }
             });
+
             const productData = response.data;
             setProduct(productData);
             setReviews(productData.reviews || []);
@@ -58,7 +59,6 @@ const ProductDetail = () => {
             setUserReviewsCount(userReviewCount);
         } catch (err) {
             setError('Error fetching product');
-            console.error('Error fetching product:', err);
         } finally {
             setIsLoading(false);
         }
@@ -101,7 +101,6 @@ const ProductDetail = () => {
             }
         } catch (err) {
             setError('Error submitting review');
-            console.error('Error submitting review:', err);
         }
     };
 
@@ -110,30 +109,43 @@ const ProductDetail = () => {
     };
 
     const handleRentNow = () => {
-        if (product.available) {
+        if (product && product.available) {
             setShowPayment(true);
         } else {
             alert('Product is not available for rent.');
         }
     };
 
-    const handlePaymentSuccess = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            await axios.patch(`http://localhost:3000/api/products/${id}`, {
-                available: false
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                }
-            });
-
-            setProduct(prevProduct => ({ ...prevProduct, available: false }));
-            setShowPayment(false);
-        } catch (err) {
-            setError('Error updating product availability');
-            console.error('Error updating product availability:', err);
+    const handlePaymentSuccess = (paymentId) => {
+        if (!product) {
+            console.error('Product details are not available');
+            return;
         }
+
+        const paymentDetails = {
+            _id: product._id,
+            username: product.username,
+            name: product.name,
+            description: product.description,
+            images: product.images,
+            location: product.location,
+            price: product.price,
+            depositAmount: product.depositAmount,
+            rentalDuration: product.rentalDuration,
+            condition: product.condition,
+            available: product.available,
+            contactInfo: product.contactInfo,
+            availabilityDates: product.availabilityDates,
+            tags: product.tags,
+            type: product.type,
+            createdAt: product.createdAt,
+            updatedAt: product.updatedAt,
+            paymentId: paymentId
+        };
+
+        console.log('Payment Details:', paymentDetails);
+
+        setShowPayment(false);
     };
 
     if (error) {
@@ -170,9 +182,8 @@ const ProductDetail = () => {
                                             <Card.Img
                                                 variant="top"
                                                 src={image}
-                                                alt={product.name}
+                                                alt={product.name || 'Product Image'}
                                                 className="product-image"
-                                                onClick={() => handleShowModal(image)}
                                             />
                                         </Carousel.Item>
                                     ))}
@@ -181,9 +192,8 @@ const ProductDetail = () => {
                                 <Card.Img
                                     variant="top"
                                     src={product.images[0] || '/path/to/default-image.jpg'}
-                                    alt={product.name}
+                                    alt={product.name || 'Product Image'}
                                     className="product-image"
-                                    onClick={() => handleShowModal(product.images[0])}
                                 />
                             )}
                         </Card.Body>
@@ -192,16 +202,16 @@ const ProductDetail = () => {
                 <Col md={4}>
                     <Card className="product-details-card shadow-sm">
                         <Card.Body>
-                            <Card.Title>{product.name}</Card.Title>
-                            <Card.Text className="text-muted">{product.description}</Card.Text>
+                            <Card.Title>{product.name || 'Product Name'}</Card.Title>
+                            <Card.Text className="text-muted">{product.description || 'No Description'}</Card.Text>
                             <Card.Text>
-                                <strong className="price-text">${product.price.toFixed(2)}</strong>
+                                <strong className="price-text">${product.price ? product.price.toFixed(2) : '0.00'}</strong>
                             </Card.Text>
                             <Card.Text>
-                                <small className="text-muted">Location: {product.location}</small>
+                                <small className="text-muted">Location: {product.location || 'Not Specified'}</small>
                             </Card.Text>
                             <Card.Text>
-                                <Badge bg="info">{product.type}</Badge>
+                                <Badge bg="info">{product.type || 'Type Not Specified'}</Badge>
                             </Card.Text>
                             <Card.Text>
                                 <strong>Rental Duration: {product.rentalDuration || 'Not Specified'}</strong>
@@ -240,8 +250,8 @@ const ProductDetail = () => {
                             <Card.Body>
                                 <Payment
                                     amount={paymentAmount}
-                                    onSuccess={handlePaymentSuccess}
-                                    onError={(err) => setError('Payment failed. Please try again.')}
+                                    onPaymentSuccess={handlePaymentSuccess}
+                                    product={product}
                                 />
                             </Card.Body>
                         </Card>

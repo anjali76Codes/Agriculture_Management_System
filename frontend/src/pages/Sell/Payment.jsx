@@ -6,12 +6,12 @@ import Button from 'react-bootstrap/Button';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import '../../styles/Sell/Payment.css';
 
-const Payment = ({ currentUser, onPaymentSuccess, amount }) => {
+const Payment = ({ currentUser, onPaymentSuccess, amount, product }) => {
     const [paymentId, setPaymentId] = useState(null);
     const [paymentSuccessful, setPaymentSuccessful] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [paymentCompleted, setPaymentCompleted] = useState(false);
-    const [loading, setLoading] = useState(false); // Set to false initially
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -61,6 +61,11 @@ const Payment = ({ currentUser, onPaymentSuccess, amount }) => {
                 handler: function (response) {
                     setLoading(false);
                     setPaymentId(response.razorpay_payment_id);
+                    // Log product details and payment ID
+                    console.log('Product Title:', product.title);
+                    console.log('Product Description:', product.description);
+                    console.log('Product Price:', product.price);
+                    console.log('Payment ID:', response.razorpay_payment_id);
                     setPaymentSuccessful(true);
                     setPaymentCompleted(true);
                     localStorage.setItem('paymentId', response.razorpay_payment_id);
@@ -100,7 +105,7 @@ const Payment = ({ currentUser, onPaymentSuccess, amount }) => {
             handlePayment(); // Open payment modal only if payment is not completed
         }
 
-    }, [currentUser, amount, onPaymentSuccess, paymentCompleted]);
+    }, [currentUser, amount, onPaymentSuccess, paymentCompleted, product]); // Include product in dependencies
 
     const handleModalClose = () => {
         setModalOpen(false);

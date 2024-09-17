@@ -15,7 +15,9 @@ import ProductBrowse from './pages/Sell/ProductBrowse';
 import MyProducts from './pages/Sell/MyProducts';
 import ProductDetail from './pages/Sell/ProductDetail';
 import PrivateRoute from "./components/PrivateRoute";
-import { useAuth } from "./contexts/AuthContext";
+import { useAuth } from "./contexts/AuthContext";// import RentedProductsPage from "./components/RentedProductPage";
+
+
 
 const App = () => {
   return (
