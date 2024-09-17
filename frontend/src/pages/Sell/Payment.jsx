@@ -2,19 +2,47 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
-import Button from 'react-bootstrap/Button'; // Import Button for modal footer
-import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa'; // Add icons for success and error
-import '../../styles/Sell/Payment.css'; // Import the CSS file
+import Button from 'react-bootstrap/Button';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import '../../styles/Sell/Payment.css';
 
-const Payment = ({ currentUser, onPaymentSuccess, amount }) => {
+const Payment = ({ currentUser, onPaymentSuccess, amount, product }) => {
     const [paymentId, setPaymentId] = useState(null);
     const [paymentSuccessful, setPaymentSuccessful] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [paymentCompleted, setPaymentCompleted] = useState(false);
-    const [loading, setLoading] = useState(true); // Initially loading true to open payment modal immediately
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        const checkPaymentStatus = async () => {
+            if (!currentUser || !currentUser.id) {
+                console.warn('currentUser or currentUser.id is not defined.');
+                return;
+            }
+
+            try {
+                const storedPaymentId = localStorage.getItem('paymentId');
+                if (storedPaymentId) {
+                    setPaymentId(storedPaymentId);
+                    setPaymentCompleted(true);
+                    setPaymentSuccessful(true);
+                    return;
+                }
+
+                const response = await axios.get(`/api/check-payment-status/${currentUser.id}`);
+                if (response.data.paymentCompleted) {
+                    localStorage.setItem('paymentId', response.data.paymentId);
+                    setPaymentId(response.data.paymentId);
+                    setPaymentCompleted(true);
+                    setPaymentSuccessful(true);
+                }
+            } catch (error) {
+                console.error('Error fetching payment status:', error);
+                setError('Error fetching payment status.');
+            }
+        };
+
         const handlePayment = () => {
             if (paymentCompleted) {
                 alert('Payment already completed.');
@@ -33,6 +61,7 @@ const Payment = ({ currentUser, onPaymentSuccess, amount }) => {
                 handler: function (response) {
                     setLoading(false);
                     setPaymentId(response.razorpay_payment_id);
+                    // Log product details and payment ID
                     setPaymentSuccessful(true);
                     setPaymentCompleted(true);
                     localStorage.setItem('paymentId', response.razorpay_payment_id);
@@ -66,37 +95,13 @@ const Payment = ({ currentUser, onPaymentSuccess, amount }) => {
             }
         };
 
-        const checkPaymentStatus = async () => {
-            if (!currentUser || !currentUser.id) {
-                console.warn('currentUser or currentUser.id is not defined.');
-                return;
-            }
+        checkPaymentStatus(); // Check payment status on component mount
 
-            try {
-                const storedPaymentId = localStorage.getItem('paymentId');
-                if (storedPaymentId) {
-                    setPaymentId(storedPaymentId);
-                    setPaymentCompleted(true);
-                    return;
-                }
+        if (!paymentCompleted) {
+            handlePayment(); // Open payment modal only if payment is not completed
+        }
 
-                const response = await axios.get(`/api/check-payment-status/${currentUser.id}`);
-                if (response.data.paymentCompleted) {
-                    localStorage.setItem('paymentId', response.data.paymentId);
-                    setPaymentId(response.data.paymentId);
-                    setPaymentCompleted(true);
-                }
-            } catch (error) {
-                console.error('Error fetching payment status:', error);
-            }
-        };
-
-        checkPaymentStatus();
-
-        // Open Razorpay payment modal directly
-        handlePayment();
-
-    }, [currentUser, amount, onPaymentSuccess, paymentCompleted]);
+    }, [currentUser, amount, onPaymentSuccess, paymentCompleted, product]); // Include product in dependencies
 
     const handleModalClose = () => {
         setModalOpen(false);

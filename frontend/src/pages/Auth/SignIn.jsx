@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../../contexts/AuthContext';
 import '../../styles/Auth/SignIn.css';
 
-function Signin() {
+function SignIn() {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const location = useLocation();
+    const { login } = useAuth(); // Use login function from context
+
+    // Extract the redirect path from query parameters
+    const queryParams = new URLSearchParams(location.search);
+    const redirectPath = queryParams.get('redirect') || '/';
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            navigate('/');
+            navigate('/'); // Redirect to home if already signed in
         }
     }, [navigate]);
 
@@ -32,12 +39,18 @@ function Signin() {
             const response = await axios.post('http://localhost:3000/api/signin', formData);
 
             if (response.status === 200) {
-                const { token, username } = response.data; // Destructure the response
-                localStorage.setItem('token', token);
-                if (username) {
-                    localStorage.setItem('username', username); // Store username if it exists
-                }
-                navigate('/');
+                const { token, username } = response.data; // Expect username and token in response
+
+                // Store all information in a single object
+                const userInfo = {
+                    token,
+                    username,
+                    email: formData.email
+                };
+
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                login(token); // Set authentication state
+                navigate(redirectPath); // Redirect to the saved path
             }
         } catch (error) {
             if (error.response) {
@@ -93,4 +106,4 @@ function Signin() {
     );
 }
 
-export default Signin;
+export default SignIn;

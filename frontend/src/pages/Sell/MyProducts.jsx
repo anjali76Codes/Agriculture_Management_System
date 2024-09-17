@@ -1,7 +1,9 @@
+// src/pages/Sell/MyProducts.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext'; // Import useAuth hook
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const MyProducts = () => {
@@ -9,8 +11,15 @@ const MyProducts = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const { isAuthenticated } = useAuth(); // Use authentication status from context
 
     useEffect(() => {
+        if (!isAuthenticated) {
+            // Redirect to sign in page if not authenticated
+            navigate('/signin');
+            return;
+        }
+
         const fetchProducts = async () => {
             try {
                 const token = localStorage.getItem('token');
@@ -27,8 +36,8 @@ const MyProducts = () => {
                         'Authorization': `Bearer ${token}`,
                     },
                     params: {
-                        username
-                    }
+                        username,
+                    },
                 });
 
                 setProducts(response.data);
@@ -41,7 +50,7 @@ const MyProducts = () => {
         };
 
         fetchProducts();
-    }, []);
+    }, [isAuthenticated, navigate]);
 
     const handleAddProductClick = () => {
         navigate('/products/add');
