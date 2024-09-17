@@ -7,17 +7,23 @@
   justify-content: center;
   background-color: #f7f9f7;
   padding: 20px;
+  background-image: url('../../assets/farm2.jpeg');
+  background-size: cover;
 }
 
 .profile-card {
-  background-color: #fff;
+  background-color: #ffffffb6;
+  backdrop-filter: blur(10px);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 600px;
   width: 100%;
+  border: 2px solid #2e5d40;
 }
-
+.profile-card:hover{
+  box-shadow: 0 0 10px 5px #2e5d40;
+}
 .profile-header {
   font-size: 24px;
   color: #3b7a57; /* Dark green for a farmer-friendly look */
@@ -126,4 +132,7 @@
 
 .rented-product-item:last-child {
   border-bottom: none;
+}
+.pbtn{
+  margin-top: 10px;
 }

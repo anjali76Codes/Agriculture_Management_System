@@ -1,70 +1,51 @@
-/* LandingPage.css */
-
-.landing-page .hero-section {
-  background-color: #f8f9fa;
-  padding: 60px 0;
-  text-align: center;
-}
-
-.landing-page .hero-text {
-  margin-bottom: 20px;
-}
-
-.landing-page .hero-image img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-
-.landing-page .get-started-section {
-  background-color: #e9ecef;
-  padding: 40px 0;
-}
-
-.animated {
-  animation: fadeIn 2s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+.landing-page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-image: url('../assets/image.png'); */
+    background-size: cover;
+    background-position: center;
+    background-color:#104a1d;
+    flex-direction: column;
   }
-
-  to {
-    opacity: 1;
+  
+  .hero-section {
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
-}
-
-.landing-page .hero-section {
-  /* Your existing styles */
-}
-
-.button-clicked {
-  /* Add your animation styles here */
-  animation: buttonAnimation 1s forwards;
-  /* Adjust animation duration */
-}
-
-@keyframes buttonAnimation {
-  from {
-    transform: scale(1);
+  
+  .hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
   }
-
-  to {
-    transform: scale(2);
-    /* or whatever effect you want */
-    opacity: 0;
+  
+  .hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
   }
-}
-
-.get-started-section {
-  /* Your existing styles */
-}
-
-.hero-text {
-  /* Your existing styles */
-}
-
-.hero-image img {
-  /* Your existing styles */
-}
+  
+  .hero-button {
+    background-color: transparent;
+    color: white;
+    border: 3px solid white;
+    padding: 12px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .hero-button:hover {
+    /* padding: 13px; */
+    translate: 0 4px;
+    scale: 1.1;
+    box-shadow: 0 0 5px 7px white;
+  }
+  

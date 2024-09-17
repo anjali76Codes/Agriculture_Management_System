@@ -64,13 +64,13 @@ function SignIn() {
     };
 
     return (
-        <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
-            <div className="bg-white p-4 rounded shadow-sm w-100" style={{ maxWidth: '400px' }}>
-                <h1 className="h3 mb-4 text-primary">Sign in</h1>
-                {error && <div className="alert alert-danger mb-4">{error}</div>}
-                <form onSubmit={handleSubmit} className="d-flex flex-column">
-                    <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Email</label>
+        <div className="signin-container">
+            <div className="signin-card">
+                <h1 className="signin-title">SIGNIN</h1>
+                {error && <div className="error-message">{error}</div>}
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        {/* <label htmlFor="email" className="form-label">Email</label> */}
                         <input
                             type="email"
                             className="form-control"
@@ -80,8 +80,8 @@ function SignIn() {
                             value={formData.email}
                         />
                     </div>
-                    <div className="mb-3">
-                        <label htmlFor="password" className="form-label">Password</label>
+                    <div className="form-group">
+                        {/* <label htmlFor="password" className="form-label">Password</label> */}
                         <input
                             type="password"
                             className="form-control"
@@ -93,13 +93,13 @@ function SignIn() {
                     </div>
                     <button
                         type="submit"
-                        className="btn btn-primary w-100 mb-3"
+                        className="signin-button"
                     >
                         Sign in
                     </button>
                 </form>
-                <p className="text-center">
-                    Don't have an account? <Link to="/signup" className="link-primary">Sign up</Link>
+                <p className="signin-footer">
+                    Don't have an account? <Link to="/signup" className="signin-link">Sign up</Link>
                 </p>
             </div>
         </div>
