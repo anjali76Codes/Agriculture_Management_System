@@ -31,6 +31,7 @@ const ProductDetail = () => {
 
             if (!token || !username) {
                 setError('User not authenticated.');
+                setIsLoading(false);
                 return;
             }
 
@@ -39,6 +40,7 @@ const ProductDetail = () => {
                     'Authorization': `Bearer ${token}`,
                 }
             });
+
             const productData = response.data;
             setProduct(productData);
             setReviews(productData.reviews || []);
@@ -57,7 +59,6 @@ const ProductDetail = () => {
             setUserReviewsCount(userReviewCount);
         } catch (err) {
             setError('Error fetching product');
-            console.error('Error fetching product:', err);
         } finally {
             setIsLoading(false);
         }
@@ -100,7 +101,6 @@ const ProductDetail = () => {
             }
         } catch (err) {
             setError('Error submitting review');
-            console.error('Error submitting review:', err);
         }
     };
 
@@ -109,31 +109,68 @@ const ProductDetail = () => {
     };
 
     const handleRentNow = () => {
-        if (product.available) {
+        if (product && product.available) {
             setShowPayment(true);
         } else {
             alert('Product is not available for rent.');
         }
     };
 
-    const handlePaymentSuccess = async () => {
+    const handlePaymentSuccess = async (paymentId) => {
+        if (!product) {
+            console.error('Product details are not available');
+            return;
+        }
+
+        // Retrieve user information from localStorage
+        const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
+        const username = userInfo.username || 'Anonymous';
+        const userEmail = userInfo.email || 'Not Provided';
+
+        // Create the payment details object
+        const paymentDetails = {
+            username: username,
+            email: userEmail,
+            product: {
+                _id: product._id,
+                username: product.username,
+                name: product.name,
+                description: product.description,
+                images: product.images,
+                location: product.location,
+                price: product.price,
+                depositAmount: product.depositAmount,
+                rentalDuration: product.rentalDuration,
+                condition: product.condition,
+                available: product.available,
+                contactInfo: product.contactInfo,
+                availabilityDates: product.availabilityDates,
+                tags: product.tags,
+                type: product.type,
+                createdAt: product.createdAt,
+                updatedAt: product.updatedAt,
+            },
+            paymentId: paymentId,
+        };
+
         try {
-            const token = localStorage.getItem('token');
-            await axios.patch(`http://localhost:3000/api/products/${id}`, {
-                available: false
-            }, {
+            await axios.post('http://localhost:3000/api/rented-products', paymentDetails, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
                 }
             });
-
-            setProduct(prevProduct => ({ ...prevProduct, available: false }));
-            setShowPayment(false);
+            // Optionally handle success response
+            console.log('Payment details successfully stored.');
         } catch (err) {
-            setError('Error updating product availability');
-            console.error('Error updating product availability:', err);
+            console.error('Error storing payment details:', err);
+            // Optionally handle error
         }
+
+        setShowPayment(false);
     };
+
+
 
     if (error) {
         return <Alert variant="danger">{error}</Alert>;
@@ -169,9 +206,8 @@ const ProductDetail = () => {
                                             <Card.Img
                                                 variant="top"
                                                 src={image}
-                                                alt={product.name}
+                                                alt={product.name || 'Product Image'}
                                                 className="product-image"
-                                                onClick={() => handleShowModal(image)}
                                             />
                                         </Carousel.Item>
                                     ))}
@@ -180,9 +216,8 @@ const ProductDetail = () => {
                                 <Card.Img
                                     variant="top"
                                     src={product.images[0] || '/path/to/default-image.jpg'}
-                                    alt={product.name}
+                                    alt={product.name || 'Product Image'}
                                     className="product-image"
-                                    onClick={() => handleShowModal(product.images[0])}
                                 />
                             )}
                         </Card.Body>
@@ -191,16 +226,16 @@ const ProductDetail = () => {
                 <Col md={4}>
                     <Card className="product-details-card shadow-sm">
                         <Card.Body>
-                            <Card.Title>{product.name}</Card.Title>
-                            <Card.Text className="text-muted">{product.description}</Card.Text>
+                            <Card.Title>{product.name || 'Product Name'}</Card.Title>
+                            <Card.Text className="text-muted">{product.description || 'No Description'}</Card.Text>
                             <Card.Text>
-                                <strong className="price-text">${product.price.toFixed(2)}</strong>
+                                <strong className="price-text">${product.price ? product.price.toFixed(2) : '0.00'}</strong>
                             </Card.Text>
                             <Card.Text>
-                                <small className="text-muted">Location: {product.location}</small>
+                                <small className="text-muted">Location: {product.location || 'Not Specified'}</small>
                             </Card.Text>
                             <Card.Text>
-                                <Badge bg="info">{product.type}</Badge>
+                                <Badge bg="info">{product.type || 'Type Not Specified'}</Badge>
                             </Card.Text>
                             <Card.Text>
                                 <strong>Rental Duration: {product.rentalDuration || 'Not Specified'}</strong>
@@ -239,8 +274,8 @@ const ProductDetail = () => {
                             <Card.Body>
                                 <Payment
                                     amount={paymentAmount}
-                                    onSuccess={handlePaymentSuccess}
-                                    onError={(err) => setError('Payment failed. Please try again.')}
+                                    onPaymentSuccess={handlePaymentSuccess}
+                                    product={product}
                                 />
                             </Card.Body>
                         </Card>

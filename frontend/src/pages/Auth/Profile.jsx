@@ -1,10 +1,13 @@
+// src/pages/Profile.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../../contexts/AuthContext';
 import '../../styles/Auth/Profile.css';
 
 function Profile() {
   const navigate = useNavigate();
+  const { isAuthenticated, username, login, logout } = useAuth();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -21,13 +24,13 @@ function Profile() {
   });
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/signin');
+      return;
+    }
+
     const fetchUserData = async () => {
       const token = localStorage.getItem('token');
-
-      if (!token) {
-        navigate('/signin');
-        return;
-      }
 
       try {
         const response = await axios.get('http://localhost:3000/api/profile', {
@@ -44,6 +47,7 @@ function Profile() {
         setLoading(false);
       } catch (error) {
         if (error.response && error.response.status === 401) {
+          logout(); // Clear auth state and navigate to signin
           navigate('/signin');
         } else {
           setError('Failed to fetch user data. Please try again.');
@@ -53,7 +57,7 @@ function Profile() {
     };
 
     fetchUserData();
-  }, [navigate]);
+  }, [navigate, isAuthenticated, logout]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -110,7 +114,7 @@ function Profile() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    logout(); // Clear auth state
     navigate('/signin');
   };
 

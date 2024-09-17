@@ -5,6 +5,7 @@ const cors = require('cors');
 
 // Load routers
 const userRouter = require('./routes/user.route'); // Ensure this path is correct
+const rentedProductsRoute = require('./routes/rentedProducts');
 
 
 // Load environment variables from .env file
@@ -14,6 +15,8 @@ const productRouter = require('./routes/product.route'); // Include the product 
 // Initialize express app
 
 const paymentRoutes = require('./routes/paymentRoutes');
+const cropRoutes = require('./routes/cropRoutes'); // Import crop routes
+
 const app = express();
 const PORT = process.env.PORT || 3000; // Use port 3000 if specified in .env
 
@@ -31,6 +34,12 @@ app.use('/api', userRouter); // Correctly mount the user router
 app.use('/api', productRouter); // Mount product router here
 
 app.use('/api/payment', paymentRoutes);
+
+app.use('/api/rented-products', rentedProductsRoute);
+
+
+app.use('/api/crops', cropRoutes); 
+
 
 mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("Mongoose is connected"))
