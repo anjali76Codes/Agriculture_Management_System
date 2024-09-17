@@ -14,14 +14,19 @@ import ProductForm from './pages/Sell/ProductForm';
 import ProductBrowse from './pages/Sell/ProductBrowse';
 import MyProducts from './pages/Sell/MyProducts';
 import ProductDetail from './pages/Sell/ProductDetail';
+
 import PrivateRoute from "./components/PrivateRoute";
 import { useAuth } from "./contexts/AuthContext";// import RentedProductsPage from "./components/RentedProductPage";
 import RentedProducts from "./pages/Sell/RentedProducts";
 
 
+import MyCrops from './pages/MyCrops';
+
+
 
 const App = () => {
   return (
+
     <AuthProvider>
       <Router>
         <AppContent />
@@ -53,7 +58,28 @@ const AppContent = () => {
           {/* Public routes */}
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
-        </Routes>
+
+    <Router>
+      <div className="app-container">
+        <Sidebar />
+        <div className="content">
+          <Routes>
+            <Route path="/" element={<ProductBrowse />} />
+            <Route path="/landing" element={<LandingPage />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/products/add" element={<ProductForm />} />
+            <Route path="/products/browse" element={<ProductBrowse />} />
+            <Route path="/products/my-products" element={<MyProducts />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
+            <Route path="/my-crops" element={<MyCrops />} />
+          
+          </Routes>
+        </div>
+
       </div>
     </div>
   );
