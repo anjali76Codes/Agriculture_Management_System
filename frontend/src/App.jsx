@@ -23,10 +23,8 @@ import RentedProducts from "./pages/Sell/RentedProducts";
 import MyCrops from './pages/MyCrops';
 
 
-
 const App = () => {
   return (
-
     <AuthProvider>
       <Router>
         <AppContent />
@@ -54,35 +52,16 @@ const AppContent = () => {
           <Route path="/products/add" element={<PrivateRoute element={ProductForm} />} />
           <Route path="/products/my-products" element={<PrivateRoute element={MyProducts} />} />
           <Route path="/products/:id" element={<PrivateRoute element={ProductDetail} />} />
+          <Route path="/my-crops" element={<PrivateRoute element={MyCrops} />} />
 
           {/* Public routes */}
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
-
-    <Router>
-      <div className="app-container">
-        <Sidebar />
-        <div className="content">
-          <Routes>
-            <Route path="/" element={<ProductBrowse />} />
-            <Route path="/landing" element={<LandingPage />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/products/add" element={<ProductForm />} />
-            <Route path="/products/browse" element={<ProductBrowse />} />
-            <Route path="/products/my-products" element={<MyProducts />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/my-crops" element={<MyCrops />} />
-          
-          </Routes>
-        </div>
-
+        </Routes>
       </div>
     </div>
   );
 };
+
 
 export default App;
