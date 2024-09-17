@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import '../../styles/Auth/SignUp.css'
 
 function Signup() {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
@@ -47,13 +48,13 @@ function Signup() {
     };
 
     return (
-        <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
-            <div className="bg-white p-4 rounded shadow-sm w-100" style={{ maxWidth: '400px' }}>
-                <h1 className="h3 mb-4 text-primary">Sign up</h1>
-                {error && <div className="alert alert-danger mb-4">{error}</div>}
-                <form onSubmit={handleSubmit} className="d-flex flex-column">
-                    <div className="mb-3">
-                        <label htmlFor="username" className="form-label">Username</label>
+    <div className="signup-container">
+            <div className="signup-card">
+                <h1 className="signup-title">SIGNUP</h1>
+                {error && <div className="error-message">{error}</div>}
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        {/* <label htmlFor="username" className="form-label">Username</label> */}
                         <input
                             type="text"
                             className="form-control"
@@ -63,8 +64,8 @@ function Signup() {
                             value={formData.username}
                         />
                     </div>
-                    <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Email</label>
+                    <div className="form-group">
+                        {/* <label htmlFor="email" className="form-label">Email</label> */}
                         <input
                             type="email"
                             className="form-control"
@@ -74,8 +75,8 @@ function Signup() {
                             value={formData.email}
                         />
                     </div>
-                    <div className="mb-3">
-                        <label htmlFor="password" className="form-label">Password</label>
+                    <div className="form-group">
+                        {/* <label htmlFor="password" className="form-label">Password</label> */}
                         <input
                             type="password"
                             className="form-control"
@@ -87,13 +88,13 @@ function Signup() {
                     </div>
                     <button
                         type="submit"
-                        className="btn btn-primary w-100 mb-3"
+                        className="signup-button"
                     >
                         Signup
                     </button>
                 </form>
-                <p className="text-center">
-                    Already have an account? <Link to="/signin" className="link-primary">Sign in</Link>
+                <p className="signup-footer">
+                    Already have an account? <Link to="/signin" className="signup-link">Sign in</Link>
                 </p>
             </div>
         </div>

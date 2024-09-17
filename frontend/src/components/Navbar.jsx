@@ -5,7 +5,7 @@ import '../styles/Navbar.css';
 
 const Navbar = () => {
   return (
-    <div className="centered-navbar">
+    <div className="navbar">
       <Nav className="justify-content-center">
         <Nav.Item>
           <Nav.Link href="/">Home</Nav.Link>
@@ -16,6 +16,7 @@ const Navbar = () => {
         <Nav.Item>
           <Nav.Link href="/profile">Profile</Nav.Link>
         </Nav.Item>
+        <h2><ion-icon name="leaf"></ion-icon>Agri<p>Circle</p></h2>
       </Nav>
     </div>
   );

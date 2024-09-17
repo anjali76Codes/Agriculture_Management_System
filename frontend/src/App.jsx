@@ -13,6 +13,7 @@ import ProductForm from './pages/Sell/ProductForm';
 import ProductBrowse from './pages/Sell/ProductBrowse';
 import MyProducts from './pages/Sell/MyProducts';
 import ProductDetail from './pages/Sell/ProductDetail';
+import Navbar from "./components/Navbar";
 // import MyCrops from './pages/MyCrops';  // Import MyCrops component
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
     <Router>
       <div className="app-container">
         <Sidebar />
+        <Navbar />
         <div className="content">
           <Routes>
             <Route path="/" element={<ProductBrowse />} />

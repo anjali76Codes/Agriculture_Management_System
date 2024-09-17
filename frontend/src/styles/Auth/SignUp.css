@@ -1,22 +1,27 @@
-/* Container and form styling */
 .signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f7f7f7;
+    background-color: #104a1d;
+    background-image: url('../../assets/farm.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .signup-card {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.322);
     padding: 2rem;
-    border-radius: 8px;
+    border-radius: 24px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease-in-out;
 }
-
-/* Title and form elements */
+.signup-card:hover{
+    box-shadow: 0 0 10px 5px white;
+}
 .signup-title {
     font-size: 1.5rem;
     font-weight: 700;
@@ -42,12 +47,11 @@
     margin-bottom: 0.5rem;
 }
 
-.form-control {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    font-size: 1rem;
+#password, #email, #username {
+    width: 95%;
+    margin: auto;
+    border-radius: 20px;
+    background-color: #b5f8c4fb;
 }
 
 .form-control:focus {
@@ -56,23 +60,26 @@
     box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
 }
 
-/* Button */
 .signup-button {
     width: 100%;
     padding: 0.75rem;
     font-size: 1rem;
     font-weight: 600;
-    background-color: #007bff;
+    background-color: #104a1d;
     color: white;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+    border-radius: 24px;
+    border: none;
+    transition: all 0.3s ease;
 }
 
 .signup-button:hover {
-    background-color: #0056b3;
+    background-color: transparent;
+    border: 4px solid #104a1d;
+    color: black;
+    font-weight: bold;
+    padding: 0.65rem;
 }
 
-/* Footer text */
 .signup-footer {
     margin-top: 1rem;
     text-align: center;
@@ -80,13 +87,11 @@
 }
 
 .signup-link {
-    color: #007bff;
+    color: #104a1d;
     text-decoration: none;
+    font-weight: bolder;
 }
 
 .signup-link:hover {
     text-decoration: underline;
 }
-
-
-

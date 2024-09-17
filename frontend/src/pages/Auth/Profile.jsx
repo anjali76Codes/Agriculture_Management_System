@@ -12,7 +12,7 @@ function Profile() {
   const [passwordMode, setPasswordMode] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
-    email: '',
+    email: '', 
   });
   const [passwordData, setPasswordData] = useState({
     oldPassword: '',
@@ -123,9 +123,9 @@ function Profile() {
   }
 
   return (
-    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
-      <div className="bg-white p-4 rounded shadow-sm w-100" style={{ maxWidth: '600px' }}>
-        <h1 className="h3 mb-4 text-primary">Profile</h1>
+    <div className="profile-container">
+      <div className="profile-card">
+        <h1 className="text-center">Profile</h1>
         {editMode ? (
           <form onSubmit={handleSubmit} className="d-flex flex-column">
             <div className="mb-3">
@@ -213,19 +213,19 @@ function Profile() {
             <p className="mb-4">Email: {userData.email}</p>
             <button
               onClick={() => setEditMode(true)}
-              className="btn btn-primary mb-3"
+              className="bttn pbtn"
             >
               Edit Profile
             </button>
             <button
               onClick={() => setPasswordMode(true)}
-              className="btn btn-warning mb-3"
+              className="bttn pbtn"
             >
               Change Password
             </button>
             <button
               onClick={handleLogout}
-              className="btn btn-danger mb-3"
+              className="bttn pbtn"
             >
               Logout
             </button>

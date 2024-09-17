@@ -1,17 +1,22 @@
-/* LandingPage.css */
 .landing-page {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('../assets/image.png');
+    /* background-image: url('../assets/image.png'); */
     background-size: cover;
     background-position: center;
+    background-color:#104a1d;
+    flex-direction: column;
   }
   
   .hero-section {
     text-align: center;
     color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
   
   .hero-content h1 {
@@ -25,16 +30,22 @@
   }
   
   .hero-button {
-    background-color: orange;
+    background-color: transparent;
     color: white;
-    border: none;
-    padding: 15px 30px;
+    border: 3px solid white;
+    padding: 12px;
     font-size: 1.2rem;
-    border-radius: 5px;
+    font-weight: bold;
+    border-radius: 25px;
     cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease-in-out;
   }
   
   .hero-button:hover {
-    background-color: darkorange;
+    /* padding: 13px; */
+    translate: 0 4px;
+    scale: 1.1;
+    box-shadow: 0 0 5px 7px white;
   }
   

@@ -4,6 +4,7 @@ import { Container, Row, Col, Card, Alert, Spinner, Form, Pagination } from 'rea
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/Sell/ProductBrowse.css'; // Import your CSS file for custom styles
+import Navbar from '../../components/Navbar';
 
 const PAGE_SIZE = 5; // Number of products per page
 
@@ -47,7 +48,7 @@ const ProductBrowse = () => {
             }
 
             setFilteredProducts(filtered);
-            setCurrentPage(1); // Reset to the first page when filtering
+            setCurrentPage(1); 
         };
 
         filterProducts();
@@ -68,7 +69,7 @@ const ProductBrowse = () => {
     };
 
     return (
-        <Container className="mt-4">
+        <Container className="browsingContainer">
             <div className="text-center mb-4">
                 <h2>Browse Products</h2>
             </div>
@@ -78,6 +79,7 @@ const ProductBrowse = () => {
                         type="text"
                         placeholder="Search products..."
                         onChange={(e) => handleSearch(e.target.value)}
+                        className='searchbar'
                     />
                 </Form.Group>
             </Form>
@@ -91,38 +93,39 @@ const ProductBrowse = () => {
                 <Alert variant="danger">{error}</Alert>
             ) : (
                 <>
-                    <Row>
-                        {paginatedProducts.length > 0 ? (
-                            paginatedProducts.map((product) => (
-                                <Col xs={12} className="mb-4" key={product._id}>
-                                    <div className="card-container">
-                                        <img
-                                            src={product.images[0] || '/path/to/default-image.jpg'}
-                                            alt={product.name}
-                                            className="card-img"
-                                        />
-                                        <div className="card-body card-body-content">
-                                            <Card.Title>{product.name}</Card.Title>
-                                            <Card.Text>{product.description}</Card.Text>
-                                            <Card.Text>
-                                                <strong>Price: ${product.price.toFixed(2)}</strong>
-                                            </Card.Text>
-                                            <Card.Text>
-                                                <small className="text-muted">Location: {product.location}</small>
-                                            </Card.Text>
-                                            <Link to={`/products/${product._id}`} className="btn btn-primary">
-                                                View Details
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </Col>
-                            ))
-                        ) : (
-                            <Col className="text-center">
-                                <p>No products available</p>
-                            </Col>
-                        )}
-                    </Row>
+            <Row>
+                {paginatedProducts.length > 0 ? (
+                    paginatedProducts.map((product) => (
+                        <Col sm={12} md={6} className="mb-4" key={product._id}>
+                            <div className="card-container">
+                                <img
+                                    src={product.images[0] || '/path/to/default-image.jpg'}
+                                    alt={product.name}
+                                    className="card-img"
+                                />
+                                <div className="card-body card-body-content">
+                                    <Card.Title>{product.name}</Card.Title>
+                                    <Card.Text>{product.description}</Card.Text>
+                                    <Card.Text>
+                                        <strong>Price: ${product.price.toFixed(2)}</strong>
+                                    </Card.Text>
+                                    <Card.Text>
+                                        <small className="text-muted">Location: {product.location}</small>
+                                    </Card.Text>
+                                    <Link to={`/products/${product._id}`}>
+                                       <button  className="bttn"> View Details</button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </Col>
+                    ))
+                ) : (
+                    <Col className="text-center">
+                        <p>No products available</p>
+                    </Col>
+                )}
+            </Row>
+
 
                     <div className="text-center mt-4">
                         <Pagination>
