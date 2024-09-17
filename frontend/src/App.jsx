@@ -14,7 +14,7 @@ import ProductBrowse from './pages/Sell/ProductBrowse';
 import MyProducts from './pages/Sell/MyProducts';
 import ProductDetail from './pages/Sell/ProductDetail';
 import Navbar from "./components/Navbar";
-// import MyCrops from './pages/MyCrops';  // Import MyCrops component
+import MyCrops from './pages/MyCrops';  // Import MyCrops component
 
 const App = () => {
   return (
@@ -35,6 +35,7 @@ const App = () => {
             <Route path="/products/browse" element={<ProductBrowse />} />
             <Route path="/products/my-products" element={<MyProducts />} />
             <Route path="/products/:id" element={<ProductDetail />} />
+            <Route path="/my-crops" element={<MyCrops />} />
           
           </Routes>
         </div>
