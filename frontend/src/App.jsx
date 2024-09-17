@@ -13,9 +13,7 @@ import ProductForm from './pages/Sell/ProductForm';
 import ProductBrowse from './pages/Sell/ProductBrowse';
 import MyProducts from './pages/Sell/MyProducts';
 import ProductDetail from './pages/Sell/ProductDetail';
-// import RentedProductsPage from "./components/RentedProductPage";
-
-
+// import MyCrops from './pages/MyCrops';  // Import MyCrops component
 
 const App = () => {
   return (
@@ -34,8 +32,8 @@ const App = () => {
             <Route path="/products/add" element={<ProductForm />} />
             <Route path="/products/browse" element={<ProductBrowse />} />
             <Route path="/products/my-products" element={<MyProducts />} />
-            {/* <Route path="/rented-products" element={<RentedProductsPage />} /> */}
             <Route path="/products/:id" element={<ProductDetail />} />
+          
           </Routes>
         </div>
       </div>
