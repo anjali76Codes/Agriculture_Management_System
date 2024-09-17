@@ -62,10 +62,6 @@ const Payment = ({ currentUser, onPaymentSuccess, amount, product }) => {
                     setLoading(false);
                     setPaymentId(response.razorpay_payment_id);
                     // Log product details and payment ID
-                    console.log('Product Title:', product.title);
-                    console.log('Product Description:', product.description);
-                    console.log('Product Price:', product.price);
-                    console.log('Payment ID:', response.razorpay_payment_id);
                     setPaymentSuccessful(true);
                     setPaymentCompleted(true);
                     localStorage.setItem('paymentId', response.razorpay_payment_id);

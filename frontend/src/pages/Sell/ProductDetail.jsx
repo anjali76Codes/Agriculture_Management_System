@@ -116,37 +116,61 @@ const ProductDetail = () => {
         }
     };
 
-    const handlePaymentSuccess = (paymentId) => {
+    const handlePaymentSuccess = async (paymentId) => {
         if (!product) {
             console.error('Product details are not available');
             return;
         }
 
+        // Retrieve user information from localStorage
+        const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
+        const username = userInfo.username || 'Anonymous';
+        const userEmail = userInfo.email || 'Not Provided';
+
+        // Create the payment details object
         const paymentDetails = {
-            _id: product._id,
-            username: product.username,
-            name: product.name,
-            description: product.description,
-            images: product.images,
-            location: product.location,
-            price: product.price,
-            depositAmount: product.depositAmount,
-            rentalDuration: product.rentalDuration,
-            condition: product.condition,
-            available: product.available,
-            contactInfo: product.contactInfo,
-            availabilityDates: product.availabilityDates,
-            tags: product.tags,
-            type: product.type,
-            createdAt: product.createdAt,
-            updatedAt: product.updatedAt,
-            paymentId: paymentId
+            username: username,
+            email: userEmail,
+            product: {
+                _id: product._id,
+                username: product.username,
+                name: product.name,
+                description: product.description,
+                images: product.images,
+                location: product.location,
+                price: product.price,
+                depositAmount: product.depositAmount,
+                rentalDuration: product.rentalDuration,
+                condition: product.condition,
+                available: product.available,
+                contactInfo: product.contactInfo,
+                availabilityDates: product.availabilityDates,
+                tags: product.tags,
+                type: product.type,
+                createdAt: product.createdAt,
+                updatedAt: product.updatedAt,
+            },
+            paymentId: paymentId,
         };
 
-        console.log('Payment Details:', paymentDetails);
+        try {
+            await axios.post('http://localhost:3000/api/rented-products', paymentDetails, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            // Optionally handle success response
+            console.log('Payment details successfully stored.');
+        } catch (err) {
+            console.error('Error storing payment details:', err);
+            // Optionally handle error
+        }
 
         setShowPayment(false);
     };
+
+
 
     if (error) {
         return <Alert variant="danger">{error}</Alert>;

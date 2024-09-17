@@ -16,6 +16,7 @@ import MyProducts from './pages/Sell/MyProducts';
 import ProductDetail from './pages/Sell/ProductDetail';
 import PrivateRoute from "./components/PrivateRoute";
 import { useAuth } from "./contexts/AuthContext";// import RentedProductsPage from "./components/RentedProductPage";
+import RentedProducts from "./pages/Sell/RentedProducts";
 
 
 
@@ -44,6 +45,7 @@ const AppContent = () => {
           {/* Use PrivateRoute for protected routes */}
           <Route path="/dashboard" element={<PrivateRoute element={Dashboard} />} />
           <Route path="/profile" element={<PrivateRoute element={Profile} />} />
+          <Route path="/rented-products" element={<PrivateRoute element={RentedProducts} />} />
           <Route path="/products/add" element={<PrivateRoute element={ProductForm} />} />
           <Route path="/products/my-products" element={<PrivateRoute element={MyProducts} />} />
           <Route path="/products/:id" element={<PrivateRoute element={ProductDetail} />} />

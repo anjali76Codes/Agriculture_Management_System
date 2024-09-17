@@ -1,4 +1,3 @@
-// src/pages/Auth/SignUp.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -34,9 +33,16 @@ function SignUp() {
             const response = await axios.post('http://localhost:3000/api/signup', formData);
 
             if (response.status === 201) {
-                const { token, username } = response.data; // Expect username in response
-                localStorage.setItem('token', token);
-                localStorage.setItem('username', username); // Store username
+                const { token, username } = response.data; // Expect username and token in response
+
+                // Store all information in a single object
+                const userInfo = {
+                    token,
+                    username,
+                    email: formData.email
+                };
+
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
                 login(token); // Set authentication state
                 navigate('/'); // Redirect to home
             }
