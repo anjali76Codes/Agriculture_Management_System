@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import '../styles/MyCrops.css'; // Ensure the path is correct
 
@@ -7,6 +7,9 @@ const MyCrops = () => {
   const [name, setName] = useState('');
   const [crops, setCrops] = useState([]);
   const [preview, setPreview] = useState('');
+  
+  // Create a ref to access the file input
+  const fileInputRef = useRef(null);
 
   // Handle file change
   const handleFileChange = (e) => {
@@ -35,6 +38,18 @@ const MyCrops = () => {
         }
       });
       alert('Image uploaded successfully!');
+
+      // Reset input fields and preview
+      setFile(null);
+      setName('');
+      setPreview('');
+
+      // Clear file input manually using ref
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+
+      // Refetch crops to update the list
       fetchCrops();
     } catch (error) {
       console.error('Error uploading image:', error);
@@ -88,6 +103,7 @@ const MyCrops = () => {
         />
         <input
           type="file"
+          ref={fileInputRef} // Attach ref to the file input
           onChange={handleFileChange}
           accept="image/*"
           required
