@@ -126,7 +126,7 @@ const ProductForm = () => {
             <h2 className="text-center mb-4">{t('form.title')}</h2>
             <Form onSubmit={handleSubmit}>
                 {submitMessage && (
-                    <Alert variant={submitMessage.includes(t('success.productAdded')) ? 'success' : 'danger'}>
+                    <Alert variant={submitMessage.includes("Product added Successfully") ? 'success' : 'danger'}>
                         {submitMessage}
                     </Alert>
                 )}
