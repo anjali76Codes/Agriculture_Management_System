@@ -55,16 +55,99 @@
     "year": "year",
     "price": "Price",
     "location": "Location",
-    "type": "Type",
-    "notSpecified": "Not specified",
+    "type": "Type"
+  },
+  "browse": {
+    "title": "Browse Products",
+    "searchPlaceholder": "Search products...",
+    "loading": "Loading...",
+    "error": "Error fetching products",
+    "noProducts": "No products available",
+    "viewDetails": "View Details"
+  },
+  "landing": {
+    "title": "Revolutionize Your Farming",
+    "description": "Advanced management tools for modern farmers. Optimize your crops and streamline operations with ease.",
+    "browseProducts": "Browse Products",
+    "getStarted": "Get Started!"
+  },
+  "error": {
+    "userNotAuthenticated": "User not authenticated.",
+    "fetchProduct": "Error fetching product.",
+    "noProductFound": "No product found.",
+    "submitReview": "Error submitting review."
+  },
+  "alert": {
+    "maxReviews": "You can only submit up to two reviews for this product.",
+    "productNotAvailable": "Product is not available for rent."
+  },
+  "loading": "Loading...",
+  "loading.productDetails": "Loading product details...",
+  "product": {
+    "defaultName": "Product Name",
+    "noDescription": "No Description",
+    "location": "Location",
+    "notSpecified": "Not Specified",
+    "typeNotSpecified": "Type Not Specified",
+    "rentalDuration": "Rental Duration",
     "availability": "Availability",
     "available": "Available",
     "notAvailable": "Not Available",
-    "rentNow": "Rent Now",
-    "enlargedImage": "Enlarged",
-    "close": "Close",
+    "depositAmount": "Deposit Amount",
+    "rentalTerms": "Rental Terms",
+    "condition": "Condition",
+    "averageRating": "Average Rating",
+    "reviews": "Reviews",
+    "noReviews": "No reviews yet.",
+    "writeReview": "Write a Review",
+    "rating": "Rating",
+    "review": "Review",
+    "rentNow": "Rent Now"
+  },
+  "button": {
+    "showMore": "Show More",
+    "showLess": "Show Less",
+    "submitReview": "Submit Review",
+    "editProfile": "Edit Profile",
+    "changePassword": "Change Password",
+    "logout": "Logout",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel"
+  },
+  "stars": "Stars",
+  "sidebar": {
     "browseProducts": "Browse Products",
-    "viewDetails": "View Details",
-    "noProductsAvailable": "No products available."
+    "dashboard": "Dashboard",
+    "myCrops": "My Crops",
+    "rentals": "Rentals",
+    "cropMarket": "Crop Market",
+    "myProfile": "My Profile",
+    "about": "About"
+  },
+  "navbar": {
+    "home": "Home",
+    "about": "About",
+    "profile": "Profile"
+  },
+  "profile": {
+    "title": "Profile",
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "loading": "Loading...",
+    "fetchError": "Failed to fetch user data. Please try again.",
+    "updateError": "Failed to update user data. Please try again.",
+    "currentPassword": "Current Password",
+    "currentPasswordPlaceholder": "Enter your current password",
+    "newPassword": "New Password",
+    "newPasswordPlaceholder": "Enter a new password",
+    "confirmPassword": "Confirm New Password",
+    "confirmPasswordPlaceholder": "Confirm your new password",
+    "updatePassword": "Update Password",
+    "passwordMismatch": "Passwords do not match.",
+    "passwordSuccess": "Password updated successfully.",
+    "passwordUpdateError": "Failed to update password. Please try again.",
+    "welcome": "Welcome"
   }
 }
