@@ -1,22 +1,8 @@
 const Crop = require('../models/cropModel');
-
-// Import Gemini API setup
 const { runGeminiChat } = require('../utils/GeminiApi');
 
 exports.uploadCrop = async (req, res) => {
   try {
-    // Store crop with image, name, and stage
-    const newCrop = new Crop({
-      name: req.body.name,
-      stage: req.body.stage,
-      image: {
-        data: req.file.buffer,
-        contentType: req.file.mimetype
-      }
-    });
-
-    await newCrop.save();
-
     // Generate guidance for the next stages using the Gemini API
     const prompt = `
       Provide guidance on the following crop and stage:
@@ -30,17 +16,29 @@ exports.uploadCrop = async (req, res) => {
       4. Tips for maximizing yield and quality
     `;
     
-    const guidance = await runGeminiChat(req.body.name, req.body.stage, '');  // Updated function call to include name and stage
+    const guidance = await runGeminiChat(req.body.name, req.body.stage, prompt);  // Generate guidance using Gemini
+
+    // Store crop with image, name, stage, and guidance
+    const newCrop = new Crop({
+      name: req.body.name,
+      stage: req.body.stage,
+      image: {
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      },
+      guidance: guidance  // Store guidance in the database
+    });
+
+    await newCrop.save();
 
     res.status(201).json({
-      message: 'Image and stage uploaded successfully!',
-      guidance: guidance  // Send guidance to the frontend
+      message: 'Image, stage, and guidance uploaded successfully!',
+      crop: newCrop
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-
 
 // Get all crops
 exports.getAllCrops = async (req, res) => {

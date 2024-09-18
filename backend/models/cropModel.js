@@ -9,10 +9,13 @@ const cropSchema = new mongoose.Schema({
     data: Buffer,
     contentType: String
   },
-  stage: {  // Add stage field
+  stage: {
     type: String,
     required: true,
-    enum: ['Seed', 'Germination', 'Vegetative', 'Flowering', 'Harvest']  // Define valid stages
+    enum: ['Seed', 'Germination', 'Vegetative', 'Flowering', 'Harvest']
+  },
+  guidance: {
+    type: String  // Store guidance as a string
   }
 });
 
