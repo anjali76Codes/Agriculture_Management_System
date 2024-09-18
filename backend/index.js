@@ -38,7 +38,7 @@ app.use('/api/payment', paymentRoutes);
 app.use('/api/rented-products', rentedProductsRoute);
 
 
-app.use('/api/crops', cropRoutes); 
+app.use('/api/crops', cropRoutes);
 
 
 mongoose.connect(process.env.MONGO_URL)
