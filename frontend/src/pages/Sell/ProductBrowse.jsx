@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Alert, Spinner, Form, Pagination, Dropdown } from 'react-bootstrap';
+import { Container, Row, Col, Card, Alert, Spinner, Form, Pagination } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/Sell/ProductBrowse.css';
@@ -77,16 +77,6 @@ const ProductBrowse = () => {
             <div className="text-center mb-4">
                 <h2>{t('browse.title')}</h2>
             </div>
-            {/* <Dropdown className="mb-3">
-                <Dropdown.Toggle variant="success" id="language-dropdown">
-                    {t('language')}
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => handleLanguageChange('en')}>English</Dropdown.Item>
-                    <Dropdown.Item onClick={() => handleLanguageChange('hi')}>हिंदी</Dropdown.Item>
-                    <Dropdown.Item onClick={() => handleLanguageChange('mr')}>मराठी</Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown> */}
             <Form className="mb-4">
                 <Form.Group controlId="search">
                     <Form.Control
@@ -121,10 +111,10 @@ const ProductBrowse = () => {
                                             <Card.Title>{product.name}</Card.Title>
                                             <Card.Text>{product.description}</Card.Text>
                                             <Card.Text>
-                                                <strong>Price: ${product.price.toFixed(2)}</strong>
+                                                <strong>{t('browse.price')}: Rs. {product.price.toFixed(2)}</strong>
                                             </Card.Text>
                                             <Card.Text>
-                                                <small className="text-muted">Location: {product.location}</small>
+                                                <small className="text-muted">{t('browse.location')}: {product.location}</small>
                                             </Card.Text>
                                             <Link to={`/products/${product._id}`}>
                                                 <button className="bttn">{t('browse.viewDetails')}</button>

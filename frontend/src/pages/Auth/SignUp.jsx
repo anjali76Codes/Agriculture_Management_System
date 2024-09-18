@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import '../../styles/Auth/SignUp.css'
+import { useTranslation } from 'react-i18next'; // Import useTranslation
+import '../../styles/Auth/SignUp.css';
 
 function Signup() {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { t } = useTranslation(); // Initialize useTranslation
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -24,7 +26,7 @@ function Signup() {
         setError('');
 
         if (!formData.username || !formData.email || !formData.password) {
-            setError('Please fill in all fields');
+            setError(t('signup.fillFields')); // Use translation for error message
             return;
         }
 
@@ -38,50 +40,47 @@ function Signup() {
             }
         } catch (error) {
             if (error.response) {
-                setError(error.response.data.message || 'An error occurred. Please try again.');
+                setError(error.response.data.message || t('signup.error')); // Use translation for error message
             } else if (error.request) {
-                setError('No response from the server. Please try again.');
+                setError(t('signup.noResponse'));
             } else {
-                setError('An error occurred. Please try again.');
+                setError(t('signup.error'));
             }
         }
     };
 
     return (
-    <div className="signup-container">
+        <div className="signup-container">
             <div className="signup-card">
-                <h1 className="signup-title">SIGNUP</h1>
+                <h1 className="signup-title">{t('signup.title')}</h1>
                 {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        {/* <label htmlFor="username" className="form-label">Username</label> */}
                         <input
                             type="text"
                             className="form-control"
                             id="username"
-                            placeholder="Username"
+                            placeholder={t('signup.usernamePlaceholder')}
                             onChange={handleChange}
                             value={formData.username}
                         />
                     </div>
                     <div className="form-group">
-                        {/* <label htmlFor="email" className="form-label">Email</label> */}
                         <input
                             type="email"
                             className="form-control"
                             id="email"
-                            placeholder="Email"
+                            placeholder={t('signup.emailPlaceholder')}
                             onChange={handleChange}
                             value={formData.email}
                         />
                     </div>
                     <div className="form-group">
-                        {/* <label htmlFor="password" className="form-label">Password</label> */}
                         <input
                             type="password"
                             className="form-control"
                             id="password"
-                            placeholder="Password"
+                            placeholder={t('signup.passwordPlaceholder')}
                             onChange={handleChange}
                             value={formData.password}
                         />
@@ -90,11 +89,11 @@ function Signup() {
                         type="submit"
                         className="signup-button"
                     >
-                        Signup
+                        {t('signup.buttonText')}
                     </button>
                 </form>
                 <p className="signup-footer">
-                    Already have an account? <Link to="/signin" className="signup-link">Sign in</Link>
+                    {t('signup.footerText')} <Link to="/signin" className="signup-link">{t('signup.signinLink')}</Link>
                 </p>
             </div>
         </div>

@@ -6,7 +6,7 @@
     "nameHint": "यह दूसरों को दिखाई देगा",
     "productPrice": "कीमत",
     "enterProductPrice": "उत्पाद की कीमत दर्ज करें",
-    "priceHint": "USD में कीमत दर्ज करें",
+    "priceHint": "Rs. में कीमत दर्ज करें।",
     "productDescription": "विवरण",
     "enterProductDescription": "उत्पाद का विस्तृत विवरण दर्ज करें",
     "productCategory": "श्रेणी",
@@ -57,14 +57,18 @@
     "location": "स्थान",
     "type": "प्रकार"
   },
-  "browse": {
-    "title": "उत्पाद ब्राउज़ करें",
+ "browse": {
+    "title": "उत्पाद खोजें",
     "searchPlaceholder": "उत्पाद खोजें...",
     "loading": "लोड हो रहा है...",
-    "error": "उत्पाद लाने में त्रुटि",
+    "error": "उत्पाद प्राप्त करने में त्रुटि",
     "noProducts": "कोई उत्पाद उपलब्ध नहीं है",
-    "viewDetails": "विवरण देखें"
-  },
+    "viewDetails": "तपशील देखें",
+    "price": "कीमत",
+    "location": "स्थान"
+}
+
+,
   "landing": {
     "title": "आपकी खेती का क्रांतिकारी रूपांतरण",
     "description": "आधुनिक किसानों के लिए उन्नत प्रबंधन उपकरण। अपने फसलों का अनुकूलन करें और संचालन को सरल बनाएं।",
@@ -149,5 +153,91 @@
     "passwordSuccess": "पासवर्ड सफलतापूर्वक अपडेट किया गया.",
     "passwordUpdateError": "पासवर्ड अपडेट करने में विफल. कृपया फिर से प्रयास करें.",
     "welcome": "स्वागत है"
-  }
+  },
+    "signin": {
+      "title": "साइन इन करें",
+      "fillFields": "कृपया सभी फ़ील्ड भरें",
+      "error": "एक त्रुटि हुई। कृपया पुनः प्रयास करें।",
+      "noResponse": "सर्वर से कोई प्रतिक्रिया नहीं। कृपया पुनः प्रयास करें।",
+      "emailPlaceholder": "ईमेल",
+      "passwordPlaceholder": "पासवर्ड",
+      "buttonText": "साइन इन करें",
+      "footerText": "क्या आपके पास खाता नहीं है?",
+      "signupLink": "साइन अप करें"
+    },
+    "signup": {
+      "title": "साइन अप करें",
+      "fillFields": "कृपया सभी फ़ील्ड भरें",
+      "error": "एक त्रुटि हुई। कृपया पुनः प्रयास करें।",
+      "noResponse": "सर्वर से कोई प्रतिक्रिया नहीं। कृपया पुनः प्रयास करें।",
+      "usernamePlaceholder": "उपयोगकर्ता नाम",
+      "emailPlaceholder": "ईमेल",
+      "passwordPlaceholder": "पासवर्ड",
+      "buttonText": "साइन अप करें",
+      "footerText": "क्या आपके पास खाता है?",
+      "signinLink": "साइन इन करें"
+    },
+      "dashboard": {
+        "title": "किसानों का डैशबोर्ड",
+        "currentWeatherTab": "वर्तमान मौसम",
+        "forecastTab": "5-दिन की भविष्यवाणी",
+        "salesMetricsTab": "बिक्री मेट्रिक्स",
+        "currentWeatherTitle": "वर्तमान मौसम",
+        "temperatureLabel": "तापमान",
+        "weatherLabel": "मौसम",
+        "humidityLabel": "नमी",
+        "windSpeedLabel": "हवा की गति",
+        "pressureLabel": "दबाव",
+        "cloudsLabel": "बादल",
+        "forecastTitle": "5-दिन का मौसम पूर्वानुमान",
+        "temperatureChartLabel": "तापमान (°C)",
+        "temperatureForecastDescription": "यह रेखा चार्ट अगले 5 दिनों के लिए तापमान पूर्वानुमान दिखाता है।",
+        "salesMetricsDoughnutTitle": "बिक्री मेट्रिक्स (डोनट चार्ट)",
+        "salesMetricsDescription": "यह डोनट चार्ट कुल बिक्री, किराए के लिए उत्पादों और औसत समीक्षाओं के वितरण को दर्शाता है।",
+        "rentReviewsTitle": "किराए के उत्पाद बनाम औसत समीक्षाएँ (बार चार्ट)",
+        "rentReviewsDescription": "यह बार चार्ट किराए के उत्पादों की संख्या की तुलना औसत समीक्षाओं से करता है।",
+        "reviewsVsSalesTitle": "औसत समीक्षाएँ बनाम कुल बिक्री (स्कैटर प्लॉट)",
+        "reviewsVsSalesDescription": "यह स्कैटर प्लॉट औसत समीक्षाओं और कुल बिक्री के बीच संबंध दिखाता है।",
+        "totalSalesOverTimeTitle": "समय के साथ कुल बिक्री (रेखा चार्ट)",
+        "totalSalesOverTimeDescription": "यह रेखा चार्ट समय के साथ कुल बिक्री को ट्रैक करता है, प्रवृत्तियों और उतार-चढ़ाव को दिखाता है।",
+        "usernameUndefined": "उपयोगकर्ता नाम निर्दिष्ट नहीं है।",
+        "salesMetricsFetchError": "बिक्री मेट्रिक्स लाने में त्रुटि।",
+        "weatherFetchError": "मौसम डेटा लाने में त्रुटि। कृपया फिर से प्रयास करें।",
+        "currentWeatherFetchError": "वर्तमान मौसम डेटा लाने में त्रुटि।",
+        "geolocationNotSupported": "आपके ब्राउज़र द्वारा भू-स्थानिकी का समर्थन नहीं किया जाता है।",
+        "locationRetrievalError": "स्थान प्राप्त करने में त्रुटि। कृपया सुनिश्चित करें कि स्थान सेवाएँ सक्षम हैं।"
+      },
+        "myCrops": {
+          "uploadCropTitle": "फसल छवि अपलोड करें",
+          "provideDetails": "मार्गदर्शन के लिए फसल का नाम और चरण दोनों प्रदान करें।",
+          "noGuidance": "इस फसल और चरण के लिए इस समय कोई विशेष मार्गदर्शन उपलब्ध नहीं है।",
+          "uploadSuccess": "छवि और चरण सफलतापूर्वक अपलोड हो गए!",
+          "uploadError": "फसल अपलोड करते समय त्रुटि हुई। कृपया फिर से प्रयास करें।",
+          "deleteSuccess": "फसल सफलतापूर्वक हटा दी गई!",
+          "cropNamePlaceholder": "फसल का नाम",
+          "selectStage": "फसल चरण चुनें",
+          "stageSeed": "बीज",
+          "stageGermination": "अंकुरण",
+          "stageVegetative": "वनस्पति",
+          "stageFlowering": "फूलने वाला",
+          "stageHarvest": "कटाई",
+          "uploadButton": "अपलोड करें",
+          "imagePreviewTitle": "छवि पूर्वावलोकन:",
+          "uploadedCropsTitle": "अपलोड की गई फसलें",
+          "stageLabel": "चरण",
+          "deleteButton": "हटाएं",
+          "guidanceTitle": "अगले चरण का मार्गदर्शन:"
+        }      ,
+          "myProducts": {
+            "title": "मेरी उत्पादने",
+            "userNotAuthenticated": "उपयोगकर्ता प्रमाणीकरण नहीं हुआ है।",
+            "fetchError": "आपके उत्पाद लाने में विफल रहा।",
+            "loading": "लोड हो रहा है...",
+            "noProducts": "कोई उत्पाद उपलब्ध नहीं है। अब अपना किराया लें!",
+            "price": "कीमत",
+            "location": "स्थान",
+            "addProductButton": "नया उत्पाद जोड़ें"
+          }        
+    
+  
 }
