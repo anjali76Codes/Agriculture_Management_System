@@ -1,23 +1,111 @@
-/* Dashboard.css */
-
-/* Container Styles */
+/* General Container Styles */
 .container {
-  padding: 0 15px;
+  padding: 15px;
+}
+.dashboardh1{
+  background-color: #28a745;
+  padding: 10px;
+  width: 100%;
+  border-radius: 24px;
+  color: white;
+  font-weight: bold;
+}
+.card {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 3px solid #104a1d;
+}
+.card:hover{
+  box-shadow: 0 0 7px 2px #104a1d;
+}
+.weathercontainer{
+  background-image: url('../assets/bg.jpg');
+  background-size: cover;
+  padding: 20px;
+}
+.weathercontainer .card-body{
+  background-color: #d1f1d96a;
+  backdrop-filter: blur(15px);
+  color: white;
+  border-radius: 10px;
+}
+.weathercontainer h2{
+  color: white;
+  font-weight: bolder;
+}
+.weathercontainer .card-text{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.weathercontainer img{
+  width: 150px;
+  height: 150px;
+  align-self: center;
+}
+.card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
 }
 
-/* Card Styles */
-.weather-card,
-.sales-card {
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+/* Spinner Alignment */
+.spinner-border {
+  display: block;
+  margin: 50px auto;
 }
 
 /* Table Styles */
 .table {
   background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Chart Styles */
+.table th,
+.table td {
+  padding: 10px;
+  text-align: center;
+}
+
+/* Chart Container Styles */
 canvas {
   max-height: 400px;
+  margin-bottom: 30px;
+}
+
+/* Tab Navigation Styles */
+.nav-pills{
+  width: 100%;
+}
+.nav-pills .nav-link.active {
+  background-color: #28a745;
+}
+
+.nav-pills .nav-link {
+  color: #000;
+  font-weight: 500;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.nav-pills .nav-link:hover {
+  background-color: #218838;
+  color: white;
+}
+
+/* Alignment for Pills */
+.nav {
+  margin-bottom: 20px;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .card h2 {
+    font-size: 1.25rem;
+  }
+  
+  canvas {
+    max-height: 300px;
+  }
 }

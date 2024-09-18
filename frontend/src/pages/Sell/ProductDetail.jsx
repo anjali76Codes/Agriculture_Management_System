@@ -183,7 +183,11 @@ const ProductDetail = () => {
                                 <small className="text-muted">{t('product.location')}: {product.location || t('product.notSpecified')}</small>
                             </Card.Text>
                             <Card.Text>
+
+                                <Badge bg="info" className='badge'>{product.type || 'Type Not Specified'}</Badge>
+
                                 <Badge bg="info">{product.type || t('product.typeNotSpecified')}</Badge>
+
                             </Card.Text>
                             <Card.Text>
                                 <strong>{t('product.rentalDuration')}: {product.rentalDuration || t('product.notSpecified')}</strong>
@@ -207,8 +211,13 @@ const ProductDetail = () => {
                                     <strong>{t('product.condition')}: {product.condition}</strong>
                                 </Card.Text>
                             )}
+
+                            <Button variant="primary" className="w-100 bttn" onClick={handleRentNow} disabled={!product.available}>
+                                Rent Now
+
                             <Button variant="primary" className="w-100" onClick={handleRentNow} disabled={!product.available}>
                                 {t('product.rentNow')}
+
                             </Button>
                         </Card.Body>
                     </Card>
@@ -233,7 +242,7 @@ const ProductDetail = () => {
 
             <Row className="mb-4">
                 <Col>
-                    <Card className="shadow-sm">
+                    <Card className="shadow-sm reviews">
                         <Card.Body>
                             <Card.Title>{t('product.averageRating')}</Card.Title>
                             <StarRating rating={averageRating} size={24} readonly />
@@ -281,8 +290,13 @@ const ProductDetail = () => {
                                         required
                                     />
                                 </Form.Group>
+
+                                <Button type="submit" variant="primary" className="mt-2 bttn">
+                                    Submit Review
+
                                 <Button type="submit" variant="primary" className="mt-2">
                                     {t('button.submitReview')}
+
                                 </Button>
                             </Form>
                         </Card.Body>

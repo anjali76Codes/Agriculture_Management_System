@@ -101,7 +101,7 @@ const MyProducts = () => {
                         )}
                     </Row>
                     <div className="text-center mt-4">
-                        <Button variant="primary" onClick={handleAddProductClick}>
+                        <Button variant="primary" className='bttn' onClick={handleAddProductClick}>
                             Add a New Product
                         </Button>
                     </div>

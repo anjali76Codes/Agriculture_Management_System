@@ -144,8 +144,8 @@ const Dashboard = () => {
       {
         label: 'Temperature (°C)',
         data: dailyForecasts.map(day => day.temp.toFixed(2)),
-        borderColor: 'rgba(75,192,192,1)',
-        backgroundColor: 'rgba(75,192,192,0.2)',
+        borderColor: 'rgb(16, 92, 21)',
+        backgroundColor: 'rgb(32, 186, 42)',
         borderWidth: 2
       }
     ]
@@ -225,7 +225,7 @@ const Dashboard = () => {
 
   return (
     <Container className="mt-4">
-      <h1 className="text-center mb-4">Farmers' Dashboard</h1>
+      <h1 className="text-center mb-4 dashboardh1">Farmers' Dashboard</h1>
 
       {loading ? (
         <div className="text-center">
@@ -254,16 +254,18 @@ const Dashboard = () => {
                 <Tab.Content>
                   <Tab.Pane eventKey="currentWeather">
                     {currentWeather && (
-                      <Card className="mb-4">
+                      <Card className="weathercontainer mb-4">
                         <Card.Body>
                           <h2>Current Weather</h2>
                           <Card.Text>
-                            <p><strong>Temperature:</strong> {(currentWeather.main.temp - 273.15).toFixed(2)} °C</p>
-                            <p><strong>Weather:</strong> {currentWeather.weather[0].description}</p>
-                            <p><strong>Humidity:</strong> {currentWeather.main.humidity}%</p>
-                            <p><strong>Wind Speed:</strong> {currentWeather.wind.speed} m/s</p>
-                            <p><strong>Pressure:</strong> {currentWeather.main.pressure} hPa</p>
-                            <p><strong>Clouds:</strong> {currentWeather.clouds.all}%</p>
+                            <section>
+                              <p><strong>Temperature:</strong> {(currentWeather.main.temp - 273.15).toFixed(2)} °C</p>
+                              <p><strong>Weather:</strong> {currentWeather.weather[0].description}</p>
+                              <p><strong>Humidity:</strong> {currentWeather.main.humidity}%</p>
+                              <p><strong>Wind Speed:</strong> {currentWeather.wind.speed} m/s</p>
+                              <p><strong>Pressure:</strong> {currentWeather.main.pressure} hPa</p>
+                              <p><strong>Clouds:</strong> {currentWeather.clouds.all}%</p>
+                            </section>
                             <img src={`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`} alt="weather icon" />
                           </Card.Text>
                         </Card.Body>
