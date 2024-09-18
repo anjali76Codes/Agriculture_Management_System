@@ -9,7 +9,11 @@ const cropSchema = new mongoose.Schema({
     data: Buffer,
     contentType: String
   },
-
+  stage: {  // Add stage field
+    type: String,
+    required: true,
+    enum: ['Seed', 'Germination', 'Vegetative', 'Flowering', 'Harvest']  // Define valid stages
+  }
 });
 
 module.exports = mongoose.model('Crop', cropSchema);

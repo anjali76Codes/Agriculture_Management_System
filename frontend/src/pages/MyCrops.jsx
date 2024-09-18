@@ -5,10 +5,11 @@ import '../styles/MyCrops.css'; // Ensure the path is correct
 const MyCrops = () => {
   const [file, setFile] = useState(null);
   const [name, setName] = useState('');
+  const [stage, setStage] = useState(''); 
   const [crops, setCrops] = useState([]);
   const [preview, setPreview] = useState('');
+  const [guidance, setGuidance] = useState(''); // New state for guidance
   
-  // Create a ref to access the file input
   const fileInputRef = useRef(null);
 
   // Handle file change
@@ -23,45 +24,61 @@ const MyCrops = () => {
     setName(e.target.value);
   };
 
+  // Handle stage change
+  const handleStageChange = (e) => {
+    setStage(e.target.value);
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!stage || !name) {
+      alert('Please provide both the crop name and stage for guidance.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('image', file);
     formData.append('name', name);
+    formData.append('stage', stage); // Add stage to form data
 
     try {
-      await axios.post('http://localhost:3000/api/crops/upload', formData, {
+      const response = await axios.post('http://localhost:3000/api/crops/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${localStorage.getItem('token')}` // Add token if required
         }
       });
-      alert('Image uploaded successfully!');
+      
+      // Fetch guidance from the response (pass both crop name and stage)
+      const { guidance } = response.data;
+      setGuidance(guidance || 'No specific guidance available at this time for this crop and stage.');
 
-      // Reset input fields and preview
+      alert('Image and stage uploaded successfully!');
+      
+      // Reset form
       setFile(null);
       setName('');
+      setStage('');
       setPreview('');
-
-      // Clear file input manually using ref
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
-
-      // Refetch crops to update the list
+      
+      // Fetch updated crops list
       fetchCrops();
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error('Error uploading image and stage:', error);
+      alert('There was an error uploading the crop. Please try again.');
     }
   };
 
-  // Fetch crops from the server
+  // Fetch crops from the API
   const fetchCrops = async () => {
     try {
       const response = await axios.get('http://localhost:3000/api/crops', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}` // Add token if required
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
       setCrops(response.data);
@@ -70,12 +87,12 @@ const MyCrops = () => {
     }
   };
 
-  // Handle delete crop
+  // Handle crop deletion
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:3000/api/crops/${id}`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}` // Add token if required
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
       alert('Crop deleted successfully!');
@@ -85,7 +102,7 @@ const MyCrops = () => {
     }
   };
 
-  // Use useEffect to fetch crops on component mount
+  // Fetch crops on component mount
   useEffect(() => {
     fetchCrops();
   }, []);
@@ -103,14 +120,24 @@ const MyCrops = () => {
         />
         <input
           type="file"
-          ref={fileInputRef} // Attach ref to the file input
+          ref={fileInputRef}
           onChange={handleFileChange}
           accept="image/*"
           required
         />
+        {/* Stage dropdown */}
+        <select value={stage} onChange={handleStageChange} required>
+          <option value="">Select Crop Stage</option>
+          <option value="Seed">Seed</option>
+          <option value="Germination">Germination</option>
+          <option value="Vegetative">Vegetative</option>
+          <option value="Flowering">Flowering</option>
+          <option value="Harvest">Harvest</option>
+        </select>
         <button type="submit">Upload</button>
       </form>
 
+      {/* Image Preview Section */}
       {preview && (
         <div className="image-preview">
           <h3>Image Preview:</h3>
@@ -118,11 +145,13 @@ const MyCrops = () => {
         </div>
       )}
 
-      <h2>Uploaded Crops</h2>
+
+
+<h2>Uploaded Crops</h2>
       <div className="uploaded-crops">
         {crops.map((crop) => (
           <div key={crop._id} className="crop-item">
-            <h3>{crop.name}</h3>
+            <h3>{crop.name} - Stage: {crop.stage}</h3>
             <img
               src={`http://localhost:3000/api/crops/${crop._id}`}
               alt={crop.name}
@@ -136,6 +165,16 @@ const MyCrops = () => {
           </div>
         ))}
       </div>
+
+      {/* Guidance Section */}
+      {guidance && (
+        <div className="guidance-section">
+          <h3>Next Stage Guidance:</h3>
+          <p>{guidance}</p>
+        </div>
+      )}
+
+      
     </div>
   );
 };
