@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaHome, FaInfoCircle, FaUser, FaBars, FaTimes, FaTachometerAlt, FaShoppingCart, FaSeedling, FaWarehouse } from 'react-icons/fa';
+import { FaBars, FaTimes, FaTachometerAlt, FaShoppingCart, FaSeedling, FaWarehouse, FaUser, FaInfoCircle, FaHome } from 'react-icons/fa';
 import { Button, Nav } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
+import { useTranslation } from 'react-i18next'; // Import useTranslation for multilingual support
 import '../styles/Sidebar.css';
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(true);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth(); // Get authentication status
+  const { t } = useTranslation(); // Initialize translation function
 
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
@@ -18,38 +20,49 @@ const Sidebar = () => {
       <Button onClick={toggleSidebar} className="sidebar-toggle">
         {collapsed ? <FaBars /> : <FaTimes />}
       </Button>
-      <Nav className="bar-column">
+      <Nav className="flex-column">
+        {/* Home Link */}
+        <Nav.Link as={NavLink} to="/">
+          <FaHome />
+          <span className="nav-text">{!collapsed && ` ${t('sidebar.home')}`}</span>
+        </Nav.Link>
+        
+        {/* Browse Products Link */}
         <Nav.Link as={NavLink} to="/browse">
           <FaShoppingCart />
-          <span className="nav-text">{!collapsed && ' Browse Products'}</span>
+          <span className="nav-text">{!collapsed && ` ${t('sidebar.browseProducts')}`}</span>
         </Nav.Link>
+        
+        {/* Authenticated Routes */}
         {isAuthenticated && (
           <>
             <Nav.Link as={NavLink} to="/dashboard">
               <FaTachometerAlt />
-              <span className="nav-text">{!collapsed && ' Dashboard'}</span>
+              <span className="nav-text">{!collapsed && ` ${t('sidebar.dashboard')}`}</span>
             </Nav.Link>
             <Nav.Link as={NavLink} to="/my-crops">
               <FaSeedling />
-              <span className="nav-text">{!collapsed && ' My Crops'}</span>
+              <span className="nav-text">{!collapsed && ` ${t('sidebar.myCrops')}`}</span>
             </Nav.Link>
             <Nav.Link as={NavLink} to="/products/my-products">
               <FaWarehouse />
-              <span className="nav-text">{!collapsed && ' Rentals'}</span>
+              <span className="nav-text">{!collapsed && ` ${t('sidebar.rentals')}`}</span>
             </Nav.Link>
             <Nav.Link as={NavLink} to="/crop-market">
               <FaShoppingCart />
-              <span className="nav-text">{!collapsed && ' Crop Market'}</span>
+              <span className="nav-text">{!collapsed && ` ${t('sidebar.cropMarket')}`}</span>
             </Nav.Link>
             <Nav.Link as={NavLink} to="/profile">
               <FaUser />
-              <span className="nav-text">{!collapsed && ' My Profile'}</span>
+              <span className="nav-text">{!collapsed && ` ${t('sidebar.myProfile')}`}</span>
             </Nav.Link>
           </>
         )}
+
+        {/* About Link */}
         <Nav.Link as={NavLink} to="/about">
           <FaInfoCircle />
-          <span className="nav-text">{!collapsed && ' About'}</span>
+          <span className="nav-text">{!collapsed && ` ${t('sidebar.about')}`}</span>
         </Nav.Link>
       </Nav>
     </div>

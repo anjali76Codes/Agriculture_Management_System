@@ -3,7 +3,6 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext"; // Import AuthProvider
 import Sidebar from "./components/Sidebar";
-import Home from "./pages/Home";
 import LandingPage from "./pages/LandingPage";
 import About from "./pages/About";
 import Profile from "./pages/Auth/Profile";
@@ -14,12 +13,13 @@ import ProductForm from './pages/Sell/ProductForm';
 import ProductBrowse from './pages/Sell/ProductBrowse';
 import MyProducts from './pages/Sell/MyProducts';
 import ProductDetail from './pages/Sell/ProductDetail';
+import RentedProducts from "./pages/Sell/RentedProducts"; // Added RentedProducts
 import PrivateRoute from "./components/PrivateRoute";
-import RentedProducts from "./pages/Sell/RentedProducts";
-import MyCrops from './pages/MyCrops';
+import MyCrops from './pages/MyCrops';  // Import MyCrops component
+import Navbar from "./components/Navbar"; // Use custom Navbar component
+import { Dropdown } from 'react-bootstrap'; // Import Dropdown for language selection
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 import { useAuth } from "./contexts/AuthContext";
-// import { Navbar } from "react-bootstrap";
-import Navbar from "./components/Navbar";
 
 const App = () => {
   return (
@@ -32,30 +32,49 @@ const App = () => {
 };
 
 const AppContent = () => {
+  const { t, i18n } = useTranslation(); // Get translation function and i18n instance
   const { isAuthenticated } = useAuth();
+
+  const handleLanguageChange = (lng) => {
+    i18n.changeLanguage(lng); // Change the language
+  };
 
   return (
     <div className="app-container">
       {isAuthenticated && <Sidebar />}
-      <Navbar />
+      <Navbar /> {/* Show Navbar regardless of authentication */}
+      
+      <div className="language-dropdown mb-4">
+        <Dropdown>
+          <Dropdown.Toggle variant="success" id="language-dropdown">
+            {t('language')}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleLanguageChange('en')}>English</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleLanguageChange('hi')}>हिंदी</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleLanguageChange('mr')}>मराठी</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
+
       <div className="content">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/browse" element={<ProductBrowse />} />
           <Route path="/about" element={<About />} />
 
-          {/* Use PrivateRoute for protected routes */}
+          {/* Protected Routes */}
           <Route path="/dashboard" element={<PrivateRoute element={Dashboard} />} />
           <Route path="/profile" element={<PrivateRoute element={Profile} />} />
-          <Route path="/rented-products" element={<PrivateRoute element={RentedProducts} />} />
           <Route path="/products/add" element={<PrivateRoute element={ProductForm} />} />
           <Route path="/products/my-products" element={<PrivateRoute element={MyProducts} />} />
           <Route path="/products/:id" element={<PrivateRoute element={ProductDetail} />} />
+          <Route path="/rented-products" element={<PrivateRoute element={RentedProducts} />} />
+          <Route path="/my-crops" element={<PrivateRoute element={MyCrops} />} />
 
-          {/* Public routes */}
+          {/* Public Routes */}
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/my-crops" element={<MyCrops />} />
         </Routes>
       </div>
     </div>
