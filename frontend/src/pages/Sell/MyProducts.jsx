@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { useTranslation } from 'react-i18next'; // Import useTranslation
+import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const MyProducts = () => {
@@ -24,9 +24,9 @@ const MyProducts = () => {
         const fetchProducts = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const username = localStorage.getItem('username');
+                const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-                if (!token || !username) {
+                if (!token || !userInfo || !userInfo.username) {
                     setError(t('myProducts.userNotAuthenticated'));
                     setLoading(false);
                     return;
@@ -36,12 +36,11 @@ const MyProducts = () => {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
-                    params: {
-                        username,
-                    },
                 });
 
-                setProducts(response.data);
+                // Filter products to match the current user's username
+                const userProducts = response.data.filter(product => product.username === userInfo.username);
+                setProducts(userProducts);
             } catch (err) {
                 setError(t('myProducts.fetchError'));
                 console.error('Error fetching products:', err);
@@ -102,7 +101,7 @@ const MyProducts = () => {
                         )}
                     </Row>
                     <div className="text-center mt-4">
-                        <Button variant="primary" onClick={handleAddProductClick}>
+                        <Button variant="primary" className='bttn' onClick={handleAddProductClick}>
                             {t('myProducts.addProductButton')}
                         </Button>
                     </div>
@@ -113,3 +112,4 @@ const MyProducts = () => {
 };
 
 export default MyProducts;
+    

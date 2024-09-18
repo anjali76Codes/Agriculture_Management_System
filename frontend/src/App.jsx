@@ -13,9 +13,11 @@ import ProductForm from './pages/Sell/ProductForm';
 import ProductBrowse from './pages/Sell/ProductBrowse';
 import MyProducts from './pages/Sell/MyProducts';
 import ProductDetail from './pages/Sell/ProductDetail';
+import RentedProducts from "./pages/Sell/RentedProducts"; // Added RentedProducts
 import PrivateRoute from "./components/PrivateRoute";
 import MyCrops from './pages/MyCrops';  // Import MyCrops component
-import { Dropdown, Navbar } from 'react-bootstrap'; // Import Dropdown for language selection
+import Navbar from "./components/Navbar"; // Use custom Navbar component
+import { Dropdown } from 'react-bootstrap'; // Import Dropdown for language selection
 import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 import { useAuth } from "./contexts/AuthContext";
 
@@ -40,7 +42,8 @@ const AppContent = () => {
   return (
     <div className="app-container">
       {isAuthenticated && <Sidebar />}
-      {isAuthenticated && <Navbar />}
+      <Navbar /> {/* Show Navbar regardless of authentication */}
+
       <div className="language-dropdown mb-4">
         <Dropdown>
           <Dropdown.Toggle variant="success" id="language-dropdown">
@@ -53,6 +56,7 @@ const AppContent = () => {
           </Dropdown.Menu>
         </Dropdown>
       </div>
+
       <div className="content">
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -65,6 +69,7 @@ const AppContent = () => {
           <Route path="/products/add" element={<PrivateRoute element={ProductForm} />} />
           <Route path="/products/my-products" element={<PrivateRoute element={MyProducts} />} />
           <Route path="/products/:id" element={<PrivateRoute element={ProductDetail} />} />
+          <Route path="/rented-products" element={<PrivateRoute element={RentedProducts} />} />
           <Route path="/my-crops" element={<PrivateRoute element={MyCrops} />} />
 
           {/* Public Routes */}

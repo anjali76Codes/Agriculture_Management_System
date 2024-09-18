@@ -1,38 +1,38 @@
 const Crop = require('../models/cropModel');
-
-// Import Gemini API setup
 const { runGeminiChat } = require('../utils/GeminiApi');
 
-// Upload crop image and get guidance for the next stages
 exports.uploadCrop = async (req, res) => {
   try {
-    // Store crop with image and stage
+    const prompt = `
+      Provide guidance on the following crop and stage:
+      Crop Name: ${req.body.name}
+      Growth Stage: ${req.body.stage}
+      
+      Please provide:
+      1. Important management practices for this stage (e.g., irrigation, fertilization, pest control)
+      2. Expected growth patterns and timelines
+      3. Indicators of healthy growth and potential problems
+      4. Tips for maximizing yield and quality
+    `;
+
+    const guidance = await runGeminiChat(req.body.name, req.body.stage, prompt);
+
     const newCrop = new Crop({
       name: req.body.name,
-      stage: req.body.stage,  // Add stage here
+      stage: req.body.stage,
       image: {
         data: req.file.buffer,
         contentType: req.file.mimetype
-      }
+      },
+      guidance: guidance,
+      username: req.body.username // Store username from the request body
     });
-    
+
     await newCrop.save();
 
-    // Generate guidance for the next stages using Gemini API
-    const prompt = `
-      Crop Name: ${req.body.name}
-      Growth Stage: ${req.body.stage}
-      Please provide guidance for the subsequent stages of crop growth, including:
-      - Important management practices (e.g., irrigation, fertilization, pest control)
-      - Expected growth patterns and timelines
-      - Indicators of healthy growth and potential problems
-      - Tips for maximizing yield and quality
-    `;
-    const guidance = await runGeminiChat(prompt);  // Call the Gemini API to get the next stage guidance
-
-    res.status(201).json({ 
-      message: 'Image and stage uploaded successfully!', 
-      guidance: guidance  // Send guidance to the frontend
+    res.status(201).json({
+      message: 'Image, stage, and guidance uploaded successfully!',
+      crop: newCrop
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -42,7 +42,10 @@ exports.uploadCrop = async (req, res) => {
 // Get all crops
 exports.getAllCrops = async (req, res) => {
   try {
-    const crops = await Crop.find();
+    const username = req.query.username; // Get username from query parameters
+    const query = username ? { username } : {}; // Filter by username if provided
+
+    const crops = await Crop.find(query); // Fetch crops based on the query
     res.json(crops);
   } catch (err) {
     res.status(500).json({ error: err.message });

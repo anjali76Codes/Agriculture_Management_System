@@ -239,16 +239,18 @@ const Dashboard = () => {
                 <Tab.Content>
                   <Tab.Pane eventKey="currentWeather">
                     {currentWeather && (
-                      <Card className="mb-4">
+                      <Card className="weathercontainer mb-4">
                         <Card.Body>
                           <h2>{t('dashboard.currentWeatherTitle')}</h2>
                           <Card.Text>
-                            <p><strong>{t('dashboard.temperatureLabel')}:</strong> {(currentWeather.main.temp - 273.15).toFixed(2)} °C</p>
-                            <p><strong>{t('dashboard.weatherLabel')}:</strong> {currentWeather.weather[0].description}</p>
-                            <p><strong>{t('dashboard.humidityLabel')}:</strong> {currentWeather.main.humidity}%</p>
-                            <p><strong>{t('dashboard.windSpeedLabel')}:</strong> {currentWeather.wind.speed} m/s</p>
-                            <p><strong>{t('dashboard.pressureLabel')}:</strong> {currentWeather.main.pressure} hPa</p>
-                            <p><strong>{t('dashboard.cloudsLabel')}:</strong> {currentWeather.clouds.all}%</p>
+                            <section>
+                              <p><strong>Temperature:</strong> {(currentWeather.main.temp - 273.15).toFixed(2)} °C</p>
+                              <p><strong>Weather:</strong> {currentWeather.weather[0].description}</p>
+                              <p><strong>Humidity:</strong> {currentWeather.main.humidity}%</p>
+                              <p><strong>Wind Speed:</strong> {currentWeather.wind.speed} m/s</p>
+                              <p><strong>Pressure:</strong> {currentWeather.main.pressure} hPa</p>
+                              <p><strong>Clouds:</strong> {currentWeather.clouds.all}%</p>
+                            </section>
                             <img src={`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`} alt="weather icon" />
                           </Card.Text>
                         </Card.Body>

@@ -40,6 +40,15 @@ const MyCrops = () => {
     formData.append('name', name);
     formData.append('stage', stage);
 
+    // Get username from local storage
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo && userInfo.username) {
+      formData.append('username', userInfo.username);
+    } else {
+      alert(t('myCrops.userNotAuthenticated'));
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:3000/api/crops/upload', formData, {
         headers: {
@@ -60,7 +69,7 @@ const MyCrops = () => {
         fileInputRef.current.value = '';
       }
 
-      fetchCrops();
+      fetchCrops(); // Refresh the list of crops
     } catch (error) {
       console.error('Error uploading image and stage:', error);
       alert(t('myCrops.uploadError'));
@@ -69,9 +78,16 @@ const MyCrops = () => {
 
   const fetchCrops = async () => {
     try {
+      // Get username from local storage for filtering
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      const username = userInfo ? userInfo.username : '';
+
       const response = await axios.get('http://localhost:3000/api/crops', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        params: {
+          username // Pass username as a query parameter
         }
       });
       setCrops(response.data);
@@ -156,7 +172,14 @@ const MyCrops = () => {
       {guidance && (
         <div className="guidance-section">
           <h3>{t('myCrops.guidanceTitle')}</h3>
-          <p>{guidance}</p>
+          <div className="guidance-cards">
+            {guidance.split('\n\n').map((stage, index) => (
+              <div key={index} className="guidance-card">
+                <h4>{stage.split('\n')[0]}</h4>
+                <p>{stage.split('\n').slice(1).join('\n')}</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

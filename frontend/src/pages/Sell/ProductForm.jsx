@@ -99,17 +99,18 @@ const ProductForm = () => {
         return uploadedImageURLs;
     };
 
-    // Handle form submission
+    // Inside the handleSubmit function
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            const token = localStorage.getItem('token');
-            const username = localStorage.getItem('username');
+            const userInfo = JSON.parse(localStorage.getItem('userInfo')); // Parse the userInfo object
 
-            if (!token || !username) {
+            if (!userInfo || !userInfo.token || !userInfo.username) {
                 throw new Error(t('error.authError'));
             }
+
+            const { token, username } = userInfo; // Destructure token and username
 
             const userPath = `users/${username}`;
             const imagePath = `${userPath}/${productName}/images`;
@@ -132,7 +133,7 @@ const ProductForm = () => {
                 tags: [],
                 rentalTerms: "",
                 reviews: [],
-                availabilityDates: [ // Ensure availabilityDates is an array
+                availabilityDates: [
                     {
                         startDate: availabilityDates.startDate ? new Date(availabilityDates.startDate) : null,
                         endDate: availabilityDates.endDate ? new Date(availabilityDates.endDate) : null
@@ -156,6 +157,7 @@ const ProductForm = () => {
             setIsSubmitting(false);
         }
     };
+
 
     return (
         <div className="container mt-4">

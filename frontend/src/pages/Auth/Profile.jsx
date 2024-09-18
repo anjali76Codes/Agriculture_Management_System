@@ -48,7 +48,7 @@ function Profile() {
         setLoading(false);
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          logout();
+          logout(); 
           navigate('/signin');
         } else {
           setError(t('profile.fetchError'));
@@ -218,19 +218,19 @@ function Profile() {
             <p className="mb-4">{t('profile.email')}: {userData.email}</p>
             <button
               onClick={() => setEditMode(true)}
-              className="bttn pbtn"
+              className="btn btn-primary"
             >
               {t('button.editProfile')}
             </button>
             <button
               onClick={() => setPasswordMode(true)}
-              className="bttn pbtn"
+              className="btn btn-secondary"
             >
               {t('button.changePassword')}
             </button>
             <button
               onClick={handleLogout}
-              className="bttn pbtn"
+              className="btn btn-danger"
             >
               {t('button.logout')}
             </button>

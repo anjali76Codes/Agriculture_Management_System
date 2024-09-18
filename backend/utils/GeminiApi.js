@@ -30,13 +30,13 @@ async function runGeminiChat(cropName, growthStage, additionalInfo) {
     Crop Name: ${cropName}
     Growth Stage: ${growthStage}
     Additional Information: ${additionalInfo}
-
-    Please provide:
-    1. Important management practices for this stage (e.g., irrigation, fertilization, pest control)
-    2. Expected growth patterns and timelines
-    3. Indicators of healthy growth and potential problems
-    4. Tips for maximizing yield and quality
-  `;
+    
+For the subsequent stage(s), please provide:
+  1. Important management practices for the next stage(s) (e.g., irrigation, fertilization, pest control)
+  2. Expected growth patterns and timelines for the next stage(s)
+  3. Indicators of healthy growth and potential problems to watch for in the subsequent stage(s)
+  4. Tips for maximizing yield and quality in the next stage(s)
+`;
 
   const chatSession = model.startChat({
     generationConfig,
