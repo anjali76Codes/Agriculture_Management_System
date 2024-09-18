@@ -96,7 +96,7 @@ const ProductBrowse = () => {
             <Row>
                 {paginatedProducts.length > 0 ? (
                     paginatedProducts.map((product) => (
-                        <Col sm={12} md={6} className="mb-4" key={product._id}>
+                        <Col sm={12} md={12} className="mb-4" key={product._id}>
                             <div className="card-container">
                                 <img
                                     src={product.images[0] || '/path/to/default-image.jpg'}

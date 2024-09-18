@@ -18,7 +18,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import RentedProducts from "./pages/Sell/RentedProducts";
 import MyCrops from './pages/MyCrops';
 import { useAuth } from "./contexts/AuthContext";
-import { Navbar } from "react-bootstrap";
+// import { Navbar } from "react-bootstrap";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const AppContent = () => {
   return (
     <div className="app-container">
       {isAuthenticated && <Sidebar />}
+      <Navbar />
       <div className="content">
         <Routes>
           <Route path="/" element={<LandingPage />} />
