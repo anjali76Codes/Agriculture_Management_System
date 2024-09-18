@@ -145,7 +145,9 @@ const MyCrops = () => {
         </div>
       )}
 
-      <h2>Uploaded Crops</h2>
+
+
+<h2>Uploaded Crops</h2>
       <div className="uploaded-crops">
         {crops.map((crop) => (
           <div key={crop._id} className="crop-item">
@@ -154,7 +156,6 @@ const MyCrops = () => {
               src={`http://localhost:3000/api/crops/${crop._id}`}
               alt={crop.name}
             />
-            <p>Guidance: {crop.guidance || 'No guidance available'}</p>  {/* Display guidance */}
             <button
               className="delete-button"
               onClick={() => handleDelete(crop._id)}
@@ -166,19 +167,23 @@ const MyCrops = () => {
       </div>
 
       {/* Guidance Section */}
+      
       {guidance && (
-        <div className="guidance-section">
-          <h3>Next Stage Guidance:</h3>
-          <div className="guidance-cards">
-            {guidance.split('\n\n').map((stage, index) => (
-              <div key={index} className="guidance-card">
-                <h4>{stage.split('\n')[0]}</h4>
-                <p>{stage.split('\n').slice(1).join('\n')}</p>
-              </div>
-            ))}
-          </div>
+  <div className="guidance-section">
+    <h3>Next Stage Guidance:</h3>
+    <div className="guidance-cards">
+      {guidance.split('\n\n').map((stage, index) => (
+        <div key={index} className="guidance-card">
+          <h4>{stage.split('\n')[0]}</h4>
+          <p>{stage.split('\n').slice(1).join('\n')}</p>
         </div>
-      )}
+      ))}
+    </div>
+  </div>
+)}
+
+
+      
     </div>
   );
 };

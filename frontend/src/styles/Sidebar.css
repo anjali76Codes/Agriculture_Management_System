@@ -1,21 +1,24 @@
-/* Sidebar.css */
 .sidebar {
   height: 100vh;
   width: 250px;
-  background-color: #343a40;
+  background-color: #092910;
   color: white;
   position: fixed;
   top: 0;
   left: 0;
-  transition: width 0.3s;
+  transition: width 0.3s ease;
   overflow-x: hidden;
   z-index: 1000;
 }
 
 .sidebar.collapsed {
   width: 80px;
+  transition: width 0.3s ease-in-out;
+}
 
-
+.sidebar.collapsed .nav-link {
+  margin: 20px auto;
+  font-size: large;
 }
 
 .sidebar .sidebar-toggle {
@@ -24,41 +27,64 @@
   color: white;
   font-size: 24px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .sidebar .nav-link {
   color: white;
   display: flex;
   align-items: center;
-  padding: 10px 20px;
-  transition: background 0.3s;
+  padding: 10px 30px;
+  transition: padding 0.3s ease;
+  margin: 20px;
+  overflow: hidden;
 }
 
 .sidebar .nav-link:hover {
-  background: #495057;
+  background: #0d3816;
+  border-radius: 10px;
+  color: #b5f8c4fb;
 }
 
 .sidebar .nav-link svg {
   margin-right: 10px;
 }
 
+.sidebar .nav-link .nav-text {
+  transform: translateX(-50px);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.sidebar.expanded .nav-text {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.sidebar.collapsed .nav-text {
+  transform: translateX(-50px);
+  opacity: 0;
+}
+
 .sidebar.expanded .nav-link {
   padding: 10px 20px;
+}
+
+.bar-column {
+  display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
     position: fixed;
-    /* Sidebar will stay fixed */
     z-index: 1000;
-    /* Keep it above the dashboard in mobile view */
     transform: translateX(-100%);
-    /* Initially hidden off-screen in mobile */
+    transition: transform 0.3s ease;
   }
 
   .sidebar.expanded {
     transform: translateX(0);
-    /* Slide in from left on mobile when expanded */
   }
 }

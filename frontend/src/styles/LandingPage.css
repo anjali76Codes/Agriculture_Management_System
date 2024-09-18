@@ -3,7 +3,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-image: url('../assets/image.png'); */
     background-size: cover;
     background-position: center;
     background-color:#104a1d;
@@ -22,6 +21,7 @@
   .hero-content h1 {
     font-size: 3rem;
     margin-bottom: 20px;
+    color: white;
   }
   
   .hero-content p {

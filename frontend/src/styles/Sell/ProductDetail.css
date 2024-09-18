@@ -6,11 +6,10 @@
 }
 
 .product-details-card {
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 3px solid #104a1d;
+    border-radius: 15px;
+    background-color: #d1f1d96a;
 }
-
 .product-image {
     cursor: pointer;
     transition: transform 0.3s ease;
@@ -21,10 +20,12 @@
 }
 
 .price-text {
-    color: #007bff;
+    color: #28a745;
     font-size: 1.25rem;
 }
-
+.badge{
+    background-color: #28a745;
+}
 .my-review {
     background-color: #f8f9fa;
 }
@@ -32,4 +33,10 @@
 img.img-fluid {
     width: 100%;
     height: auto;
+}
+.bttn{
+    border-color: #104a1d;
+}
+.reviews{
+    background-color: #d1f1d96a;
 }
