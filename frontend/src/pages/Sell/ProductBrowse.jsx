@@ -107,6 +107,39 @@ const ProductBrowse = () => {
                 <Alert variant="danger">{error}</Alert>
             ) : (
                 <>
+
+            <Row>
+                {paginatedProducts.length > 0 ? (
+                    paginatedProducts.map((product) => (
+                        <Col sm={12} md={12} className="mb-4" key={product._id}>
+                            <div className="card-container">
+                                <img
+                                    src={product.images[0] || '/path/to/default-image.jpg'}
+                                    alt={product.name}
+                                    className="card-img"
+                                />
+                                <div className="card-body card-body-content">
+                                    <Card.Title>{product.name}</Card.Title>
+                                    <Card.Text>{product.description}</Card.Text>
+                                    <Card.Text>
+                                        <strong>Price: ${product.price.toFixed(2)}</strong>
+                                    </Card.Text>
+                                    <Card.Text>
+                                        <small className="text-muted">Location: {product.location}</small>
+                                    </Card.Text>
+                                    <Link to={`/products/${product._id}`}>
+                                       <button  className="bttn"> View Details</button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </Col>
+                    ))
+                ) : (
+                    <Col className="text-center">
+                        <p>No products available</p>
+                    </Col>
+                )}
+            </Row>
                     <Row>
                         {paginatedProducts.length > 0 ? (
                             paginatedProducts.map((product) => (

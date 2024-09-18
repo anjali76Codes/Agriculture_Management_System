@@ -7,6 +7,11 @@ import { Dropdown } from 'react-bootstrap'; // Import Dropdown from react-bootst
 import '../styles/LandingPage.css'; // Ensure corresponding styles exist in CSS
 import Plant from '../assets/plant.gif';
 
+import Navbar from '../components/Navbar';
+import { useAuth } from '../contexts/AuthContext';
+
+import Plant from '../assets/plant.gif';
+
 const LandingPage = () => {
   const { t, i18n } = useTranslation(); // Get translation function and i18n instance
   const { isAuthenticated } = useAuth(); // Get authentication status
@@ -28,6 +33,20 @@ const LandingPage = () => {
     <main className="landing-page">
       <section className="hero-section">
         <div className="hero-content">
+
+        <h1>What's Things in Season?</h1>
+          <p>Your helper in the community!</p>
+          {
+            !isAuthenticated? (
+              <button onClick={handleSignUp} className="hero-button">
+              Get Started !
+            </button>
+            ) : (
+              <button onClick={browse} className="hero-button">
+                Browse Products
+              </button>
+            )
+          }
           <h1>{t('landing.title')}</h1>
           <p>{t('landing.description')}</p>
           <button onClick={handleGetStartedClick} className="hero-button">

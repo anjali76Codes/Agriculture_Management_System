@@ -183,7 +183,9 @@ const ProductDetail = () => {
                                 <small className="text-muted">{t('product.location')}: {product.location || t('product.notSpecified')}</small>
                             </Card.Text>
                             <Card.Text>
-                                <Badge bg="info">{product.type || t('product.typeNotSpecified')}</Badge>
+                            <Badge bg="info" className='badge'>{product.type || 'Type Not Specified'}</Badge>
+
+<Badge bg="info">{product.type || t('product.typeNotSpecified')}</Badge>
                             </Card.Text>
                             <Card.Text>
                                 <strong>{t('product.rentalDuration')}: {product.rentalDuration || t('product.notSpecified')}</strong>
@@ -281,8 +283,12 @@ const ProductDetail = () => {
                                         required
                                     />
                                 </Form.Group>
+                                <Button type="submit" variant="primary" className="mt-2 bttn">
+                                    Submit Review
+
                                 <Button type="submit" variant="primary" className="mt-2">
                                     {t('button.submitReview')}
+                                </Button>
                                 </Button>
                             </Form>
                         </Card.Body>
