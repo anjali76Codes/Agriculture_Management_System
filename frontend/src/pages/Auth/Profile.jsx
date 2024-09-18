@@ -1,13 +1,14 @@
-// src/pages/Profile.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 import '../../styles/Auth/Profile.css';
 
 function Profile() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const { isAuthenticated, username, login, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -15,7 +16,7 @@ function Profile() {
   const [passwordMode, setPasswordMode] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
-    email: '', 
+    email: '',
   });
   const [passwordData, setPasswordData] = useState({
     oldPassword: '',
@@ -47,17 +48,17 @@ function Profile() {
         setLoading(false);
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          logout(); // Clear auth state and navigate to signin
+          logout();
           navigate('/signin');
         } else {
-          setError('Failed to fetch user data. Please try again.');
+          setError(t('profile.fetchError'));
         }
         setLoading(false);
       }
     };
 
     fetchUserData();
-  }, [navigate, isAuthenticated, logout]);
+  }, [navigate, isAuthenticated, logout, t]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -81,7 +82,7 @@ function Profile() {
       setUserData(response.data);
       setEditMode(false);
     } catch (error) {
-      setError('Failed to update user data. Please try again.');
+      setError(t('profile.updateError'));
     }
   };
 
@@ -90,7 +91,7 @@ function Profile() {
     const token = localStorage.getItem('token');
 
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      setError('Passwords do not match.');
+      setError(t('profile.passwordMismatch'));
       return;
     }
 
@@ -107,131 +108,131 @@ function Profile() {
         confirmPassword: '',
       });
       setPasswordMode(false);
-      setError('Password updated successfully.');
+      setError(t('profile.passwordSuccess'));
     } catch (error) {
-      setError('Failed to update password. Please try again.');
+      setError(t('profile.passwordUpdateError'));
     }
   };
 
   const handleLogout = () => {
-    logout(); // Clear auth state
+    logout();
     navigate('/signin');
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show a loading message or spinner
+    return <div>{t('profile.loading')}</div>;
   }
 
   if (error) {
-    return <div className="alert alert-danger">{error}</div>; // Display error message
+    return <div className="alert alert-danger">{error}</div>;
   }
 
   return (
     <div className="profile-container">
       <div className="profile-card">
-        <h1 className="text-center">Profile</h1>
+        <h1 className="text-center">{t('profile.title')}</h1>
         {editMode ? (
           <form onSubmit={handleSubmit} className="d-flex flex-column">
             <div className="mb-3">
-              <label htmlFor="username" className="form-label">Username</label>
+              <label htmlFor="username" className="form-label">{t('profile.username')}</label>
               <input
                 type="text"
                 className="form-control"
                 id="username"
-                placeholder="Username"
+                placeholder={t('profile.usernamePlaceholder')}
                 onChange={handleChange}
                 value={formData.username}
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="email" className="form-label">Email</label>
+              <label htmlFor="email" className="form-label">{t('profile.email')}</label>
               <input
                 type="email"
                 className="form-control"
                 id="email"
-                placeholder="Email"
+                placeholder={t('profile.emailPlaceholder')}
                 onChange={handleChange}
                 value={formData.email}
               />
             </div>
             <button type="submit" className="btn btn-primary mb-3">
-              Save Changes
+              {t('button.saveChanges')}
             </button>
             <button
               type="button"
               onClick={() => setEditMode(false)}
               className="btn btn-secondary"
             >
-              Cancel
+              {t('button.cancel')}
             </button>
           </form>
         ) : passwordMode ? (
           <form onSubmit={handlePasswordSubmit} className="d-flex flex-column">
             <div className="mb-3">
-              <label htmlFor="oldPassword" className="form-label">Current Password</label>
+              <label htmlFor="oldPassword" className="form-label">{t('profile.currentPassword')}</label>
               <input
                 type="password"
                 className="form-control"
                 id="oldPassword"
-                placeholder="Current Password"
+                placeholder={t('profile.currentPasswordPlaceholder')}
                 onChange={handlePasswordChange}
                 value={passwordData.oldPassword}
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="newPassword" className="form-label">New Password</label>
+              <label htmlFor="newPassword" className="form-label">{t('profile.newPassword')}</label>
               <input
                 type="password"
                 className="form-control"
                 id="newPassword"
-                placeholder="New Password"
+                placeholder={t('profile.newPasswordPlaceholder')}
                 onChange={handlePasswordChange}
                 value={passwordData.newPassword}
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="confirmPassword" className="form-label">Confirm New Password</label>
+              <label htmlFor="confirmPassword" className="form-label">{t('profile.confirmPassword')}</label>
               <input
                 type="password"
                 className="form-control"
                 id="confirmPassword"
-                placeholder="Confirm New Password"
+                placeholder={t('profile.confirmPasswordPlaceholder')}
                 onChange={handlePasswordChange}
                 value={passwordData.confirmPassword}
               />
             </div>
             <button type="submit" className="btn btn-primary mb-3">
-              Update Password
+              {t('button.changePassword')}
             </button>
             <button
               type="button"
               onClick={() => setPasswordMode(false)}
               className="btn btn-secondary"
             >
-              Cancel
+              {t('button.cancel')}
             </button>
           </form>
         ) : (
           <div>
-            <p className="mb-4">Welcome, {userData.username}!</p>
-            <p className="mb-4">Email: {userData.email}</p>
+            <p className="mb-4">{t('profile.welcome')}, {userData.username}!</p>
+            <p className="mb-4">{t('profile.email')}: {userData.email}</p>
             <button
               onClick={() => setEditMode(true)}
               className="bttn pbtn"
             >
-              Edit Profile
+              {t('button.editProfile')}
             </button>
             <button
               onClick={() => setPasswordMode(true)}
               className="bttn pbtn"
             >
-              Change Password
+              {t('button.changePassword')}
             </button>
             <button
               onClick={handleLogout}
               className="bttn pbtn"
             >
-              Logout
+              {t('button.logout')}
             </button>
           </div>
         )}
