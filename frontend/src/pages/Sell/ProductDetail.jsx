@@ -235,7 +235,7 @@ const ProductDetail = () => {
                                 <small className="text-muted">Location: {product.location || 'Not Specified'}</small>
                             </Card.Text>
                             <Card.Text>
-                                <Badge bg="info">{product.type || 'Type Not Specified'}</Badge>
+                                <Badge bg="info" className='badge'>{product.type || 'Type Not Specified'}</Badge>
                             </Card.Text>
                             <Card.Text>
                                 <strong>Rental Duration: {product.rentalDuration || 'Not Specified'}</strong>
@@ -259,7 +259,7 @@ const ProductDetail = () => {
                                     <strong>Condition: {product.condition}</strong>
                                 </Card.Text>
                             )}
-                            <Button variant="primary" className="w-100" onClick={handleRentNow} disabled={!product.available}>
+                            <Button variant="primary" className="w-100 bttn" onClick={handleRentNow} disabled={!product.available}>
                                 Rent Now
                             </Button>
                         </Card.Body>
@@ -285,7 +285,7 @@ const ProductDetail = () => {
 
             <Row className="mb-4">
                 <Col>
-                    <Card className="shadow-sm">
+                    <Card className="shadow-sm reviews">
                         <Card.Body>
                             <Card.Title>Average Rating</Card.Title>
                             <StarRating rating={averageRating} size={24} readonly />
@@ -333,7 +333,7 @@ const ProductDetail = () => {
                                         required
                                     />
                                 </Form.Group>
-                                <Button type="submit" variant="primary" className="mt-2">
+                                <Button type="submit" variant="primary" className="mt-2 bttn">
                                     Submit Review
                                 </Button>
                             </Form>

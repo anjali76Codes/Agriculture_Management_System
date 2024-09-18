@@ -154,13 +154,13 @@ function Profile() {
                 value={formData.email}
               />
             </div>
-            <button type="submit" className="btn btn-primary mb-3">
+            <button type="submit" className="bttn mb-3">
               Save Changes
             </button>
             <button
               type="button"
               onClick={() => setEditMode(false)}
-              className="btn btn-secondary"
+              className="bttn btn-secondary"
             >
               Cancel
             </button>
@@ -200,13 +200,13 @@ function Profile() {
                 value={passwordData.confirmPassword}
               />
             </div>
-            <button type="submit" className="btn btn-primary mb-3">
+            <button type="submit" className="bttn btn-primary mb-3">
               Update Password
             </button>
             <button
               type="button"
               onClick={() => setPasswordMode(false)}
-              className="btn btn-secondary"
+              className="bttn btn-secondary"
             >
               Cancel
             </button>

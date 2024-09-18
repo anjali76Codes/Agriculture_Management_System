@@ -126,13 +126,13 @@ const MyCrops = () => {
           required
         />
         {/* Stage dropdown */}
-        <select value={stage} onChange={handleStageChange} required>
-          <option value="">Select Crop Stage</option>
-          <option value="Seed">Seed</option>
-          <option value="Germination">Germination</option>
-          <option value="Vegetative">Vegetative</option>
-          <option value="Flowering">Flowering</option>
-          <option value="Harvest">Harvest</option>
+        <select value={stage} onChange={handleStageChange} required className='croptype'>
+          <option value="" className='opt'>Select Crop Stage</option>
+          <option value="Seed" className='opt'>Seed</option>
+          <option value="Germination" className='opt'>Germination</option>
+          <option value="Vegetative" className='opt'>Vegetative</option>
+          <option value="Flowering" className='opt'>Flowering</option>
+          <option value="Harvest" className='opt'>Harvest</option>
         </select>
         <button type="submit">Upload</button>
       </form>
@@ -147,7 +147,7 @@ const MyCrops = () => {
 
 
 
-<h2>Uploaded Crops</h2>
+  <h2 className='cropheading'>Uploaded Crops</h2>
       <div className="uploaded-crops">
         {crops.map((crop) => (
           <div key={crop._id} className="crop-item">
