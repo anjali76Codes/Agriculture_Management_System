@@ -49,9 +49,9 @@ const Sidebar = () => {
               <FaWarehouse />
               <span className="nav-text">{!collapsed && ` ${t('sidebar.rentals')}`}</span>
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/crop-market">
+            <Nav.Link as={NavLink} to="/rented-products">
               <FaShoppingCart />
-              <span className="nav-text">{!collapsed && ` ${t('sidebar.cropMarket')}`}</span>
+              <span className="nav-text">{!collapsed && ` ${t('sidebar.rentedproducts')}`}</span>
             </Nav.Link>
             <Nav.Link as={NavLink} to="/profile">
               <FaUser />
