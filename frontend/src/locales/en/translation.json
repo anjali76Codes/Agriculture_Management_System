@@ -118,6 +118,7 @@
   },
   "stars": "Stars",
   "sidebar": {
+    "home":"Home",
     "browseProducts": "Browse Products",
     "dashboard": "Dashboard",
     "myCrops": "My Crops",
@@ -129,7 +130,9 @@
   "navbar": {
     "home": "Home",
     "about": "About",
-    "profile": "Profile"
+    "profile": "Profile",
+    "signin" : "SIGNIN",
+    "signup" : "SIGNUP"
   },
   "profile": {
     "title": "Profile",

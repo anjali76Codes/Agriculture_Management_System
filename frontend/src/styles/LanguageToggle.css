@@ -1,0 +1,23 @@
+.language-buttons{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    /* background-color: #1d7c327e; */
+    text-align: center;
+}
+.language-buttons span{
+    font-size: 2rem;
+    text-align: center;
+    padding-top: 10px;
+    z-index: 600;
+}
+.language-buttons .btn-link{
+    /* background-color: #b5f8c4fb; */
+    border-radius: 10px;
+    text-decoration: none;
+    color: #b5f8c4fb;
+    font-weight: 900;
+}

@@ -155,13 +155,13 @@ function Profile() {
                 value={formData.email}
               />
             </div>
-            <button type="submit" className="btn btn-primary mb-3">
+            <button type="submit" className="bttn btn-primary mb-3">
               {t('button.saveChanges')}
             </button>
             <button
               type="button"
               onClick={() => setEditMode(false)}
-              className="btn btn-secondary"
+              className="bttn pbtn"
             >
               {t('button.cancel')}
             </button>
@@ -201,13 +201,13 @@ function Profile() {
                 value={passwordData.confirmPassword}
               />
             </div>
-            <button type="submit" className="btn btn-primary mb-3">
+            <button type="submit" className="bttn pbtn btn-primary mb-3">
               {t('button.changePassword')}
             </button>
             <button
               type="button"
               onClick={() => setPasswordMode(false)}
-              className="btn btn-secondary"
+              className="bttn pbtn btn-secondary"
             >
               {t('button.cancel')}
             </button>
@@ -218,19 +218,19 @@ function Profile() {
             <p className="mb-4">{t('profile.email')}: {userData.email}</p>
             <button
               onClick={() => setEditMode(true)}
-              className="btn btn-primary"
+              className="bttn pbtn btn-primary"
             >
               {t('button.editProfile')}
             </button>
             <button
               onClick={() => setPasswordMode(true)}
-              className="btn btn-secondary"
+              className="bttn pbtn btn-secondary"
             >
               {t('button.changePassword')}
             </button>
             <button
               onClick={handleLogout}
-              className="btn btn-danger"
+              className="bttn pbtn btn-danger"
             >
               {t('button.logout')}
             </button>
