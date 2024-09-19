@@ -6,12 +6,9 @@ exports.uploadCrop = async (req, res) => {
     const prompt = `
       Provide guidance on the following crop and stage:
       Crop Name: ${req.body.name}
-      Growth Stage: ${req.body.stage}
+      Growth Stage: ${req.body.stage}`
       
-      Please provide:
-      1. From Seed, Germination, Vegetative, Flowering, Harvest;  Each stage 1 line point don't include current stage.
-      2. Basic information in one point each about temperature, yield increase, duration of each stage and overall management.
-    `;
+     
 
     const guidance = await runGeminiChat(req.body.name, req.body.stage, prompt);
 
