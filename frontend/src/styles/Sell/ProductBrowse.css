@@ -2,6 +2,7 @@
 .browsingContainer{
     margin-top: 0;
     padding: 0;
+    margin-left: 130px;
 }
 .product-card {
     transition: transform 0.3s ease-in-out;
@@ -90,10 +91,26 @@
     .card-img{
         width: 300px;
     }
+    .browsingContainer{
+        margin-left: auto;
+    }
+    .searchbar{
+        width: 90%;        
+    }
 }
 @media (max-width: 500px) {
+    .navbar{
+        width: 100%;
+    }
     .card-img{
         width: 270px;
         min-width: 200px;
+    }
+    .card-container{
+        margin: 10px;
+        flex-direction: column;
+    }
+    .searchbar{
+        margin: 10px;
     }
 }

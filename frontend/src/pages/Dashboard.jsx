@@ -210,7 +210,7 @@ const Dashboard = () => {
 
   return (
     <Container className="mt-4">
-      <h1 className="text-center mb-4">{t('dashboard.title')}</h1>
+      <h1 className="text-center mb-4 dashboardh1">{t('dashboard.title')}</h1>
 
       {loading ? (
         <div className="text-center">
@@ -222,7 +222,7 @@ const Dashboard = () => {
 
           <Tab.Container id="left-tabs-example" defaultActiveKey="currentWeather">
             <Row>
-              <Col sm={4}>
+              <Col sm={3}>
                 <Nav variant="pills" className="flex-column">
                   <Nav.Item>
                     <Nav.Link eventKey="currentWeather">{t('dashboard.currentWeatherTab')}</Nav.Link>
@@ -235,7 +235,7 @@ const Dashboard = () => {
                   </Nav.Item>
                 </Nav>
               </Col>
-              <Col sm={8}>
+              <Col sm={9}>
                 <Tab.Content>
                   <Tab.Pane eventKey="currentWeather">
                     {currentWeather && (

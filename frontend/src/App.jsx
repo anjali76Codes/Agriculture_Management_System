@@ -17,7 +17,6 @@ import RentedProducts from "./pages/Sell/RentedProducts"; // Added RentedProduct
 import PrivateRoute from "./components/PrivateRoute";
 import MyCrops from './pages/MyCrops';  // Import MyCrops component
 import Navbar from "./components/Navbar"; // Use custom Navbar component
-import { Dropdown } from 'react-bootstrap'; // Import Dropdown for language selection
 import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 import { useAuth } from "./contexts/AuthContext";
 
@@ -35,27 +34,10 @@ const AppContent = () => {
   const { t, i18n } = useTranslation(); // Get translation function and i18n instance
   const { isAuthenticated } = useAuth();
 
-  const handleLanguageChange = (lng) => {
-    i18n.changeLanguage(lng); // Change the language
-  };
-
   return (
     <div className="app-container">
       {isAuthenticated && <Sidebar />}
       <Navbar /> {/* Show Navbar regardless of authentication */}
-
-      <div className="language-dropdown mb-4">
-        <Dropdown>
-          <Dropdown.Toggle variant="success" id="language-dropdown">
-            {t('language')}
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleLanguageChange('en')}>English</Dropdown.Item>
-            <Dropdown.Item onClick={() => handleLanguageChange('hi')}>हिंदी</Dropdown.Item>
-            <Dropdown.Item onClick={() => handleLanguageChange('mr')}>मराठी</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
 
       <div className="content">
         <Routes>

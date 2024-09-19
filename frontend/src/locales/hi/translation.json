@@ -120,6 +120,7 @@
   },
   "stars": "तारे",
   "sidebar": {
+    "home": "होम",
     "browseProducts": "उत्पाद ब्राउज़ करें",
     "dashboard": "डैशबोर्ड",
     "myCrops": "मेरी फसलें",
@@ -131,7 +132,9 @@
   "navbar": {
     "home": "होम",
     "about": "हमारे बारे में",
-    "profile": "प्रोफ़ाइल"
+    "profile": "प्रोफ़ाइल",
+    "signin": "साइन इन करें",
+    "signup":"साइन अप करें"
   },
   "profile": {
     "title": "प्रोफ़ाइल",
