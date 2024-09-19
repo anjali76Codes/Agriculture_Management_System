@@ -1,13 +1,10 @@
-// src/pages/LandingPage.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext'; // Remove the second import of useAuth
 import { useTranslation } from 'react-i18next';
 import { Dropdown } from 'react-bootstrap'; // Import Dropdown from react-bootstrap
 import '../styles/LandingPage.css'; // Ensure corresponding styles exist in CSS
-
 import Plant from '../assets/plant.gif';
-import Navbar from '../components/Navbar';
 
 const LandingPage = () => {
   const { t, i18n } = useTranslation(); // Get translation function and i18n instance

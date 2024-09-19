@@ -1,46 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Nav } from 'react-bootstrap';
 import { useAuth } from "../contexts/AuthContext";
-import { useTranslation } from 'react-i18next'; // Import useTranslation for multilingual support
-import { useLocation } from 'react-router-dom'; // Import useLocation
+import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import '../styles/Navbar.css';
+import LanguageSwitcher from './LanguageToggle';
+import { FaTimes} from 'react-icons/fa';
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated } = useAuth();
-  const { t } = useTranslation(); // Initialize translation function
-  const location = useLocation(); // Get current location to handle conditional rendering
+  const { t, i18n } = useTranslation();
+  const location = useLocation();
+
+  const handleLanguageChange = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <div className="navbar">
-      <Nav className="justify-content-center">
-        <Nav.Item>
-          <Nav.Link href="/">{t('navbar.home')}</Nav.Link> {/* Use translated text for Home */}
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link href="/about">{t('navbar.about')}</Nav.Link> {/* Use translated text for About */}
-        </Nav.Item>
-        {
-          isAuthenticated && (
+      <div className="navbar-header">
+        <button className="menu-button" onClick={toggleMenu}>
+        <ion-icon name="grid" size="larger"></ion-icon>        
+        </button>
+        <h2>
+          <ion-icon name="leaf"></ion-icon>Agri<p>Circle</p>
+        </h2>
+      </div>
+      <div className={`menu ${isMenuOpen ? 'open' : ''}`}>
+      <FaTimes className='close'onClick={toggleMenu}/>
+        <Nav className="justify-content-center">
+          <Nav.Item>
+            <Nav.Link href="/">{t('navbar.home')}</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href="/about">{t('navbar.about')}</Nav.Link>
+          </Nav.Item>
+          {isAuthenticated && (
             <Nav.Item>
-              <Nav.Link href="/profile">{t('navbar.profile')}</Nav.Link> {/* Show Profile if authenticated */}
+              <Nav.Link href="/profile">{t('navbar.profile')}</Nav.Link>
             </Nav.Item>
-          )
-        }
-        {
-          !isAuthenticated && location.pathname === '/signin' ? (
+          )}
+          {!isAuthenticated && location.pathname === '/signin' ? (
             <Nav.Item>
-              <Nav.Link href="/signup">{t('navbar.signup')}</Nav.Link> {/* Show Signup when on /signin */}
+              <Nav.Link href="/signup">{t('navbar.signup')}</Nav.Link>
             </Nav.Item>
           ) : (
             !isAuthenticated && (
               <Nav.Item>
-                <Nav.Link href="/signin">{t('navbar.signin')}</Nav.Link> {/* Show Signin if not authenticated */}
+                <Nav.Link href="/signin">{t('navbar.signin')}</Nav.Link>
               </Nav.Item>
             )
-          )
-        }
-        <h2><ion-icon name="leaf"></ion-icon>Agri<p>Circle</p></h2> {/* Branding */}
-      </Nav>
+          )}
+        </Nav>
+        <div className="language-dropdown">
+          <LanguageSwitcher handleLanguageChange={handleLanguageChange} t={t} />
+        </div>
+        {/* <button className='close'><ion-icon name="close"></ion-icon></button> */}
+      </div>
     </div>
   );
 };

@@ -160,7 +160,7 @@ const ProductForm = () => {
 
 
     return (
-        <div className="container mt-4">
+        <div className="productform-container container mt-4">
             {/* <LanguageToggle /> */}
             <h2 className="text-center mb-4">{t('form.title')}</h2>
             <Form onSubmit={handleSubmit}>
@@ -351,14 +351,14 @@ const ProductForm = () => {
                         <Button
                             variant="primary"
                             type="submit"
-                            className="mt-3"
+                            className="bttn"
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? <Spinner animation="border" size="sm" /> : t('form.submit')}
                         </Button>
                     </Col>
 
-                    <Col md={6}>
+                    <Col md={6} >
                         {productImages.length > 0 && (
                             <Form.Group className="mt-3">
                                 <Form.Label>{t('form.imagePreview')}</Form.Label>

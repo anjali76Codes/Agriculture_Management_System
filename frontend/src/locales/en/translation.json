@@ -66,7 +66,7 @@
     "viewDetails": "View Details",
     "price": "Price",
     "location": "Location"
-},
+  },
   "landing": {
     "title": "Revolutionize Your Farming",
     "description": "Advanced management tools for modern farmers. Optimize your crops and streamline operations with ease.",
@@ -118,6 +118,7 @@
   },
   "stars": "Stars",
   "sidebar": {
+    "home": "Home",
     "browseProducts": "Browse Products",
     "dashboard": "Dashboard",
     "myCrops": "My Crops",
@@ -130,8 +131,8 @@
     "home": "Home",
     "about": "About",
     "profile": "Profile",
-    "signup": "Sign up",
-    "signin": "Sign in"
+    "signin": "SIGNIN",
+    "signup": "SIGNUP"
   },
   "profile": {
     "title": "Profile",
@@ -207,36 +208,75 @@
     "geolocationNotSupported": "Geolocation is not supported by your browser.",
     "locationRetrievalError": "Error retrieving location. Please make sure location services are enabled."
   },
-
-    "myCrops": {
-      "uploadCropTitle": "Upload Crop Image",
-      "provideDetails": "Please provide both the crop name and stage for guidance.",
-      "noGuidance": "No specific guidance available at this time for this crop and stage.",
-      "uploadSuccess": "Image and stage uploaded successfully!",
-      "uploadError": "There was an error uploading the crop. Please try again.",
-      "deleteSuccess": "Crop deleted successfully!",
-      "cropNamePlaceholder": "Crop Name",
-      "selectStage": "Select Crop Stage",
-      "stageSeed": "Seed",
-      "stageGermination": "Germination",
-      "stageVegetative": "Vegetative",
-      "stageFlowering": "Flowering",
-      "stageHarvest": "Harvest",
-      "uploadButton": "Upload",
-      "imagePreviewTitle": "Image Preview:",
-      "uploadedCropsTitle": "Uploaded Crops",
-      "stageLabel": "Stage",
-      "deleteButton": "Delete",
-      "guidanceTitle": "Next Stage Guidance:"
+  "myCrops": {
+    "uploadCropTitle": "Upload Crop Image",
+    "provideDetails": "Please provide both the crop name and stage for guidance.",
+    "noGuidance": "No specific guidance available at this time for this crop and stage.",
+    "uploadSuccess": "Image and stage uploaded successfully!",
+    "uploadError": "There was an error uploading the crop. Please try again.",
+    "deleteSuccess": "Crop deleted successfully!",
+    "cropNamePlaceholder": "Crop Name",
+    "selectStage": "Select Crop Stage",
+    "stageSeed": "Seed",
+    "stageGermination": "Germination",
+    "stageVegetative": "Vegetative",
+    "stageFlowering": "Flowering",
+    "stageHarvest": "Harvest",
+    "uploadButton": "Upload",
+    "imagePreviewTitle": "Image Preview:",
+    "uploadedCropsTitle": "Uploaded Crops",
+    "stageLabel": "Stage",
+    "deleteButton": "Delete",
+    "guidanceTitle": "Next Stage Guidance:"
+  },
+  "myProducts": {
+    "title": "My Products",
+    "userNotAuthenticated": "User not authenticated.",
+    "fetchError": "Failed to fetch your products.",
+    "loading": "Loading...",
+    "noProducts": "No products available. Rent yours now!",
+    "price": "Price",
+    "location": "Location",
+    "addProductButton": "Add a New Product"
+  },
+  "productDetail": {
+    "error": {
+      "auth": "User not authenticated.",
+      "fetch": "Error fetching product.",
+      "submitReview": "Error submitting review.",
+      "storePayment": "Error storing payment details.",
+      "noProduct": "Product details are not available."
     },
-      "myProducts": {
-        "title": "My Products",
-        "userNotAuthenticated": "User not authenticated.",
-        "fetchError": "Failed to fetch your products.",
-        "loading": "Loading...",
-        "noProducts": "No products available. Rent yours now!",
-        "price": "Price",
-        "location": "Location",
-        "addProductButton": "Add a New Product"
-      }    
+    "loading": "Loading...",
+    "loadingText": "Loading product details...",
+    "notFound": "No product found.",
+    "imageAlt": "Product Image",
+    "defaultName": "Product Name",
+    "noDescription": "No Description",
+    "location": "Location",
+    "notSpecified": "Not Specified",
+    "typeNotSpecified": "Type Not Specified",
+    "rentalDuration": "Rental Duration",
+    "availability": "Availability",
+    "available": "Available",
+    "notAvailable": "Not Available",
+    "depositAmount": "Deposit Amount",
+    "rentalTerms": "Rental Terms",
+    "condition": "Condition",
+    "averageRating": "Average Rating",
+    "stars": "Stars",
+    "reviews": "Reviews",
+    "noReviews": "No reviews yet.",
+    "writeReview": "Write a Review",
+    "rating": "Rating",
+    "review": "Review",
+    "rentNow": "Rent Now",
+    "success": {
+      "productAdded": "Product added successfully!"
+    },
+    "alert": {
+      "maxReviews": "You can only submit up to two reviews for this product.",
+      "productNotAvailable": "Product is not available for rent."
+    }
+  }
 }

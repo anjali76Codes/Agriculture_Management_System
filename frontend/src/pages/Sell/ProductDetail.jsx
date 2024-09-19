@@ -6,8 +6,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/Sell/ProductDetail.css';
 import StarRating from '../../components/StarRating';
 import Payment from './Payment';
+import { useTranslation } from 'react-i18next';
 
 const ProductDetail = () => {
+    const { t } = useTranslation();
     const [product, setProduct] = useState(null);
     const [error, setError] = useState('');
     const [reviewText, setReviewText] = useState('');
@@ -27,10 +29,10 @@ const ProductDetail = () => {
         setIsLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const username = localStorage.getItem('username');
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-            if (!token || !username) {
-                setError('User not authenticated.');
+            if (!token || !userInfo) {
+                setError(t('productDetail.error.auth'));
                 setIsLoading(false);
                 return;
             }
@@ -51,18 +53,18 @@ const ProductDetail = () => {
                 setAverageRating(totalRating / productData.reviews.length);
             }
 
-            if (productData.username === username) {
+            if (productData.username === userInfo.username) {
                 setIsOwner(true);
             }
 
-            const userReviewCount = productData.reviews.filter(review => review.username === username).length;
+            const userReviewCount = productData.reviews.filter(review => review.username === userInfo.username).length;
             setUserReviewsCount(userReviewCount);
         } catch (err) {
-            setError('Error fetching product');
+            setError(t('productDetail.error.fetch'));
         } finally {
             setIsLoading(false);
         }
-    }, [id]);
+    }, [id, t]);
 
     useEffect(() => {
         fetchProduct();
@@ -72,16 +74,18 @@ const ProductDetail = () => {
         e.preventDefault();
 
         if (userReviewsCount >= 2) {
-            alert('You can only submit up to two reviews for this product.');
+            alert(t('productDetail.review.limit'));
             return;
         }
 
         try {
             const token = localStorage.getItem('token');
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
             const response = await axios.post(`http://localhost:3000/api/products/${id}/reviews`, {
                 rating,
                 comment: reviewText,
-                username: localStorage.getItem('username') || 'Anonymous'
+                username: userInfo.username || 'Anonymous'
             }, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -92,7 +96,6 @@ const ProductDetail = () => {
             setReviews(newReviews);
             setReviewText('');
             setRating(1);
-
             setUserReviewsCount(userReviewsCount + 1);
 
             if (newReviews.length > 0) {
@@ -100,7 +103,7 @@ const ProductDetail = () => {
                 setAverageRating(totalRating / newReviews.length);
             }
         } catch (err) {
-            setError('Error submitting review');
+            setError(t('productDetail.error.submitReview'));
         }
     };
 
@@ -112,22 +115,20 @@ const ProductDetail = () => {
         if (product && product.available) {
             setShowPayment(true);
         } else {
-            alert('Product is not available for rent.');
+            alert(t('productDetail.rent.unavailable'));
         }
     };
 
     const handlePaymentSuccess = async (paymentId) => {
         if (!product) {
-            console.error('Product details are not available');
+            console.error(t('productDetail.error.noProduct'));
             return;
         }
 
-        // Retrieve user information from localStorage
         const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
         const username = userInfo.username || 'Anonymous';
         const userEmail = userInfo.email || 'Not Provided';
 
-        // Create the payment details object
         const paymentDetails = {
             username: username,
             email: userEmail,
@@ -160,17 +161,24 @@ const ProductDetail = () => {
                     'Content-Type': 'application/json'
                 }
             });
-            // Optionally handle success response
-            console.log('Payment details successfully stored.');
+
+            // Call the update availability endpoint
+            await axios.patch(`http://localhost:3000/api/products/${product._id}/availability`, {}, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log(t('productDetail.payment.success'));
+            setProduct((prevProduct) => ({ ...prevProduct, available: false }));
+
         } catch (err) {
-            console.error('Error storing payment details:', err);
-            // Optionally handle error
+            console.error(t('productDetail.error.storePayment'), err);
         }
 
         setShowPayment(false);
     };
-
-
 
     if (error) {
         return <Alert variant="danger">{error}</Alert>;
@@ -180,18 +188,20 @@ const ProductDetail = () => {
         return (
             <Container className="mt-4 text-center">
                 <Spinner animation="grow" role="status" variant="primary">
-                    <span className="visually-hidden">Loading...</span>
+                    <span className="visually-hidden">{t('productDetail.loading')}</span>
                 </Spinner>
-                <p>Loading product details...</p>
+                <p>{t('productDetail.loadingText')}</p>
             </Container>
         );
     }
 
     if (!product) {
-        return <div>No product found</div>;
+        return <div>{t('productDetail.notFound')}</div>;
     }
 
     const displayedReviews = showMore ? reviews : reviews.slice(0, reviewsToShow);
+    const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
+    const username = userInfo.username;
 
     return (
         <Container className="mt-4">
@@ -206,7 +216,7 @@ const ProductDetail = () => {
                                             <Card.Img
                                                 variant="top"
                                                 src={image}
-                                                alt={product.name || 'Product Image'}
+                                                alt={product.name || t('productDetail.imageAlt')}
                                                 className="product-image"
                                             />
                                         </Carousel.Item>
@@ -216,7 +226,7 @@ const ProductDetail = () => {
                                 <Card.Img
                                     variant="top"
                                     src={product.images[0] || '/path/to/default-image.jpg'}
-                                    alt={product.name || 'Product Image'}
+                                    alt={product.name || t('productDetail.imageAlt')}
                                     className="product-image"
                                 />
                             )}
@@ -226,41 +236,41 @@ const ProductDetail = () => {
                 <Col md={4}>
                     <Card className="product-details-card shadow-sm">
                         <Card.Body>
-                            <Card.Title>{product.name || 'Product Name'}</Card.Title>
-                            <Card.Text className="text-muted">{product.description || 'No Description'}</Card.Text>
+                            <Card.Title>{product.name || t('productDetail.defaultName')}</Card.Title>
+                            <Card.Text className="text-muted">{product.description || t('productDetail.noDescription')}</Card.Text>
                             <Card.Text>
-                                <strong className="price-text">${product.price ? product.price.toFixed(2) : '0.00'}</strong>
+                                <strong className="price-text">₹{product.price ? product.price.toFixed(2) : '0.00'}</strong>
                             </Card.Text>
                             <Card.Text>
-                                <small className="text-muted">Location: {product.location || 'Not Specified'}</small>
+                                <small className="text-muted">{t('productDetail.location')}: {product.location || t('productDetail.notSpecified')}</small>
                             </Card.Text>
                             <Card.Text>
-                                <Badge bg="info" className='badge'>{product.type || 'Type Not Specified'}</Badge>
+                                <Badge bg="info" className='badge'>{product.type || t('productDetail.typeNotSpecified')}</Badge>
                             </Card.Text>
                             <Card.Text>
-                                <strong>Rental Duration: {product.rentalDuration || 'Not Specified'}</strong>
+                                <strong>{t('productDetail.rentalDuration')}: {product.rentalDuration || t('productDetail.notSpecified')}</strong>
                             </Card.Text>
                             <Card.Text>
-                                <strong>Availability: {product.available ? 'Available' : 'Not Available'}</strong>
+                                <strong>{t('productDetail.availability')}: {product.available ? t('productDetail.available') : t('productDetail.notAvailable')}</strong>
                             </Card.Text>
                             {product.depositAmount && (
                                 <Card.Text>
-                                    <strong>Deposit Amount: ${product.depositAmount.toFixed(2)}</strong>
+                                    <strong>{t('productDetail.depositAmount')}: ₹{product.depositAmount.toFixed(2)}</strong>
                                 </Card.Text>
                             )}
                             {product.rentalTerms && (
                                 <Card.Text>
-                                    <strong>Rental Terms:</strong>
+                                    <strong>{t('productDetail.rentalTerms')}:</strong>
                                     <p>{product.rentalTerms}</p>
                                 </Card.Text>
                             )}
                             {product.condition && (
                                 <Card.Text>
-                                    <strong>Condition: {product.condition}</strong>
+                                    <strong>{t('productDetail.condition')}: {product.condition}</strong>
                                 </Card.Text>
                             )}
                             <Button variant="primary" className="w-100 bttn" onClick={handleRentNow} disabled={!product.available}>
-                                Rent Now
+                                {t('productDetail.rentNow')}
                             </Button>
                         </Card.Body>
                     </Card>
@@ -287,10 +297,10 @@ const ProductDetail = () => {
                 <Col>
                     <Card className="shadow-sm reviews">
                         <Card.Body>
-                            <Card.Title>Average Rating</Card.Title>
+                            <Card.Title>{t('productDetail.averageRating')}</Card.Title>
                             <StarRating rating={averageRating} size={24} readonly />
-                            <p>{averageRating.toFixed(1)} Stars</p>
-                            <Card.Title>Reviews ({reviews.length})</Card.Title>
+                            <p>{averageRating.toFixed(1)} {t('productDetail.stars')}</p>
+                            <Card.Title>{t('productDetail.reviews')} ({reviews.length})</Card.Title>
                             <ListGroup>
                                 {displayedReviews.length > 0 ? (
                                     displayedReviews.map((review, index) => (
@@ -300,12 +310,12 @@ const ProductDetail = () => {
                                         </ListGroup.Item>
                                     ))
                                 ) : (
-                                    <ListGroup.Item>No reviews yet</ListGroup.Item>
+                                    <ListGroup.Item>{t('productDetail.noReviews')}</ListGroup.Item>
                                 )}
                             </ListGroup>
                             {reviews.length > reviewsToShow && (
                                 <Button variant="link" onClick={toggleShowMore}>
-                                    {showMore ? 'Show Less' : 'Show More'}
+                                    {showMore ? t('productDetail.showLess') : t('productDetail.showMore')}
                                 </Button>
                             )}
                         </Card.Body>
@@ -313,34 +323,36 @@ const ProductDetail = () => {
                 </Col>
             </Row>
 
-            <Row>
-                <Col>
-                    <Card className="shadow-sm">
-                        <Card.Body>
-                            <Card.Title>Write a Review</Card.Title>
-                            <Form onSubmit={handleReviewSubmit}>
-                                <Form.Group controlId="rating">
-                                    <Form.Label>Rating</Form.Label>
-                                    <StarRating rating={rating} onChange={setRating} size={24} />
-                                </Form.Group>
-                                <Form.Group controlId="reviewText">
-                                    <Form.Label>Review</Form.Label>
-                                    <Form.Control
-                                        as="textarea"
-                                        rows={3}
-                                        value={reviewText}
-                                        onChange={(e) => setReviewText(e.target.value)}
-                                        required
-                                    />
-                                </Form.Group>
-                                <Button type="submit" variant="primary" className="mt-2 bttn">
-                                    Submit Review
-                                </Button>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
+            {username !== product.username && (
+                <Row>
+                    <Col>
+                        <Card className="shadow-sm">
+                            <Card.Body>
+                                <Card.Title>{t('productDetail.writeReview')}</Card.Title>
+                                <Form onSubmit={handleReviewSubmit}>
+                                    <Form.Group controlId="rating">
+                                        <Form.Label>{t('productDetail.rating')}</Form.Label>
+                                        <StarRating rating={rating} onChange={setRating} size={24} />
+                                    </Form.Group>
+                                    <Form.Group controlId="reviewText">
+                                        <Form.Label>{t('productDetail.review')}</Form.Label>
+                                        <Form.Control
+                                            as="textarea"
+                                            rows={3}
+                                            value={reviewText}
+                                            onChange={(e) => setReviewText(e.target.value)}
+                                            required
+                                        />
+                                    </Form.Group>
+                                    <Button type="submit" variant="primary" className="mt-2 bttn">
+                                        {t('productDetail.submitReview')}
+                                    </Button>
+                                </Form>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+            )}
         </Container>
     );
 };

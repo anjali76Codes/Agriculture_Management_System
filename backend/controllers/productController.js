@@ -139,3 +139,29 @@ exports.getSalesMetrics = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+
+
+// Update product availability
+exports.updateProductAvailability = async (req, res) => {
+    try {
+        const { id } = req.params; // Extract product ID from route params
+
+        // Update the product's availability to false
+        const updatedProduct = await Product.findByIdAndUpdate(
+            id,
+            { available: false },
+            { new: true } // This option returns the updated document
+        );
+
+        // Handle case where product is not found
+        if (!updatedProduct) {
+            return res.status(404).json({ error: 'Product not found.' });
+        }
+
+        // Return the updated product details
+        res.status(200).json({ message: 'Product availability updated successfully.', product: updatedProduct });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

@@ -10,6 +10,7 @@
     border-radius: 15px;
     background-color: #d1f1d96a;
 }
+
 .product-image {
     cursor: pointer;
     transition: transform 0.3s ease;
@@ -23,9 +24,11 @@
     color: #28a745;
     font-size: 1.25rem;
 }
-.badge{
+
+.badge {
     background-color: #28a745;
 }
+
 .my-review {
     background-color: #f8f9fa;
 }
@@ -34,9 +37,11 @@ img.img-fluid {
     width: 100%;
     height: auto;
 }
-.bttn{
+
+.bttn {
     border-color: #104a1d;
 }
-.reviews{
+
+.reviews {
     background-color: #d1f1d96a;
 }
