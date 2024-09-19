@@ -3,22 +3,20 @@ const { runGeminiChat } = require('../utils/GeminiApi');
 
 exports.uploadCrop = async (req, res) => {
   try {
-    // Generate guidance for the next stages using the Gemini API
     const prompt = `
       Provide guidance on the following crop and stage:
       Crop Name: ${req.body.name}
       Growth Stage: ${req.body.stage}
-
+      
       Please provide:
       1. Important management practices for this stage (e.g., irrigation, fertilization, pest control)
       2. Expected growth patterns and timelines
       3. Indicators of healthy growth and potential problems
       4. Tips for maximizing yield and quality
     `;
-    
-    const guidance = await runGeminiChat(req.body.name, req.body.stage, prompt);  // Generate guidance using Gemini
 
-    // Store crop with image, name, stage, and guidance
+    const guidance = await runGeminiChat(req.body.name, req.body.stage, prompt);
+
     const newCrop = new Crop({
       name: req.body.name,
       stage: req.body.stage,
@@ -26,7 +24,8 @@ exports.uploadCrop = async (req, res) => {
         data: req.file.buffer,
         contentType: req.file.mimetype
       },
-      guidance: guidance  // Store guidance in the database
+      guidance: guidance,
+      username: req.body.username // Store username from the request body
     });
 
     await newCrop.save();
@@ -43,7 +42,10 @@ exports.uploadCrop = async (req, res) => {
 // Get all crops
 exports.getAllCrops = async (req, res) => {
   try {
-    const crops = await Crop.find();
+    const username = req.query.username; // Get username from query parameters
+    const query = username ? { username } : {}; // Filter by username if provided
+
+    const crops = await Crop.find(query); // Fetch crops based on the query
     res.json(crops);
   } catch (err) {
     res.status(500).json({ error: err.message });

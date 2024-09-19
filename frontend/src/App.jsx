@@ -43,7 +43,7 @@ const AppContent = () => {
     <div className="app-container">
       {isAuthenticated && <Sidebar />}
       <Navbar /> {/* Show Navbar regardless of authentication */}
-      
+
       <div className="language-dropdown mb-4">
         <Dropdown>
           <Dropdown.Toggle variant="success" id="language-dropdown">

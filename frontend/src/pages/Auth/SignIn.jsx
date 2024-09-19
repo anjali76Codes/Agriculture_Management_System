@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 import '../../styles/Auth/SignIn.css';
 
 function SignIn() {
@@ -10,6 +11,7 @@ function SignIn() {
     const navigate = useNavigate();
     const location = useLocation();
     const { login } = useAuth(); // Use login function from context
+    const { t } = useTranslation(); // Initialize useTranslation
 
     // Extract the redirect path from query parameters
     const queryParams = new URLSearchParams(location.search);
@@ -31,7 +33,7 @@ function SignIn() {
         setError('');
 
         if (!formData.email || !formData.password) {
-            setError('Please fill in all fields');
+            setError(t('signin.fillFields')); // Use translation for error message
             return;
         }
 
@@ -54,11 +56,11 @@ function SignIn() {
             }
         } catch (error) {
             if (error.response) {
-                setError(error.response.data.message || 'An error occurred. Please try again.');
+                setError(error.response.data.message || t('signin.error')); // Use translation for error message
             } else if (error.request) {
-                setError('No response from the server. Please try again.');
+                setError(t('signin.noResponse'));
             } else {
-                setError('An error occurred. Please try again.');
+                setError(t('signin.error'));
             }
         }
     };
@@ -66,27 +68,25 @@ function SignIn() {
     return (
         <div className="signin-container">
             <div className="signin-card">
-                <h1 className="signin-title">SIGNIN</h1>
+                <h1 className="signin-title">{t('signin.title')}</h1>
                 {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        {/* <label htmlFor="email" className="form-label">Email</label> */}
                         <input
                             type="email"
                             className="form-control"
                             id="email"
-                            placeholder="Email"
+                            placeholder={t('signin.emailPlaceholder')}
                             onChange={handleChange}
                             value={formData.email}
                         />
                     </div>
                     <div className="form-group">
-                        {/* <label htmlFor="password" className="form-label">Password</label> */}
                         <input
                             type="password"
                             className="form-control"
                             id="password"
-                            placeholder="Password"
+                            placeholder={t('signin.passwordPlaceholder')}
                             onChange={handleChange}
                             value={formData.password}
                         />
@@ -95,11 +95,11 @@ function SignIn() {
                         type="submit"
                         className="signin-button"
                     >
-                        Sign in
+                        {t('signin.buttonText')}
                     </button>
                 </form>
                 <p className="signin-footer">
-                    Don't have an account? <Link to="/signup" className="signin-link">Sign up</Link>
+                    {t('signin.footerText')} <Link to="/signup" className="signin-link">{t('signin.signupLink')}</Link>
                 </p>
             </div>
         </div>

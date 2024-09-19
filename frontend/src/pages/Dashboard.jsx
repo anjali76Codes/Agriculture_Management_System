@@ -3,7 +3,8 @@ import axios from 'axios';
 import { Container, Row, Col, Card, Spinner, Alert, Nav, Tab } from 'react-bootstrap';
 import { Line, Bar, Doughnut, Scatter } from 'react-chartjs-2';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/Dashboard.css'; // Import the CSS file
+import '../styles/Dashboard.css';
+import { useTranslation } from 'react-i18next';
 
 import {
   Chart as ChartJS,
@@ -37,6 +38,7 @@ const API_URL = 'https://api.openweathermap.org/data/2.5';
 const SALES_API_URL = 'http://localhost:3000/api/sales-metrics';
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const [weatherData, setWeatherData] = useState(null);
   const [error, setError] = useState(null);
   const [salesData, setSalesData] = useState(null);
@@ -56,10 +58,8 @@ const Dashboard = () => {
     try {
       const res = await axios.get(`${API_URL}/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
       setWeatherData(res.data);
-      setError(null);
-    } catch (err) {
-      setError("Error fetching weather data. Please try again later.");
-      setWeatherData(null);
+    } catch {
+      setError(t('dashboard.weatherFetchError'));
     } finally {
       setLoading(false);
     }
@@ -69,16 +69,14 @@ const Dashboard = () => {
     try {
       const res = await axios.get(`${API_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
       setCurrentWeather(res.data);
-      setError(null);
-    } catch (err) {
-      setError("Error fetching current weather data.");
-      setCurrentWeather(null);
+    } catch {
+      setError(t('dashboard.currentWeatherFetchError'));
     }
   };
 
   const fetchCurrentLocationWeather = () => {
     if (!navigator.geolocation) {
-      setError("Geolocation is not supported by your browser.");
+      setError(t('dashboard.geolocationNotSupported'));
       setLoading(false);
       return;
     }
@@ -89,8 +87,8 @@ const Dashboard = () => {
         fetchWeatherData(latitude, longitude);
         fetchCurrentWeather(latitude, longitude);
       },
-      (err) => {
-        setError("Error retrieving location. Please make sure location services are enabled.");
+      () => {
+        setError(t('dashboard.locationRetrievalError'));
       },
       { timeout: 10000 }
     );
@@ -98,7 +96,7 @@ const Dashboard = () => {
 
   const fetchSalesMetrics = async () => {
     if (!username) {
-      setError("Username is not defined.");
+      setError(t('dashboard.usernameUndefined'));
       return;
     }
 
@@ -106,10 +104,8 @@ const Dashboard = () => {
     try {
       const res = await axios.get(`${SALES_API_URL}?username=${username}`);
       setSalesData(res.data);
-      setError(null);
-    } catch (err) {
-      setError("Error fetching sales metrics.");
-      setSalesData(null);
+    } catch {
+      setError(t('dashboard.salesMetricsFetchError'));
     } finally {
       setLoading(false);
     }
@@ -119,6 +115,7 @@ const Dashboard = () => {
     if (!weatherData) return [];
     const forecasts = weatherData.list || [];
     const dailyForecasts = [];
+
     forecasts.forEach(forecast => {
       const day = new Date(forecast.dt * 1000).toLocaleString('en-US', { weekday: 'long' });
       if (!dailyForecasts.some(d => d.day === day)) {
@@ -134,21 +131,20 @@ const Dashboard = () => {
         });
       }
     });
+
     return dailyForecasts;
   };
 
   const dailyForecasts = getDailyForecasts();
   const weatherChartData = {
     labels: dailyForecasts.map(day => day.day),
-    datasets: [
-      {
-        label: 'Temperature (°C)',
-        data: dailyForecasts.map(day => day.temp.toFixed(2)),
-        borderColor: 'rgb(16, 92, 21)',
-        backgroundColor: 'rgb(32, 186, 42)',
-        borderWidth: 2
-      }
-    ]
+    datasets: [{
+      label: t('dashboard.temperatureChartLabel'),
+      data: dailyForecasts.map(day => day.temp.toFixed(2)),
+      borderColor: 'rgba(75,192,192,1)',
+      backgroundColor: 'rgba(75,192,192,0.2)',
+      borderWidth: 2
+    }]
   };
 
   const salesDataValues = {
@@ -158,58 +154,47 @@ const Dashboard = () => {
   };
 
   const salesChartData = {
-    labels: ['Total Sales', 'Products for Rent', 'Average Reviews'],
-    datasets: [
-      {
-        label: 'Sales Metrics',
-        data: [salesDataValues.totalSales, salesDataValues.productsForRent, salesDataValues.averageReviews],
-        backgroundColor: ['rgba(255,99,132,0.6)', 'rgba(54,162,235,0.6)', 'rgba(255,206,86,0.6)'],
-        borderColor: ['rgba(255,99,132,1)', 'rgba(54,162,235,1)', 'rgba(255,206,86,1)'],
-        borderWidth: 2
-      }
-    ]
+    labels: ['Total Sales', 'Products for Rent', 'Average Reviews'], // Plain English labels
+    datasets: [{
+      label: t('dashboard.salesMetricsLabel'),
+      data: [salesDataValues.totalSales, salesDataValues.productsForRent, salesDataValues.averageReviews],
+      backgroundColor: ['rgba(255,99,132,0.6)', 'rgba(54,162,235,0.6)', 'rgba(255,206,86,0.6)'],
+      borderColor: ['rgba(255,99,132,1)', 'rgba(54,162,235,1)', 'rgba(255,206,86,1)'],
+      borderWidth: 2
+    }]
   };
 
   const rentReviewsChartData = {
     labels: ['Products for Rent', 'Average Reviews'],
-    datasets: [
-      {
-        label: 'Products for Rent vs Average Reviews',
-        data: [salesDataValues.productsForRent, salesDataValues.averageReviews],
-        backgroundColor: ['rgba(255,159,64,0.6)', 'rgba(75,192,192,0.6)'],
-        borderColor: ['rgba(255,159,64,1)', 'rgba(75,192,192,1)'],
-        borderWidth: 2
-      }
-    ]
+    datasets: [{
+      label: 'Rent Products Reviews',
+      data: [salesDataValues.productsForRent, salesDataValues.averageReviews],
+      backgroundColor: ['rgba(255,159,64,0.6)', 'rgba(75,192,192,0.6)'],
+      borderColor: ['rgba(255,159,64,1)', 'rgba(75,192,192,1)'],
+      borderWidth: 2
+    }]
   };
 
   const scatterChartData = {
-    labels: ['Average Reviews vs Total Sales'],
-    datasets: [
-      {
-        label: 'Reviews vs Sales',
-        data: [{
-          x: salesDataValues.totalSales,
-          y: salesDataValues.averageReviews
-        }],
-        backgroundColor: 'rgba(255,159,64,0.6)',
-        borderColor: 'rgba(255,159,64,1)',
-        borderWidth: 2
-      }
-    ]
+    labels: 'Scattered Data',
+    datasets: [{
+      label: 'Revenue',
+      data: [{ x: salesDataValues.totalSales, y: salesDataValues.averageReviews }],
+      backgroundColor: 'rgba(255,159,64,0.6)',
+      borderColor: 'rgba(255,159,64,1)',
+      borderWidth: 2
+    }]
   };
 
   const totalSalesOverTimeData = {
     labels: dailyForecasts.map(day => day.day),
-    datasets: [
-      {
-        label: 'Total Sales Over Time',
-        data: dailyForecasts.map(day => salesDataValues.totalSales), // Replace with actual sales data if available
-        borderColor: 'rgba(75,192,192,1)',
-        backgroundColor: 'rgba(75,192,192,0.2)',
-        borderWidth: 2
-      }
-    ]
+    datasets: [{
+      label: 'Total Sales overtime',
+      data: dailyForecasts.map(() => salesDataValues.totalSales), // Replace with actual sales data if available
+      borderColor: 'rgba(75,192,192,1)',
+      backgroundColor: 'rgba(75,192,192,0.2)',
+      borderWidth: 2
+    }]
   };
 
   const weatherTableData = dailyForecasts.map(day => ({
@@ -225,7 +210,7 @@ const Dashboard = () => {
 
   return (
     <Container className="mt-4">
-      <h1 className="text-center mb-4 dashboardh1">Farmers' Dashboard</h1>
+      <h1 className="text-center mb-4">{t('dashboard.title')}</h1>
 
       {loading ? (
         <div className="text-center">
@@ -240,13 +225,13 @@ const Dashboard = () => {
               <Col sm={4}>
                 <Nav variant="pills" className="flex-column">
                   <Nav.Item>
-                    <Nav.Link eventKey="currentWeather">Current Weather</Nav.Link>
+                    <Nav.Link eventKey="currentWeather">{t('dashboard.currentWeatherTab')}</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="forecast">5-Day Forecast</Nav.Link>
+                    <Nav.Link eventKey="forecast">{t('dashboard.forecastTab')}</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="salesMetrics">Sales Metrics</Nav.Link>
+                    <Nav.Link eventKey="salesMetrics">{t('dashboard.salesMetricsTab')}</Nav.Link>
                   </Nav.Item>
                 </Nav>
               </Col>
@@ -256,7 +241,7 @@ const Dashboard = () => {
                     {currentWeather && (
                       <Card className="weathercontainer mb-4">
                         <Card.Body>
-                          <h2>Current Weather</h2>
+                          <h2>{t('dashboard.currentWeatherTitle')}</h2>
                           <Card.Text>
                             <section>
                               <p><strong>Temperature:</strong> {(currentWeather.main.temp - 273.15).toFixed(2)} °C</p>
@@ -276,9 +261,9 @@ const Dashboard = () => {
                     {weatherData && (
                       <Card className="mb-4">
                         <Card.Body>
-                          <h2>5-Day Weather Forecast</h2>
+                          <h2>{t('dashboard.forecastTitle')}</h2>
                           <Line data={weatherChartData} options={{ responsive: true, maintainAspectRatio: false }} />
-                          <p className="text-muted">This line chart shows the temperature forecast for the next 5 days.</p>
+                          <p className="text-muted">{t('dashboard.temperatureForecastDescription')}</p>
                         </Card.Body>
                       </Card>
                     )}
@@ -288,33 +273,33 @@ const Dashboard = () => {
                       <>
                         <Card className="mb-4">
                           <Card.Body>
-                            <h2>Sales Metrics (Doughnut Chart)</h2>
+                            <h2>{t('dashboard.salesMetricsDoughnutTitle')}</h2>
                             <Doughnut data={salesChartData} options={{ responsive: true, maintainAspectRatio: false }} />
-                            <p className="text-muted">This doughnut chart illustrates the distribution of total sales, products for rent, and average reviews.</p>
+                            <p className="text-muted">{t('dashboard.salesMetricsDescription')}</p>
                           </Card.Body>
                         </Card>
 
                         <Card className="mb-4">
                           <Card.Body>
-                            <h2>Products for Rent vs Average Reviews (Bar Chart)</h2>
+                            <h2>{t('dashboard.rentReviewsTitle')}</h2>
                             <Bar data={rentReviewsChartData} options={{ responsive: true, maintainAspectRatio: false }} />
-                            <p className="text-muted">This bar chart compares the number of products for rent against average reviews.</p>
+                            <p className="text-muted">{t('dashboard.rentReviewsDescription')}</p>
                           </Card.Body>
                         </Card>
 
                         <Card className="mb-4">
                           <Card.Body>
-                            <h2>Average Reviews vs Total Sales (Scatter Plot)</h2>
+                            <h2>{t('dashboard.reviewsVsSalesTitle')}</h2>
                             <Scatter data={scatterChartData} options={{ responsive: true, maintainAspectRatio: false }} />
-                            <p className="text-muted">This scatter plot shows the relationship between average reviews and total sales.</p>
+                            <p className="text-muted">{t('dashboard.reviewsVsSalesDescription')}</p>
                           </Card.Body>
                         </Card>
 
                         <Card className="mb-4">
                           <Card.Body>
-                            <h2>Total Sales Over Time (Line Chart)</h2>
+                            <h2>{t('dashboard.totalSalesOverTimeTitle')}</h2>
                             <Line data={totalSalesOverTimeData} options={{ responsive: true, maintainAspectRatio: false }} />
-                            <p className="text-muted">This line chart tracks total sales over time, showing trends and fluctuations.</p>
+                            <p className="text-muted">{t('dashboard.totalSalesOverTimeDescription')}</p>
                           </Card.Body>
                         </Card>
                       </>

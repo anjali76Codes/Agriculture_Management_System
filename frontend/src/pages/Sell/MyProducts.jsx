@@ -3,19 +3,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext'; // Import useAuth hook
+import { useAuth } from '../../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const MyProducts = () => {
+    const { t } = useTranslation(); // Initialize translation hook
     const [products, setProducts] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-    const { isAuthenticated } = useAuth(); // Use authentication status from context
+    const { isAuthenticated } = useAuth();
 
     useEffect(() => {
         if (!isAuthenticated) {
-            // Redirect to sign in page if not authenticated
             navigate('/signin');
             return;
         }
@@ -23,10 +24,10 @@ const MyProducts = () => {
         const fetchProducts = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const username = localStorage.getItem('username');
+                const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-                if (!token || !username) {
-                    setError('User not authenticated.');
+                if (!token || !userInfo || !userInfo.username) {
+                    setError(t('myProducts.userNotAuthenticated'));
                     setLoading(false);
                     return;
                 }
@@ -35,14 +36,13 @@ const MyProducts = () => {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
-                    params: {
-                        username,
-                    },
                 });
 
-                setProducts(response.data);
+                // Filter products to match the current user's username
+                const userProducts = response.data.filter(product => product.username === userInfo.username);
+                setProducts(userProducts);
             } catch (err) {
-                setError('Failed to fetch your products.');
+                setError(t('myProducts.fetchError'));
                 console.error('Error fetching products:', err);
             } finally {
                 setLoading(false);
@@ -50,7 +50,7 @@ const MyProducts = () => {
         };
 
         fetchProducts();
-    }, [isAuthenticated, navigate]);
+    }, [isAuthenticated, navigate, t]);
 
     const handleAddProductClick = () => {
         navigate('/products/add');
@@ -58,12 +58,12 @@ const MyProducts = () => {
 
     return (
         <Container className="mt-4">
-            <h2 className="text-center mb-4">My Products</h2>
+            <h2 className="text-center mb-4">{t('myProducts.title')}</h2>
             {error && <div className="alert alert-danger">{error}</div>}
             {loading ? (
                 <div className="text-center">
                     <Spinner animation="border" role="status">
-                        <span className="sr-only">Loading...</span>
+                        <span className="sr-only">{t('myProducts.loading')}</span>
                     </Spinner>
                 </div>
             ) : (
@@ -84,10 +84,10 @@ const MyProducts = () => {
                                                 <Card.Title>{product.name}</Card.Title>
                                                 <Card.Text>{product.description}</Card.Text>
                                                 <Card.Text>
-                                                    <strong>Price: ${product.price.toFixed(2)}</strong>
+                                                    <strong>{t('myProducts.price')}: ₹{product.price.toFixed(2)}</strong>
                                                 </Card.Text>
                                                 <Card.Text>
-                                                    <small className="text-muted">Location: {product.location}</small>
+                                                    <small className="text-muted">{t('myProducts.location')}: {product.location}</small>
                                                 </Card.Text>
                                             </Card.Body>
                                         </Card>
@@ -96,13 +96,13 @@ const MyProducts = () => {
                             </>
                         ) : (
                             <Col className="text-center">
-                                <p>No products available. Rent yours now!</p>
+                                <p>{t('myProducts.noProducts')}</p>
                             </Col>
                         )}
                     </Row>
                     <div className="text-center mt-4">
                         <Button variant="primary" className='bttn' onClick={handleAddProductClick}>
-                            Add a New Product
+                            {t('myProducts.addProductButton')}
                         </Button>
                     </div>
                 </>
@@ -112,3 +112,4 @@ const MyProducts = () => {
 };
 
 export default MyProducts;
+    

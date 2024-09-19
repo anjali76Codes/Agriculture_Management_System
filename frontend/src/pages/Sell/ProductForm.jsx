@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-datepicker/dist/react-datepicker.css'; // Import the CSS for react-datepicker
+import 'react-datepicker/dist/react-datepicker.css';
 import { Carousel, Button, Form, Col, Row, Card, Alert, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 import { storage } from '../../components/firebase';
@@ -8,10 +8,12 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useTranslation } from 'react-i18next';
 import LanguageToggle from '../../components/LanguageToggle';
 import DatePicker from 'react-datepicker';
-import '../../styles/Sell/ProductForm.css'
+import { useNavigate } from 'react-router-dom';
+import '../../styles/Sell/ProductForm.css';
 
 const ProductForm = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
 
     // State hooks
     const [productName, setProductName] = useState('');
@@ -29,15 +31,49 @@ const ProductForm = () => {
     const [submitMessage, setSubmitMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // Automatically set deposit amount to half of the price
+    useEffect(() => {
+        if (productPrice) {
+            setDepositAmount((parseFloat(productPrice) / 2).toString());
+        }
+    }, [productPrice]);
+
+    // Automatically set end date based on the start date when a rental duration is selected
+    useEffect(() => {
+        if (availabilityDates.startDate) {
+            const newEndDate = new Date(availabilityDates.startDate);
+            if (rentalDuration === '1 week') {
+                newEndDate.setDate(newEndDate.getDate() + 7);
+            } else if (rentalDuration === '1 month') {
+                newEndDate.setMonth(newEndDate.getMonth() + 1);
+            } else if (rentalDuration === '3 months') {
+                newEndDate.setMonth(newEndDate.getMonth() + 3);
+            } else if (rentalDuration === '6 months') {
+                newEndDate.setMonth(newEndDate.getMonth() + 6);
+            } else if (rentalDuration === '1 year') {
+                newEndDate.setFullYear(newEndDate.getFullYear() + 1);
+            }
+            setAvailabilityDates(prev => ({ ...prev, endDate: newEndDate }));
+        }
+    }, [rentalDuration, availabilityDates.startDate]);
+
     // Handle image file changes
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
-        if (files.length > 5) {
+        const validImages = files.filter(file => file.type.startsWith('image/'));
+
+        if (validImages.length !== files.length) {
+            setImageError(t('error.invalidFileType'));
+            return;
+        }
+
+        if (validImages.length > 5) {
             setImageError(t('error.maxImages'));
             return;
         }
+
         setImageError('');
-        setProductImages(files);
+        setProductImages(validImages);
     };
 
     // Remove selected image
@@ -63,17 +99,18 @@ const ProductForm = () => {
         return uploadedImageURLs;
     };
 
-    // Handle form submission
+    // Inside the handleSubmit function
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            const token = localStorage.getItem('token');
-            const username = localStorage.getItem('username');
+            const userInfo = JSON.parse(localStorage.getItem('userInfo')); // Parse the userInfo object
 
-            if (!token || !username) {
+            if (!userInfo || !userInfo.token || !userInfo.username) {
                 throw new Error(t('error.authError'));
             }
+
+            const { token, username } = userInfo; // Destructure token and username
 
             const userPath = `users/${username}`;
             const imagePath = `${userPath}/${productName}/images`;
@@ -87,15 +124,15 @@ const ProductForm = () => {
                 type: productCategory,
                 location,
                 rentalDuration,
-                available: availabilityDates.startDate ? true : false, // Available if startDate is set
+                available: availabilityDates.startDate ? true : false,
                 depositAmount,
                 condition,
                 contactInfo,
                 images: imageURLs,
-                category: productCategory, // Added category field
-                tags: [], // Add tags as needed
-                rentalTerms: "", // Add rental terms as needed
-                reviews: [], // Add reviews as needed
+                category: productCategory,
+                tags: [],
+                rentalTerms: "",
+                reviews: [],
                 availabilityDates: [
                     {
                         startDate: availabilityDates.startDate ? new Date(availabilityDates.startDate) : null,
@@ -111,7 +148,8 @@ const ProductForm = () => {
                 },
             });
 
-            setSubmitMessage(t('success.productAdded'));
+            setSubmitMessage("Updated successfully");
+            navigate('/products/my-products');
         } catch (error) {
             setSubmitMessage(t('error.submitFailed'));
             console.error('Error submitting form:', error);
@@ -120,13 +158,14 @@ const ProductForm = () => {
         }
     };
 
+
     return (
         <div className="container mt-4">
-            <LanguageToggle />
+            {/* <LanguageToggle /> */}
             <h2 className="text-center mb-4">{t('form.title')}</h2>
             <Form onSubmit={handleSubmit}>
                 {submitMessage && (
-                    <Alert variant={submitMessage.includes("Product added Successfully") ? 'success' : 'danger'}>
+                    <Alert variant={submitMessage.includes("Updated successfully") ? 'success' : 'danger'}>
                         {submitMessage}
                     </Alert>
                 )}
@@ -231,6 +270,7 @@ const ProductForm = () => {
                                         onChange={(date) => setAvailabilityDates(prev => ({ ...prev, endDate: date }))}
                                         className="form-control"
                                         placeholderText={t('form.selectEndDate')}
+                                        disabled
                                     />
                                 </Col>
                             </Row>

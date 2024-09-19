@@ -16,6 +16,10 @@ const cropSchema = new mongoose.Schema({
   },
   guidance: {
     type: String  // Store guidance as a string
+  },
+  username: {
+    type: String, // Store the username of the user who uploaded the crop
+    required: true
   }
 });
 

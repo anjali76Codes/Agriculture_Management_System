@@ -11,7 +11,7 @@ const upload = multer({ storage });
 
 // Routes
 router.post('/upload', upload.single('image'), uploadCrop);
-router.get('/', getAllCrops); // Get all crops
+router.get('/', getAllCrops); // Get all crops (now supports filtering by username)
 router.get('/:id', getCropImage); // Get specific crop image
 router.delete('/:id', deleteCrop); // Delete crop
 
