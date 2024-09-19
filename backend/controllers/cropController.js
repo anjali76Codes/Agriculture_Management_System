@@ -9,10 +9,8 @@ exports.uploadCrop = async (req, res) => {
       Growth Stage: ${req.body.stage}
       
       Please provide:
-      1. Important management practices for this stage (e.g., irrigation, fertilization, pest control)
-      2. Expected growth patterns and timelines
-      3. Indicators of healthy growth and potential problems
-      4. Tips for maximizing yield and quality
+      1. From Seed, Germination, Vegetative, Flowering, Harvest;  Each stage 1 line point don't include current stage.
+      2. Basic information in one point each about temperature, yield increase, duration of each stage and overall management.
     `;
 
     const guidance = await runGeminiChat(req.body.name, req.body.stage, prompt);
