@@ -10,7 +10,7 @@ const MyCrops = () => {
   const [stage, setStage] = useState('');
   const [crops, setCrops] = useState([]);
   const [preview, setPreview] = useState('');
-  const [guidance, setGuidance] = useState('');
+  const [guidance, setGuidance] = useState([]);
 
   const fileInputRef = useRef(null);
 
@@ -57,8 +57,15 @@ const MyCrops = () => {
         }
       });
 
-      const { guidance } = response.data;
-      setGuidance(guidance || t('myCrops.noGuidance'));
+      const guidance = response.data.guidance; // Access guidance from response
+      if (guidance) {
+        // Split guidance into an array of points
+        const guidancePoints = guidance.split('\n\n').map(point => point.trim());
+        setGuidance(guidancePoints.length > 0 ? guidancePoints : [t('myCrops.noGuidance')]);
+      } else {
+        setGuidance([t('myCrops.noGuidance')]); // Set to default message if guidance is undefined
+      }
+
       alert(t('myCrops.uploadSuccess'));
 
       setFile(null);
@@ -75,6 +82,7 @@ const MyCrops = () => {
       alert(t('myCrops.uploadError'));
     }
   };
+
 
   const fetchCrops = async () => {
     try {
@@ -159,6 +167,7 @@ const MyCrops = () => {
               src={`http://localhost:3000/api/crops/${crop._id}`}
               alt={crop.name}
             />
+            <p>Guidance: {crop.guidance || t('myCrops.noGuidance')}</p> {/* Display guidance */}
             <button
               className="delete-button"
               onClick={() => handleDelete(crop._id)}
@@ -169,14 +178,14 @@ const MyCrops = () => {
         ))}
       </div>
 
-      {guidance && (
+      {guidance.length > 0 && (
         <div className="guidance-section">
           <h3>{t('myCrops.guidanceTitle')}</h3>
           <div className="guidance-cards">
-            {guidance.split('\n\n').map((stage, index) => (
+            {guidance.map((point, index) => (
               <div key={index} className="guidance-card">
-                <h4>{stage.split('\n')[0]}</h4>
-                <p>{stage.split('\n').slice(1).join('\n')}</p>
+                <h4>{t(`myCrops.guidancePoint${index + 1}`)}</h4>
+                <p>{point}</p>
               </div>
             ))}
           </div>

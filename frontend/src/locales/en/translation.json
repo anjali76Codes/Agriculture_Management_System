@@ -129,7 +129,9 @@
   "navbar": {
     "home": "Home",
     "about": "About",
-    "profile": "Profile"
+    "profile": "Profile",
+    "signup": "Sign up",
+    "signin": "Sign in"
   },
   "profile": {
     "title": "Profile",

@@ -29,13 +29,10 @@ async function runGeminiChat(cropName, growthStage, additionalInfo) {
     Provide guidance on the following crop and stage:
     Crop Name: ${cropName}
     Growth Stage: ${growthStage}
-    Additional Information: ${additionalInfo}
     
-For the subsequent stage(s), please provide:
-  1. Important management practices for the next stage(s) (e.g., irrigation, fertilization, pest control)
-  2. Expected growth patterns and timelines for the next stage(s)
-  3. Indicators of healthy growth and potential problems to watch for in the subsequent stage(s)
-  4. Tips for maximizing yield and quality in the next stage(s)
+ Please provide:
+      1. From Seed, Germination, Vegetative, Flowering, Harvest;  Each stage 1 line point don't include current stage.
+      2. Basic information in one point each about temperature, yield increase, duration of each stage and overall management.
 `;
 
   const chatSession = model.startChat({
