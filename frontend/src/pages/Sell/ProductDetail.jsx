@@ -206,7 +206,7 @@ const ProductDetail = () => {
     return (
         <Container className="mt-4">
             <Row className="mb-4">
-                <Col md={8}>
+                <Col md={6}>
                     <Card className="product-card shadow-sm">
                         <Card.Body>
                             {product.images.length > 1 ? (
@@ -233,7 +233,7 @@ const ProductDetail = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col md={4}>
+                <Col md={6}>
                     <Card className="product-details-card shadow-sm">
                         <Card.Body>
                             <Card.Title>{product.name || t('productDetail.defaultName')}</Card.Title>

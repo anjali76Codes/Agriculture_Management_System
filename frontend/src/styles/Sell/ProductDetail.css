@@ -16,6 +16,23 @@
     transition: transform 0.3s ease;
 }
 
+.carousel-control-next, .carousel-control-prev{
+    background-color: #104a1d;
+    opacity: 0.9;
+    height: 40px;
+    width: 40px;
+    margin: auto;
+    color: white;
+    border-radius: 24px;
+    padding: 2px;
+
+    .span{
+        font-weight: bolder;
+    }
+}
+.carousel-indicators{
+    opacity: 1;
+}
 .product-image:hover {
     transform: scale(1.05);
 }

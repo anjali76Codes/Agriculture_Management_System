@@ -123,6 +123,7 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: auto;
 }
 
 .guidance-section h3 {
@@ -133,8 +134,9 @@
 
 .guidance-section p {
   font-size: 1rem;
-  color: #555;
-  line-height: 1.6;
+  color: #0c0707;
+  line-height: 1.9;
+  font-weight: 500;
 }
 
 /* Responsive design */
