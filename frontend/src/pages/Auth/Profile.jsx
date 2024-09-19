@@ -48,7 +48,7 @@ function Profile() {
         setLoading(false);
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          logout(); 
+          logout();
           navigate('/signin');
         } else {
           setError(t('profile.fetchError'));
@@ -233,6 +233,12 @@ function Profile() {
               className="btn btn-danger"
             >
               {t('button.logout')}
+            </button>
+            <button
+              onClick={() => navigate('/rented-products')}
+              className="btn btn-info mt-3"
+            >
+              {t('button.viewRentedProducts')}
             </button>
           </div>
         )}
