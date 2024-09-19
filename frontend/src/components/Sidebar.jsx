@@ -16,6 +16,7 @@ const Sidebar = () => {
   };
 
   return (
+    <>
     <div className={`sidebar ${collapsed ? 'collapsed' : 'expanded'}`}>
       <Button onClick={toggleSidebar} className="sidebar-toggle">
         {collapsed ? <FaBars /> : <FaTimes />}
@@ -66,6 +67,7 @@ const Sidebar = () => {
         </Nav.Link>
       </Nav>
     </div>
+    </>
   );
 };
 

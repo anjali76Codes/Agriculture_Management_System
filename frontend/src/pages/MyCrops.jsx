@@ -132,13 +132,13 @@ const MyCrops = () => {
           accept="image/*"
           required
         />
-        <select value={stage} onChange={handleStageChange} required>
-          <option value="">{t('myCrops.selectStage')}</option>
-          <option value="Seed">{t('myCrops.stageSeed')}</option>
-          <option value="Germination">{t('myCrops.stageGermination')}</option>
-          <option value="Vegetative">{t('myCrops.stageVegetative')}</option>
-          <option value="Flowering">{t('myCrops.stageFlowering')}</option>
-          <option value="Harvest">{t('myCrops.stageHarvest')}</option>
+        <select value={stage} onChange={handleStageChange} required className='croptype'>
+          <option value="" className='opt'>Select Crop Stage</option>
+          <option value="Seed" className='opt'>Seed</option>
+          <option value="Germination" className='opt'>Germination</option>
+          <option value="Vegetative" className='opt'>Vegetative</option>
+          <option value="Flowering" className='opt'>Flowering</option>
+          <option value="Harvest" className='opt'>Harvest</option>
         </select>
         <button type="submit">{t('myCrops.uploadButton')}</button>
       </form>
