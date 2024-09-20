@@ -54,7 +54,7 @@ const RentedProducts = () => {
 
                 setRentedProducts(productsWithDetails);
             } catch (err) {
-                setError('Failed to fetch rented products.');
+             
                 console.error('Error fetching rented products:', err);
             } finally {
                 setLoading(false);
