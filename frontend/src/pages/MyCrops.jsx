@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next'; // Import useTranslation
 import '../styles/MyCrops.css'; // Ensure the path is correct
+import { Col, Row } from 'react-bootstrap';
 
 const MyCrops = () => {
   const { t } = useTranslation(); // Initialize translation hook
@@ -162,12 +163,22 @@ const MyCrops = () => {
       <div className="uploaded-crops">
         {crops.map((crop) => (
           <div key={crop._id} className="crop-item">
+            
             <h3>{crop.name} - {t('myCrops.stageLabel')}: {crop.stage}</h3>
-            <img
-              src={`http://localhost:3000/api/crops/${crop._id}`}
-              alt={crop.name}
-            />
-            <p>Guidance: {crop.guidance || t('myCrops.noGuidance')}</p> {/* Display guidance */}
+            {/* <section> */}
+              <Row >
+                <Col lg={5}>
+                  <img
+                    src={`http://localhost:3000/api/crops/${crop._id}`}
+                    alt={crop.name}
+                  />
+                  </Col>
+                  <Col>
+                  <p><b>Guidance: </b> {crop.guidance || t('myCrops.noGuidance')}</p>
+                </Col>
+              </Row>
+            
+            {/* </section> */}
             <button
               className="delete-button"
               onClick={() => handleDelete(crop._id)}
@@ -178,7 +189,7 @@ const MyCrops = () => {
         ))}
       </div>
 
-      {guidance.length > 0 && (
+      {/* {guidance.length > 0 && (
         <div className="guidance-section">
           <h3>{t('myCrops.guidanceTitle')}</h3>
           <div className="guidance-cards">
@@ -190,7 +201,7 @@ const MyCrops = () => {
             ))}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
