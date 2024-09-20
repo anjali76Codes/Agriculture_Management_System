@@ -165,3 +165,68 @@ exports.updateProductAvailability = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+
+// Update product details, including availability
+exports.updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params; // Extract product ID from route params
+        const updates = req.body; // Get updates from the request body
+
+        // Check if the product exists
+        const product = await Product.findById(id);
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found.' });
+        }
+
+        // Update product details
+        Object.assign(product, updates); // Merge updates into product
+        await product.save(); // Save updated product
+
+        res.status(200).json({ message: 'Product updated successfully.', product });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+// Update product details, including availability
+exports.updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params; // Extract product ID from route params
+        const updates = req.body; // Get updates from the request body
+
+        // Check if the product exists
+        const product = await Product.findById(id);
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found.' });
+        }
+
+        // Update product details
+        Object.assign(product, updates); // Merge updates into product
+        await product.save(); // Save updated product
+
+        res.status(200).json({ message: 'Product updated successfully.', product });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Delete a product
+exports.deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params; // Extract product ID from route params
+
+        // Find and delete the product
+        const deletedProduct = await Product.findByIdAndDelete(id);
+
+        // Handle case where product is not found
+        if (!deletedProduct) {
+            return res.status(404).json({ error: 'Product not found.' });
+        }
+
+        res.status(200).json({ message: 'Product deleted successfully.' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

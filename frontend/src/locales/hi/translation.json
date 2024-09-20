@@ -114,7 +114,8 @@
     "changePassword": "पासवर्ड बदलें",
     "logout": "लॉगआउट",
     "saveChanges": "परिवर्तन सहेजें",
-    "cancel": "रद्द करें"
+    "cancel": "रद्द करें",
+    "deleteButton": "हटाएँ"
   },
   "stars": "तारे",
   "sidebar": {
@@ -237,7 +238,9 @@
     "noProducts": "कोई उत्पाद उपलब्ध नहीं है। अभी अपना किराया लें!",
     "price": "कीमत",
     "location": "स्थान",
-    "addProductButton": "नया उत्पाद जोड़ें"
+    "addProductButton": "नया उत्पाद जोड़ें", 
+    "deleteButton": "हटाएँ"
+
   },
   "productDetail": {
     "error": {
@@ -245,7 +248,8 @@
       "fetch": "उत्पाद लाने में त्रुटि।",
       "submitReview": "समीक्षा प्रस्तुत करने में त्रुटि।",
       "storePayment": "भुगतान विवरण संग्रहीत करने में त्रुटि।",
-      "noProduct": "उत्पाद विवरण उपलब्ध नहीं हैं।"
+      "noProduct": "उत्पाद विवरण उपलब्ध नहीं हैं।",
+      "deleteButton": "हटाएँ"
     },
     "loading": "लोड हो रहा है...",
     "loadingText": "उत्पाद विवरण लोड हो रहा है...",

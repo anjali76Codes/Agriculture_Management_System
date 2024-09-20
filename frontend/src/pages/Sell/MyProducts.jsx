@@ -56,6 +56,23 @@ const MyProducts = () => {
         navigate('/products/add');
     };
 
+    const handleDeleteProduct = async (id) => {
+        if (window.confirm(t('myProducts.confirmDelete'))) {
+            try {
+                const token = localStorage.getItem('token');
+                await axios.delete(`http://localhost:3000/api/products/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+                setProducts(products.filter(product => product._id !== id));
+            } catch (err) {
+                setError(t('myProducts.deleteError'));
+                console.error('Error deleting product:', err);
+            }
+        }
+    };
+
     return (
         <Container className="mt-4">
             <h2 className="text-center mb-4">{t('myProducts.title')}</h2>
@@ -89,6 +106,9 @@ const MyProducts = () => {
                                                 <Card.Text>
                                                     <small className="text-muted">{t('myProducts.location')}: {product.location}</small>
                                                 </Card.Text>
+                                                <Button variant="danger" onClick={() => handleDeleteProduct(product._id)}>
+                                                    {t('myProducts.deleteButton')}
+                                                </Button>
                                             </Card.Body>
                                         </Card>
                                     </Col>
@@ -112,4 +132,3 @@ const MyProducts = () => {
 };
 
 export default MyProducts;
-    

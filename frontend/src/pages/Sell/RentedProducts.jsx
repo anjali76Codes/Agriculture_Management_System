@@ -37,6 +37,12 @@ const RentedProducts = () => {
                     },
                 });
 
+                // Check if there are rented products
+                if (rentedResponse.data.length === 0) {
+                    setLoading(false);
+                    return; // No products, so we will show "No products available" later
+                }
+
                 // Fetch product details for each rented product
                 const productPromises = rentedResponse.data.map(async rentedProduct => {
                     const productResponse = await axios.get(`http://localhost:3000/api/products/${rentedProduct.product}`, {
@@ -51,7 +57,6 @@ const RentedProducts = () => {
                 });
 
                 const productsWithDetails = await Promise.all(productPromises);
-
                 setRentedProducts(productsWithDetails);
             } catch (err) {
              
@@ -97,7 +102,7 @@ const RentedProducts = () => {
                                     <Card.Title>{rentedProduct.product.name || 'Product Name'}</Card.Title>
                                     <Card.Text>{rentedProduct.product.description || 'No description available.'}</Card.Text>
                                     <Card.Text>
-                                        <strong>Price: ${rentedProduct.product.price ? rentedProduct.product.price.toFixed(2) : '0.00'}</strong>
+                                        <strong>Price: ₹{rentedProduct.product.price ? rentedProduct.product.price.toFixed(2) : '0.00'}</strong>
                                     </Card.Text>
                                     <Card.Text>
                                         <small className="text-muted">Location: {rentedProduct.product.location || 'Not specified'}</small>
@@ -111,7 +116,7 @@ const RentedProducts = () => {
                     ))
                 ) : (
                     <Col className="text-center">
-                        <p>No rented products found.</p>
+                        <p>No products available.</p>
                     </Col>
                 )}
             </Row>
