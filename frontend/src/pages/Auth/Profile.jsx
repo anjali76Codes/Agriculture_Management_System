@@ -234,12 +234,6 @@ function Profile() {
             >
               {t('button.logout')}
             </button>
-            <button
-              onClick={() => navigate('/rented-products')}
-              className="btn btn-info mt-3"
-            >
-              {t('button.viewRentedProducts')}
-            </button>
           </div>
         )}
       </div>
