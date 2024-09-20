@@ -278,5 +278,17 @@
       "maxReviews": "You can only submit up to two reviews for this product.",
       "productNotAvailable": "Product is not available for rent."
     }
+    ,
+    "about": {
+      "header": "About AgriCircle",
+      "mission": "Our Mission",
+      "vision": "Our Vision",
+      "howItWorks": "How It Works",
+      "joinUs": "Join Us",
+      "missionText": "At AgriCircle, our mission is to empower local farmers by providing a platform that simplifies the process of renting and sharing farming equipment. We aim to reduce operational costs and increase resource utilization in rural communities, fostering sustainable agriculture.",
+      "visionText": "We envision a world where every farmer has access to the tools and resources they need to maximize their productivity and profitability. Our platform is designed to be scalable and adaptable, ensuring that it meets the needs of diverse agricultural practices across various regions.",
+      "howItWorksText": "AgriCircle connects farmers with equipment owners through a user-friendly portal. Farmers can browse available equipment, check its availability, and make reservations online. Equipment owners can list their tools, set rental prices, and manage bookings easily. Our system ensures transparency, security, and reliability in every transaction.",
+      "joinUsText": "Be a part of the AgriCircle community today! Sign up to start renting or listing equipment, and contribute to a more efficient and sustainable agricultural industry."
+    }   
   }
 }

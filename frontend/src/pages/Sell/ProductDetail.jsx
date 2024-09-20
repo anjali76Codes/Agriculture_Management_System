@@ -345,7 +345,7 @@ const ProductDetail = () => {
                                         />
                                     </Form.Group>
                                     <Button type="submit" variant="primary" className="mt-2 bttn">
-                                        {t('productDetail.submitReview')}
+                                        {t('button.submitReview')}
                                     </Button>
                                 </Form>
                             </Card.Body>

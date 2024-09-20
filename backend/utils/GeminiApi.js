@@ -78,3 +78,4 @@ async function runGeminiChat(cropName, growthStage) {
 module.exports = {
   runGeminiChat,
 };
+
