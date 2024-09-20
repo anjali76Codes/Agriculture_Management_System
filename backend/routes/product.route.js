@@ -19,5 +19,7 @@ router.post('/products/:id/reviews', productController.addReview);
 
 router.get('/sales-metrics', productController.getSalesMetrics);
 
+router.patch('/products/:id/availability', productController.updateProductAvailability);
+
 
 module.exports = router;

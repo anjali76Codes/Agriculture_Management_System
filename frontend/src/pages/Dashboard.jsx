@@ -43,7 +43,10 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
   const [salesData, setSalesData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState(localStorage.getItem('username') || '');
+  const [username, setUsername] = useState(() => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    return userInfo?.username || '';
+  });
   const [currentWeather, setCurrentWeather] = useState(null);
 
   useEffect(() => {
@@ -154,7 +157,7 @@ const Dashboard = () => {
   };
 
   const salesChartData = {
-    labels: ['Total Sales', 'Products for Rent', 'Average Reviews'], // Plain English labels
+    labels: ['Total Sales', 'Products for Rent', 'Average Reviews'],
     datasets: [{
       label: t('dashboard.salesMetricsLabel'),
       data: [salesDataValues.totalSales, salesDataValues.productsForRent, salesDataValues.averageReviews],
@@ -190,7 +193,7 @@ const Dashboard = () => {
     labels: dailyForecasts.map(day => day.day),
     datasets: [{
       label: 'Total Sales overtime',
-      data: dailyForecasts.map(() => salesDataValues.totalSales), // Replace with actual sales data if available
+      data: dailyForecasts.map(() => salesDataValues.totalSales),
       borderColor: 'rgba(75,192,192,1)',
       backgroundColor: 'rgba(75,192,192,0.2)',
       borderWidth: 2
