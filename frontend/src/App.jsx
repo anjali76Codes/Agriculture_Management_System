@@ -49,6 +49,7 @@ const AppContent = () => {
           <Route path="/dashboard" element={<PrivateRoute element={Dashboard} />} />
           <Route path="/profile" element={<PrivateRoute element={Profile} />} />
           <Route path="/products/add" element={<PrivateRoute element={ProductForm} />} />
+          <Route path="/products/edit/:id" element={<PrivateRoute element={ProductForm} />} /> {/* Added this line */}
           <Route path="/products/my-products" element={<PrivateRoute element={MyProducts} />} />
           <Route path="/products/:id" element={<PrivateRoute element={ProductDetail} />} />
           <Route path="/rented-products" element={<PrivateRoute element={RentedProducts} />} />

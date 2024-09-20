@@ -46,7 +46,6 @@ const ProductDetail = () => {
             const productData = response.data;
             setProduct(productData);
             setReviews(productData.reviews || []);
-            // Use depositAmount for payment
             setPaymentAmount(productData.depositAmount);
 
             if (productData.reviews && productData.reviews.length > 0) {
@@ -144,7 +143,6 @@ const ProductDetail = () => {
                 depositAmount: product.depositAmount,
                 rentalDuration: product.rentalDuration,
                 condition: product.condition,
-                available: product.available,
                 contactInfo: product.contactInfo,
                 availabilityDates: product.availabilityDates,
                 tags: product.tags,
@@ -156,26 +154,18 @@ const ProductDetail = () => {
         };
 
         try {
-            await axios.post('http://localhost:3000/api/rented-products', paymentDetails, {
+            // Update product availability to false
+            await axios.patch(`http://localhost:3000/api/products/${product._id}`, { available: false }, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    'Content-Type': 'application/json'
-                }
+                    'Content-Type': 'application/json',
+                },
             });
 
-            // Call the update availability endpoint
-            await axios.patch(`http://localhost:3000/api/products/${product._id}/availability`, {}, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            console.log(t('productDetail.payment.success'));
+            console.log('Product availability updated successfully');
             setProduct((prevProduct) => ({ ...prevProduct, available: false }));
-
         } catch (err) {
-            console.error(t('productDetail.error.storePayment'), err);
+            console.error('Error updating product availability:', err);
         }
 
         setShowPayment(false);
@@ -202,7 +192,7 @@ const ProductDetail = () => {
 
     const displayedReviews = showMore ? reviews : reviews.slice(0, reviewsToShow);
     const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
-    const username = userInfo.username;
+    const username = userInfo.username || 'Anonymous';
 
     return (
         <Container className="mt-4">
@@ -270,7 +260,7 @@ const ProductDetail = () => {
                                     <strong>{t('productDetail.condition')}: {product.condition}</strong>
                                 </Card.Text>
                             )}
-                            <Button variant="primary" className="w-100 bttn" onClick={handleRentNow} disabled={!product.available}>
+                            <Button variant="primary" className="w-100 bttn" onClick={handleRentNow} disabled={!product.available || isOwner}>
                                 {t('productDetail.rentNow')}
                             </Button>
                         </Card.Body>
@@ -284,7 +274,7 @@ const ProductDetail = () => {
                         <Card className="shadow-sm">
                             <Card.Body>
                                 <Payment
-                                    amount={paymentAmount} // This now refers to depositAmount
+                                    amount={paymentAmount}
                                     onPaymentSuccess={handlePaymentSuccess}
                                     product={product}
                                 />
@@ -324,6 +314,7 @@ const ProductDetail = () => {
                 </Col>
             </Row>
 
+            {/* Show review section only if the user is not the owner */}
             {username !== product.username && (
                 <Row>
                     <Col>
@@ -346,7 +337,7 @@ const ProductDetail = () => {
                                         />
                                     </Form.Group>
                                     <Button type="submit" variant="primary" className="mt-2 bttn">
-                                        {t('productDetail.submitReview')}
+                                        {t('button.submitReview')}
                                     </Button>
                                 </Form>
                             </Card.Body>
