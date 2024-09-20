@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -6,14 +7,14 @@ import axios from 'axios';
 import { storage } from '../../components/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useTranslation } from 'react-i18next';
+import LanguageToggle from '../../components/LanguageToggle';
 import DatePicker from 'react-datepicker';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/Sell/ProductForm.css';
 
 const ProductForm = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { id } = useParams(); // Get the product ID from URL parameters
 
     // State hooks
     const [productName, setProductName] = useState('');
@@ -30,45 +31,15 @@ const ProductForm = () => {
     const [imageError, setImageError] = useState('');
     const [submitMessage, setSubmitMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [existingImages, setExistingImages] = useState([]);
 
-    // Fetch product details if updating
-    useEffect(() => {
-        const fetchProductData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3000/api/products/${id}`);
-                const product = response.data;
-
-                setProductName(product.name);
-                setProductDescription(product.description);
-                setProductPrice(product.price);
-                setProductCategory(product.type);
-                setLocation(product.location);
-                setRentalDuration(product.rentalDuration);
-                setDepositAmount(product.depositAmount);
-                setCondition(product.condition);
-                setContactInfo(product.contactInfo);
-                setAvailabilityDates({
-                    startDate: new Date(product.availabilityDates[0].startDate),
-                    endDate: new Date(product.availabilityDates[0].endDate)
-                });
-                setExistingImages(product.images);
-            } catch (error) {
-                console.error('Error fetching product data:', error);
-            }
-        };
-
-        if (id) {
-            fetchProductData();
-        }
-    }, [id]);
-
+    // Automatically set deposit amount to half of the price
     useEffect(() => {
         if (productPrice) {
             setDepositAmount((parseFloat(productPrice) / 2).toString());
         }
     }, [productPrice]);
 
+    // Automatically set end date based on the start date when a rental duration is selected
     useEffect(() => {
         if (availabilityDates.startDate) {
             const newEndDate = new Date(availabilityDates.startDate);
@@ -87,6 +58,7 @@ const ProductForm = () => {
         }
     }, [rentalDuration, availabilityDates.startDate]);
 
+    // Handle image file changes
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
         const validImages = files.filter(file => file.type.startsWith('image/'));
@@ -105,10 +77,12 @@ const ProductForm = () => {
         setProductImages(validImages);
     };
 
+    // Remove selected image
     const removeImage = (index) => {
         setProductImages(prevImages => prevImages.filter((_, i) => i !== index));
     };
 
+    // Upload images to Firebase
     const uploadImagesToFirebase = async (files, path) => {
         const uploadedImageURLs = [];
         const uploadPromises = files.map((file) => {
@@ -126,38 +100,36 @@ const ProductForm = () => {
         return uploadedImageURLs;
     };
 
+    // Inside the handleSubmit function
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            const userInfo = JSON.parse(localStorage.getItem('userInfo')); // Parse the userInfo object
 
             if (!userInfo || !userInfo.token || !userInfo.username) {
                 throw new Error(t('error.authError'));
             }
 
-            const { token, username } = userInfo;
+            const { token, username } = userInfo; // Destructure token and username
 
             const userPath = `users/${username}`;
             const imagePath = `${userPath}/${productName}/images`;
             const imageURLs = await uploadImagesToFirebase(productImages, imagePath);
 
-            const roundedPrice = Math.ceil(parseFloat(productPrice));
-            const roundedDeposit = Math.ceil(parseFloat(depositAmount));
-
             const formData = {
                 username,
                 name: productName,
                 description: productDescription,
-                price: roundedPrice,
+                price: productPrice,
                 type: productCategory,
                 location,
                 rentalDuration,
                 available: availabilityDates.startDate ? true : false,
-                depositAmount: roundedDeposit,
+                depositAmount,
                 condition,
                 contactInfo,
-                images: [...existingImages, ...imageURLs], // Merge existing images with new ones
+                images: imageURLs,
                 category: productCategory,
                 tags: [],
                 rentalTerms: "",
@@ -170,7 +142,7 @@ const ProductForm = () => {
                 ]
             };
 
-            await axios.put(`http://localhost:3000/api/products/${id}`, formData, {
+            await axios.post('http://localhost:3000/api/products', formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -187,8 +159,10 @@ const ProductForm = () => {
         }
     };
 
+
     return (
         <div className="productform-container container mt-4">
+            {/* <LanguageToggle /> */}
             <h2 className="text-center mb-4">{t('form.title')}</h2>
             <Form onSubmit={handleSubmit}>
                 {submitMessage && (
@@ -385,7 +359,7 @@ const ProductForm = () => {
                         </Button>
                     </Col>
 
-                    <Col md={6}>
+                    <Col md={6} >
                         {productImages.length > 0 && (
                             <Form.Group className="mt-3">
                                 <Form.Label>{t('form.imagePreview')}</Form.Label>
@@ -407,16 +381,6 @@ const ProductForm = () => {
                                                 >
                                                     <i className="bi bi-x-circle"></i>
                                                 </Button>
-                                            </Carousel.Item>
-                                        ))}
-                                        {existingImages.map((url, index) => (
-                                            <Carousel.Item key={index}>
-                                                <img
-                                                    src={url}
-                                                    alt={`Existing Preview ${index}`}
-                                                    className="d-block w-100"
-                                                    style={{ height: 'auto', maxHeight: '300px' }}
-                                                />
                                             </Carousel.Item>
                                         ))}
                                     </Carousel>
