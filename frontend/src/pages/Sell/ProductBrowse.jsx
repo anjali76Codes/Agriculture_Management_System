@@ -9,7 +9,7 @@ import '../../styles/Sell/ProductBrowse.css';
 const PAGE_SIZE = 5; // Number of products per page
 
 const ProductBrowse = () => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [error, setError] = useState('');
@@ -107,7 +107,7 @@ const ProductBrowse = () => {
                                             <Card.Title>{product.name}</Card.Title>
                                             <Card.Text>{product.description}</Card.Text>
                                             <Card.Text>
-                                                <strong>{t('browse.price')}: ${product.price.toFixed(2)}</strong>
+                                                <strong>{t('browse.price')}: ₹{product.price.toFixed(2)}</strong>
                                             </Card.Text>
                                             <Card.Text>
                                                 <small className="text-muted">{t('browse.location')}: {product.location}</small>

@@ -46,7 +46,8 @@ const ProductDetail = () => {
             const productData = response.data;
             setProduct(productData);
             setReviews(productData.reviews || []);
-            setPaymentAmount(productData.price);
+            // Use depositAmount for payment
+            setPaymentAmount(productData.depositAmount);
 
             if (productData.reviews && productData.reviews.length > 0) {
                 const totalRating = productData.reviews.reduce((acc, review) => acc + review.rating, 0);
@@ -283,7 +284,7 @@ const ProductDetail = () => {
                         <Card className="shadow-sm">
                             <Card.Body>
                                 <Payment
-                                    amount={paymentAmount}
+                                    amount={paymentAmount} // This now refers to depositAmount
                                     onPaymentSuccess={handlePaymentSuccess}
                                     product={product}
                                 />
