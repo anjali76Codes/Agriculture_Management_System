@@ -237,7 +237,8 @@
     "noProducts": "No products available. Rent yours now!",
     "price": "Price",
     "location": "Location",
-    "addProductButton": "Add a New Product"
+    "addProductButton": "Add a New Product",
+    "deleteButton": "Delete"
   },
   "productDetail": {
     "error": {
@@ -245,7 +246,8 @@
       "fetch": "Error fetching product.",
       "submitReview": "Error submitting review.",
       "storePayment": "Error storing payment details.",
-      "noProduct": "Product details are not available."
+      "noProduct": "Product details are not available.",
+      "deleteButton": "Delete"
     },
     "loading": "Loading...",
     "loadingText": "Loading product details...",
