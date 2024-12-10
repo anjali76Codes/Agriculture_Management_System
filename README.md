@@ -45,9 +45,9 @@ npm install --save-dev nodemon
 ```
 **Create Necessary Folders**
 
-```
-```bash
 
+
+```bash
 mkdir controllers routes models config
 
 ```
@@ -55,7 +55,7 @@ mkdir controllers routes models config
 - Update the scripts section:
 
 ```
-```Code
+```bash
 "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
