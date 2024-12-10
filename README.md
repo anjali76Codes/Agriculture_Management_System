@@ -49,8 +49,10 @@ npm install --save-dev nodemon
 ```bash
 
 mkdir controllers routes models config
-Add Scripts to package.json
-Update the scripts section:
+
+```
+**Add Scripts to package.json**
+- Update the scripts section:
 
 ```
 ```Code
