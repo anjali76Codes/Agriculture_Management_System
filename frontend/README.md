@@ -1,32 +1,45 @@
-## Sidebar
+# Agriculture_Management_System
 
-- Home - browse products for renting
+## for backend installations are :
+# Initialize a new Node.js project
+npm init -y
 
-- Dashboard - product rent/non-rent status, graph of sales/month, next 7 days weather status for crops
+# Install required dependencies
+npm install express mongoose dotenv cors
 
-- Crop Management - upload crops, get the status of the stage and suggestion of crops  
-  Eg: wheat - 4 stages, farmer has given 2nd stage then we will update and give him suggestions about the remaining 2 stages
+# Install development dependencies (Nodemon)
+npm install --save-dev nodemon
 
-- Browse Section - product renting page | with price/month for rent, status for rented or not, advance payment
+# Create necessary folders
+mkdir controllers routes models config
 
-- Crop Market - get the prices of the latest crops
+# Add the following scripts in the "scripts" section of package.json:
+# "start": "node index.js",
+# "dev": "nodemon index.js"
 
-- About - learn about our company
 
-- Profile - user details | my products | Logout
 
-### Sidebar Names
+npm install jsonwebtoken
+npm install bcrypt
+npm install bcryptjs
 
-- Browse Products - Yash
 
-- Dashboard - Anjali
 
-- My Crops - krisha
+chat.js : 
+npm install chart.js react-chartjs-2
 
-- Rentals - Yash
 
-- Crop Market - Anjali
+ next 5 days
+https://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=84ebac995b3efbf3e1af2f0ba5ee0204
 
-- About - krisha
 
-- My Profile - krisha
+current day
+https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=84ebac995b3efbf3e1af2f0ba5ee0204
+
+
+
+npm install react-datepicker
+
+npm install firebase
+
+
