@@ -1,45 +1,106 @@
-# Agriculture_Management_System
+# Agriculture Management System
 
-## for backend installations are :
-# Initialize a new Node.js project
-npm init -y
+AgriCircle is a modern Agriculture Management System that enables farmers to rent equipment, browse products, access weather forecasts, and receive crop care advice. The system supports multi-language accessibility and secure payment options.
 
-# Install required dependencies
-npm install express mongoose dotenv cors
+---
 
-# Install development dependencies (Nodemon)
+## Features
+
+- **Equipment Rental**: Farmers can browse and rent equipment.  
+- **Product Browsing**: Explore and purchase agricultural products.  
+- **Crop Care Advice**: Uses Gemini API for image-based crop analysis.  
+- **Weather Forecasting**: Get current day weather and 5-day forecasts with OpenWeatherMap API.  
+- **Farmer Dashboard**: Includes sales tracking, reviews, and product management.  
+- **Multi-Language Support**: Available in Hindi, Marathi, and English.  
+- **Secure Payments**: Integrated Razorpay for secure payment processing.  
+
+---
+
+## Installation Guide
+
+### Prerequisites
+
+- **Node.js** (v14 or later)  
+- **MongoDB** (Local or Cloud Instance)  
+- **Razorpay API Key**  
+- **OpenWeatherMap API Key**  
+- **Gemini API Key**  
+
+---
+
+### Backend Setup
+
+1. **Initialize the Project**  
+   ```bash
+   mkdir backend
+   cd backend
+   npm init -y
+   
+2. **Install Dependencies**
+
+```bash
+Copy code
+npm install express mongoose dotenv cors jsonwebtoken bcrypt bcryptjs
 npm install --save-dev nodemon
+Create Necessary Folders
 
-# Create necessary folders
+```
+```bash
+Copy code
 mkdir controllers routes models config
+Add Scripts to package.json
+Update the scripts section:
 
-# Add the following scripts in the "scripts" section of package.json:
-# "start": "node index.js",
-# "dev": "nodemon index.js"
-
-
-
-npm install jsonwebtoken
-npm install bcrypt
-npm install bcryptjs
-
+```
+```Code
+"scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+}
 
 
-chat.js : 
-npm install chart.js react-chartjs-2
+```
+**Run the Server**
+
+```bash
+npm run dev
+
+```
+## Frontend Setup
+**Initialize the Project**
+
+```bash
+mkdir frontend
+cd frontend
+npx create-react-app .
+
+```
+**Install Additional Dependencies**
+
+```bash
+npm install react-datepicker chart.js react-chartjs-2 firebase
+Run the Frontend
+```
+```bash
+npm start
+```
 
 
- next 5 days
-https://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=84ebac995b3efbf3e1af2f0ba5ee0204
+**API Integrations**
+Current Day Weather API
 
+```url
 
-current day
-https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=84ebac995b3efbf3e1af2f0ba5ee0204
+https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={your_api_key}
+5-Day Weather Forecast API
 
+```
+```url
 
+https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={your_api_key}
 
-npm install react-datepicker
+```
+**Gemini API for Crop Advice**
+- Integrated to analyze crop health based on image uploads.
 
-npm install firebase
-
-
+   
