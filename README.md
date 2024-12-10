@@ -39,14 +39,15 @@ AgriCircle is a modern Agriculture Management System that enables farmers to ren
 2. **Install Dependencies**
 
 ```bash
-Copy code
 npm install express mongoose dotenv cors jsonwebtoken bcrypt bcryptjs
 npm install --save-dev nodemon
-Create Necessary Folders
+
+```
+**Create Necessary Folders**
 
 ```
 ```bash
-Copy code
+
 mkdir controllers routes models config
 Add Scripts to package.json
 Update the scripts section:
@@ -72,7 +73,7 @@ npm run dev
 ```bash
 mkdir frontend
 cd frontend
-npx create-react-app .
+npm create vite@latest .
 
 ```
 **Install Additional Dependencies**
