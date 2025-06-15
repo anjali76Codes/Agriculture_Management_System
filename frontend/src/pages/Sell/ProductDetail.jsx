@@ -37,7 +37,7 @@ const ProductDetail = () => {
                 return;
             }
 
-            const response = await axios.get(`http://localhost:3000/api/products/${id}`, {
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/products/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
@@ -82,7 +82,7 @@ const ProductDetail = () => {
             const token = localStorage.getItem('token');
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-            const response = await axios.post(`http://localhost:3000/api/products/${id}/reviews`, {
+            const response = await axios.post(`import.meta.env.VITE_API_BASE_URL/api/products/${id}/reviews`, {
                 rating,
                 comment: reviewText,
                 username: userInfo.username || 'Anonymous'
@@ -155,7 +155,7 @@ const ProductDetail = () => {
 
         try {
             // Update product availability to false
-            await axios.patch(`http://localhost:3000/api/products/${product._id}`, { available: false }, {
+            await axios.patch(`import.meta.env.VITE_API_BASE_URL/api/products/${product._id}`, { available: false }, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     'Content-Type': 'application/json',

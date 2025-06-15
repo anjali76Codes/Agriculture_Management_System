@@ -32,7 +32,7 @@ const MyProducts = () => {
                     return;
                 }
 
-                const response = await axios.get('http://localhost:3000/api/products', {
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/products`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
@@ -60,7 +60,7 @@ const MyProducts = () => {
         if (window.confirm(t('myProducts.confirmDelete'))) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:3000/api/products/${id}`, {
+                await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/products/${id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },

@@ -35,7 +35,7 @@ ChartJS.register(
 
 const API_KEY = '84ebac995b3efbf3e1af2f0ba5ee0204';
 const API_URL = 'https://api.openweathermap.org/data/2.5';
-const SALES_API_URL = 'http://localhost:3000/api/sales-metrics';
+const SALES_API_URL = `${import.meta.env.VITE_API_BASE_URL}/api/sales-metrics`;
 
 const Dashboard = () => {
   const { t } = useTranslation();

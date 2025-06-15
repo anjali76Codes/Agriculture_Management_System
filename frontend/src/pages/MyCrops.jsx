@@ -51,7 +51,7 @@ const MyCrops = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/api/crops/upload', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/crops/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -91,7 +91,7 @@ const MyCrops = () => {
       const userInfo = JSON.parse(localStorage.getItem('userInfo'));
       const username = userInfo ? userInfo.username : '';
 
-      const response = await axios.get('http://localhost:3000/api/crops', {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/crops`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
@@ -107,7 +107,7 @@ const MyCrops = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/crops/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/crops/${id}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -163,21 +163,21 @@ const MyCrops = () => {
       <div className="uploaded-crops">
         {crops.map((crop) => (
           <div key={crop._id} className="crop-item">
-            
+
             <h3>{crop.name} - {t('myCrops.stageLabel')}: {crop.stage}</h3>
             {/* <section> */}
-              <Row >
-                <Col lg={5}>
-                  <img
-                    src={`http://localhost:3000/api/crops/${crop._id}`}
-                    alt={crop.name}
-                  />
-                  </Col>
-                  <Col>
-                  <p><b>Guidance: </b> {crop.guidance || t('myCrops.noGuidance')}</p>
-                </Col>
-              </Row>
-            
+            <Row >
+              <Col lg={5}>
+                <img
+                  src={`${import.meta.env.VITE_API_BASE_URL}/api/crops/${crop._id}`}
+                  alt={crop.name}
+                />
+              </Col>
+              <Col>
+                <p><b>Guidance: </b> {crop.guidance || t('myCrops.noGuidance')}</p>
+              </Col>
+            </Row>
+
             {/* </section> */}
             <button
               className="delete-button"

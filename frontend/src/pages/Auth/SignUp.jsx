@@ -31,7 +31,7 @@ function Signup() {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/api/signup', formData);
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/signup`, formData);
 
             if (response.status === 201) {
                 localStorage.setItem('token', response.data.token);

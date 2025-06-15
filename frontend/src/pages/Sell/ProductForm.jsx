@@ -142,7 +142,7 @@ const ProductForm = () => {
                 ]
             };
 
-            await axios.post('http://localhost:3000/api/products', formData, {
+            await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/products`, formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
