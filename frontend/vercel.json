@@ -1,8 +1,11 @@
 {
-    "routes": [
+    "version": 2,
+    "framework": "vite",
+    "cleanUrls": true,
+    "rewrites": [
         {
-            "source": "/[^.]+",
-            "dest": "/"
+            "source": "/(.*)",
+            "destination": "/"
         }
     ]
 }
