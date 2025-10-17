@@ -22,7 +22,7 @@ const ProductDetail = () => {
     const [showMore, setShowMore] = useState(false);
     const [showPayment, setShowPayment] = useState(false);
     const [paymentAmount, setPaymentAmount] = useState(0);
-    const reviewsToShow = 2;
+    const reviewsToShow = 10;
     const { id } = useParams();
 
     const fetchProduct = useCallback(async () => {
