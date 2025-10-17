@@ -34,7 +34,7 @@ function Profile() {
       const token = localStorage.getItem('token');
 
       try {
-        const response = await axios.get('http://localhost:3000/api/profile', {
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -73,7 +73,7 @@ function Profile() {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await axios.put('http://localhost:3000/api/profile', formData, {
+      const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/profile`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -96,7 +96,7 @@ function Profile() {
     }
 
     try {
-      await axios.put('http://localhost:3000/api/update-password', passwordData, {
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/update-password`, passwordData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

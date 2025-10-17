@@ -28,7 +28,7 @@ const RentedProducts = () => {
                 }
 
                 // Fetch rented products
-                const rentedResponse = await axios.get('http://localhost:3000/api/rented-products', {
+                const rentedResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/rented-products`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
@@ -45,7 +45,7 @@ const RentedProducts = () => {
 
                 // Fetch product details for each rented product
                 const productPromises = rentedResponse.data.map(async rentedProduct => {
-                    const productResponse = await axios.get(`http://localhost:3000/api/products/${rentedProduct.product}`, {
+                    const productResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/products/${rentedProduct.product}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
@@ -59,7 +59,7 @@ const RentedProducts = () => {
                 const productsWithDetails = await Promise.all(productPromises);
                 setRentedProducts(productsWithDetails);
             } catch (err) {
-             
+
                 console.error('Error fetching rented products:', err);
             } finally {
                 setLoading(false);

@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 3000; // Use port 3000 if specified in .env
 
 // Enable CORS for requests from frontend (React app)
 app.use(cors({
-    origin: 'http://localhost:5173', // Ensure this matches your frontend port
+    origin: 'https://agricircle.vercel.app', // Ensure this matches your frontend port
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
     credentials: true
 }));
